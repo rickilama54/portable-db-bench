@@ -5,6 +5,7 @@ import java.util.List;
 import com.eris4.benchdb.core.Database;
 import com.eris4.benchdb.core.Test;
 import com.eris4.benchdb.core.TestRunner;
+import com.eris4.benchdb.core.reporter.Reporter;
 import com.eris4.benchdb.core.xml.BenchConfigurator;
 
 public class MainFromXml {
@@ -16,9 +17,15 @@ public class MainFromXml {
 		BenchConfigurator configurator = new BenchConfigurator(FILE_NAME);
 		List<Database> databases = configurator.readDatabases();
 		List<Test> tests = configurator.readTests();
-		System.out.println("Number of test: "+tests.size());
-		System.out.println("Number of database: "+databases.size());
-		new TestRunner().execute(tests, databases);
+		List<Reporter> reporters = configurator.readReporters();		
+		System.out.println("Number of tests: "+tests.size());
+		System.out.println("Number of databases: "+databases.size());
+		System.out.println("Number of reporters "+reporters.size());
+		new TestRunner().execute(tests,databases);
+		
+		for (Reporter reporter : reporters) {
+			reporter.report();
+		}
 	}
 	
 }

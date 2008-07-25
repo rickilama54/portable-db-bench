@@ -7,9 +7,12 @@
     	<!-- monitors -->
     	<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
     	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
-    	<monitor name="XYGraphMonitor" class="com.eris4.benchdb.core.monitor.XYGraphMonitor"/>
+    	<monitor name="TransactionMonitor" class="com.eris4.benchdb.core.monitor.TransactionMonitor"/>
+    	<monitor name="AvgTransactionMonitor" class="com.eris4.benchdb.core.monitor.AvgTransactionMonitor"/>
     	<!-- operations -->
     	<operation name="WritePersonOperation" class="com.eris4.benchdb.operation.WritePersonOperation"/>
+    	<!-- reporters -->
+    	<!-- <reporter name="GraphReporter" class="com.eris4.benchdb.reporter.GraphReporter"/> -->
 	</definitions>
 	
 	<!-- DATABASE LIST -->
@@ -17,6 +20,12 @@
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
 		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
 	</databases>
+	
+	<!-- reporters -->
+	<reporter name="grafico di prova">
+		<line x="1" y="3" name="Transactions per second"/>
+		<line x="1" y="4" name="Avg transactions per second"/>
+	</reporter>
 		
 	<!-- TEST LIST -->
 	<!-- esempio TimedSpeedTest multioperation -->
@@ -25,11 +34,11 @@
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task>
 				<operation name="WritePersonOperation" repetition="1"/>	
-				<monitor name="TimeMonitor"/>
-				<monitor name="MemoryMonitor"/>						
-			</task>			
-			<monitor name="TimeMonitor"/>
-			<monitor name="MemoryMonitor"/>
+				<monitor name="TimeMonitor" id="1"/>
+				<monitor name="MemoryMonitor" id="2"/>						
+				<monitor name="TransactionMonitor" id="3"/>
+				<monitor name="AvgTransactionMonitor" id="4"/>
+			</task>					
 		</test>
 	</tests>
 </bench>

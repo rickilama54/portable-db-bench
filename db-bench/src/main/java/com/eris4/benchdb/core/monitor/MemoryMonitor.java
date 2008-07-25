@@ -22,7 +22,7 @@ public class MemoryMonitor extends Monitor{
 	}
 	
 	@Override
-	public void start() {
+	public void begin() {
 		stop = false;		
 		maxMemory = startMemory = getUsedMemory();		
 		new Thread(){
@@ -36,7 +36,7 @@ public class MemoryMonitor extends Monitor{
 	}	
 
 	@Override
-	public void stop() {
+	public void end() {
 		stop = true;
 		monitorMemory();
 	}

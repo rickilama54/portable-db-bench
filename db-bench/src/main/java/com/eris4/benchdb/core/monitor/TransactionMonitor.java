@@ -19,7 +19,7 @@ public class TransactionMonitor extends Monitor{
 	}
 	
 	@Override
-	public void start() {
+	public void begin() {
 		stop = false;
 		numberOfTransaction = 0;
 		savedNumberOfTransction = new long[HISTORY_LENGTH];
@@ -42,7 +42,7 @@ public class TransactionMonitor extends Monitor{
 	}
 	
 	@Override
-	public void stop(){
+	public void end(){
 		stop = true;
 		timeMonitor.stop();
 	}

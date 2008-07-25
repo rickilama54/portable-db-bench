@@ -12,14 +12,14 @@ public class TimeMonitor extends Monitor {
 	}
 	
 	@Override
-	public void start(){
+	public void begin(){
 		startTime = System.currentTimeMillis();
 		totalTime = 0;
 		stop = false;
 	}
 	
 	@Override
-	public void stop(){
+	public void end(){
 		if (stop == false){
 			totalTime += System.currentTimeMillis() - startTime;
 		}

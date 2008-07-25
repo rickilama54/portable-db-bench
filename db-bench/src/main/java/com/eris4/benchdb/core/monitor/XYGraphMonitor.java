@@ -43,7 +43,7 @@ public class XYGraphMonitor extends Monitor {
 		}	
 	}	
 	
-	public void start(){
+	public void begin(){
 		stop = false;
 		new Thread(){
 			public void run() {
@@ -55,7 +55,7 @@ public class XYGraphMonitor extends Monitor {
 		}.start();
 	}
 	
-	public void stop(){
+	public void end(){
 		stop = true;
 	}	
 

@@ -1,17 +1,51 @@
 package com.eris4.benchdb.core.monitor;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import com.eris4.benchdb.core.reporter.Reporter;
+
 public abstract class Monitor {
 
-	public void start(){}
+	public void start(){
+		notifyStartReporters();
+		begin();
+	}
 
-	public void stop(){}
+	public abstract void begin();
+
+	public void stop(){
+		notifyStopReporters();
+		end();
+	}
 	
-	public void update(){}
+	public abstract void end();
 
+	public void update(){}
 	
 	public abstract long getValue();
 	
 	public abstract String getDescription();
+	
+	public void warmUp() {}
+	
+	private List<Reporter> reporters = new LinkedList<Reporter>();
+	
+	public void registerReporter(Reporter reporter){
+		reporters.add(reporter);
+	}
+	
+	public void notifyStartReporters(){
+		for (Reporter reporter : reporters) {
+			reporter.notifyStart();
+		}
+	}
+	
+	public void notifyStopReporters(){
+		for (Reporter reporter : reporters) {
+			reporter.notifyStop();
+		}
+	}
 	
 	public String getFormattedValue() {
 		String tmp = String.valueOf(getValue());		
@@ -26,6 +60,6 @@ public abstract class Monitor {
 		return builder.toString();
 	}
 
-	public void warmUp() {}
+	
 
 }
