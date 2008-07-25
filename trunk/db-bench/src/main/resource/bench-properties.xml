@@ -1,0 +1,35 @@
+<bench>
+	
+	<!-- DEFINITIONS -->
+    <definitions>
+    	<!-- initializators -->
+    	<initializator name="PersonInitializator" class="com.eris4.benchdb.initializator.PersonInitializator"/>    	
+    	<!-- monitors -->
+    	<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
+    	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
+    	<monitor name="XYGraphMonitor" class="com.eris4.benchdb.core.monitor.XYGraphMonitor"/>
+    	<!-- operations -->
+    	<operation name="WritePersonOperation" class="com.eris4.benchdb.operation.WritePersonOperation"/>
+	</definitions>
+	
+	<!-- DATABASE LIST -->
+	<databases>
+		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
+		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
+	</databases>
+		
+	<!-- TEST LIST -->
+	<!-- esempio TimedSpeedTest multioperation -->
+	<tests>
+		<test time="5000" name="Test di prova">
+			<initializator name="PersonInitializator" numberOfObjects="10000"/>
+			<task>
+				<operation name="WritePersonOperation" repetition="1"/>	
+				<monitor name="TimeMonitor"/>
+				<monitor name="MemoryMonitor"/>						
+			</task>			
+			<monitor name="TimeMonitor"/>
+			<monitor name="MemoryMonitor"/>
+		</test>
+	</tests>
+</bench>
