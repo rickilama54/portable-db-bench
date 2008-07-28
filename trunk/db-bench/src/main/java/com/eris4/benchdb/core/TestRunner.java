@@ -2,26 +2,31 @@ package com.eris4.benchdb.core;
 
 import java.util.List;
 
+import com.eris4.benchdb.core.reporter.Reporter;
+
 
 public class TestRunner {
 
-	public void execute(List<Test> tests,List<Database> databases) {
+	public void execute(List<Test> tests,List<Database> databases, List<Reporter> reporters) {
 		for (Test test : tests) {
-			execute(test,databases);
+			execute(test,databases,reporters);
 		}
 	}
 
-	public void execute(Test test,List<Database> databases) {
+	public void execute(Test test,List<Database> databases,List<Reporter> reporters) {
 		for (Database database : databases) {
-			execute(test,database);
+			execute(test,database,reporters);
 		}
 	}
 
-	public void execute(Test test,Database database) {
+	public void execute(Test test,Database database,List<Reporter> reporters) {
 		database.clear();
 		try {
 			database.clear();
 			test.setDatabase(database);
+			for (Reporter reporter : reporters) {
+				reporter.setDatabase(database);
+			}
 			test.start();
 		} catch (NoSuitableDriverException e) {
 			System.err.println(test.getClass().getSimpleName()+" is skipped");

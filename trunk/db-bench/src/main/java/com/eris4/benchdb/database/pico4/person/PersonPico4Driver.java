@@ -15,6 +15,7 @@ public class PersonPico4Driver implements PersonDriver {
 	@Override
 	public void connect() throws TestDriverException {
 		map = new PersistentMap(mapName);
+		map.load();
 	}
 	
 	public void init(int numberOfObject){			
@@ -48,7 +49,7 @@ public class PersonPico4Driver implements PersonDriver {
 
 	@Override
 	public int getNumberOfPerson() {
-		return map.size();
+		return map.size();		
 	}	
 
 }
