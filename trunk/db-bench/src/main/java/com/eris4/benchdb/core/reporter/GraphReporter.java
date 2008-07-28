@@ -2,6 +2,7 @@ package com.eris4.benchdb.core.reporter;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import com.eris4.benchdb.core.monitor.Monitor;
+import com.eris4.benchdb.core.util.Resource;
 import com.eris4.benchdb.core.util.ThreadUtils;
 
 public class GraphReporter extends Reporter {
@@ -75,9 +77,12 @@ public class GraphReporter extends Reporter {
 				dataset.addSeries(series);
 			}
 			JFreeChart chart = ChartFactory.createXYLineChart(graphName ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);
-			ChartUtilities.saveChartAsPNG(new File(graphName+".png"), chart, 1000, 700);
+			ChartUtilities.saveChartAsPNG(Resource.getNewFile(graphName+".png"), chart, 1000, 700);
 			System.out.println(">>>>>>>> ho stampato il grafico!!! <<<<<<<");
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
