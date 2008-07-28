@@ -21,7 +21,7 @@ public class MainFromXml {
 		System.out.println("Number of tests: "+tests.size());
 		System.out.println("Number of databases: "+databases.size());
 		System.out.println("Number of reporters "+reporters.size());
-		new TestRunner().execute(tests,databases);
+		new TestRunner().execute(tests,databases,reporters);
 		
 		for (Reporter reporter : reporters) {
 			reporter.report();

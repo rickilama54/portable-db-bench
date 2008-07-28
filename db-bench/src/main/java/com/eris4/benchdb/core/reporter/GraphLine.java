@@ -30,8 +30,8 @@ class GraphLine {
 		return xySeries;
 	}
 
-	public void reset() {
-		xySeries = new XYSeries(name,false,true);
+	public void reset(String databaseName) {
+		xySeries = new XYSeries(name+"-"+databaseName,false,true);
 	}
 		
 }

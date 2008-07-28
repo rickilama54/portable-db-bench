@@ -12,8 +12,8 @@ public class PersonInitializator extends DbInitializator {
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
 		PersonDriver personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
 		personDriver.connect();
-		personDriver.init(numberOfObjects);
-		personDriver.close();
+		personDriver.init(numberOfObjects);		
+		personDriver.close();		
 	}
 
 	

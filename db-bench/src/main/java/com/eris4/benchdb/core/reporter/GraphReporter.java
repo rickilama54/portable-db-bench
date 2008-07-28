@@ -44,7 +44,10 @@ public class GraphReporter extends Reporter {
 	}
 
 	@Override
-	public void start() {		
+	public void start() {	
+		for (GraphLine line : list) {
+			line.reset(getDatabase().getClass().getSimpleName());
+		}	
 		stop  = false;		
 		new Thread(){
 			public void run() {
@@ -61,7 +64,6 @@ public class GraphReporter extends Reporter {
 		stop = true;
 		for (GraphLine line : list) {
 			xySeriesList.add(line.getXYSeries());
-			line.reset();
 		}		
 	}
 
