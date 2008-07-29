@@ -20,7 +20,6 @@ public class TestRunner {
 	}
 
 	public void execute(Test test,Database database,List<Reporter> reporters) {
-		database.clear();
 		try {
 			database.clear();
 			test.setDatabase(database);

@@ -39,8 +39,14 @@ public class WritePersonOperation extends Operation {
 	@Override
 	public void doOperation() {
 		Person person = newRandomPerson();
-		person.setId(id + numberOfObject);
-		personDriver.write(person);
+		person.setId(id + numberOfObject);		
+		try {
+			personDriver.write(person);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			System.out.println(person.getId()+" - "+person.getName());
+			throw new RuntimeException();
+		}
 		id ++;
 	}	
 

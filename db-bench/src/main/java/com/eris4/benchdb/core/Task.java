@@ -3,7 +3,11 @@ package com.eris4.benchdb.core;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.eris4.benchdb.core.monitor.AvgTransactionMonitor;
 import com.eris4.benchdb.core.monitor.Monitor;
+import com.eris4.benchdb.core.monitor.TimeMonitor;
+import com.eris4.benchdb.core.util.MyMath;
+import com.eris4.benchdb.core.util.ThreadUtils;
 
 public class Task implements Runnable{
 
@@ -11,7 +15,7 @@ public class Task implements Runnable{
 	private List<Operation> operations;
 	private List<Monitor> monitors;
 	private int transactionPerSecond;
-	
+		
 	public Task(List<Operation> operations){
 		this.operations = operations;
 		monitors = new LinkedList<Monitor>();
@@ -41,20 +45,35 @@ public class Task implements Runnable{
 	@Override
 	public void run() {
 		stop = false;
+		AvgTransactionMonitor transactionMonitor = new AvgTransactionMonitor();
+		transactionMonitor.start();
+		TimeMonitor timeKeeper = new TimeMonitor();
 		for (Monitor monitor : monitors) {
 			monitor.start();
-		}
-		while (!stop) {
-			for (Operation operation : operations) {
-				operation.execute();
+		}		
+		synchronized (operations) {
+			while (!stop) {
+				timeKeeper.start();
+				for (int i = 0; i <= transactionPerSecond && !stop; i++) {
+					for (Operation operation : operations) {
+						operation.execute();
+					}
+					for (Monitor monitor : monitors) {
+						monitor.update();
+					}
+					transactionMonitor.update();
+				}
+				if (transactionMonitor.getValue() > transactionPerSecond){
+					long sleepTime = MyMath.getMillisToNextSecond(timeKeeper.getValue());
+					ThreadUtils.sleep(sleepTime);
+				}
 			}
-			for (Monitor monitor : monitors) {
-				monitor.update();
-			}
 		}
+		transactionMonitor.stop();
 		for (Monitor monitor : monitors) {
 			monitor.stop();
 		}
+		
 	}
 	
 	public void stop(){
@@ -63,9 +82,11 @@ public class Task implements Runnable{
 	}
 
 	public void tearDown() {
-		for (Operation operation : operations) {
-			operation.tearDown();
-		}		
+		synchronized (operations) {
+			for (Operation operation : operations) {
+				operation.tearDown();
+			}
+		}	
 	}
 
 	public void setTransactionPerSecond(int transactionPerSecond) {
@@ -82,5 +103,6 @@ public class Task implements Runnable{
 			System.out.println(monitor.getDescription()+" -- "+monitor.getFormattedValue());
 		}
 	}
-
+	
+	
 }
