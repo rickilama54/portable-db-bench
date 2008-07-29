@@ -4,7 +4,7 @@ import com.eris4.benchdb.core.Database;
 import com.eris4.benchdb.core.DbInitializator;
 import com.eris4.benchdb.core.NoSuitableDriverException;
 import com.eris4.benchdb.core.TestDriverException;
-import com.eris4.benchdb.test.person.PersonDriver;
+import com.eris4.benchdb.domain.PersonDriver;
 
 public class PersonInitializator extends DbInitializator {
 

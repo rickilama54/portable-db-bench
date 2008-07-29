@@ -2,7 +2,7 @@ package com.eris4.benchdb.database.pico4.person;
 
 import java.io.IOException;
 
-import com.eris4.benchdb.test.person.Person;
+import com.eris4.benchdb.domain.Person;
 import com.eris4.pico4.PICO4PersistentObject;
 import com.eris4.pico4.PICO4Serializable;
 import com.eris4.pico4.streams.PICO4InputStream;
