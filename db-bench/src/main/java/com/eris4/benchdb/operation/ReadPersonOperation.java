@@ -7,9 +7,9 @@ import com.eris4.benchdb.core.NoSuitableDriverException;
 import com.eris4.benchdb.core.Operation;
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.core.util.StringGenerator;
-import com.eris4.benchdb.test.person.Person;
-import com.eris4.benchdb.test.person.PersonDriver;
-import com.eris4.benchdb.test.person.PersonImpl;
+import com.eris4.benchdb.domain.Person;
+import com.eris4.benchdb.domain.PersonDriver;
+import com.eris4.benchdb.domain.PersonImpl;
 
 public class ReadPersonOperation extends Operation {
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.eris4.benchdb.test.person.Person;
+import com.eris4.benchdb.domain.Person;
 
 
 public class PersonList implements Serializable{
