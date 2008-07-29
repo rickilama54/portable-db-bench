@@ -78,7 +78,7 @@ public class GraphReporter extends Reporter {
 			}
 			JFreeChart chart = ChartFactory.createXYLineChart(graphName ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);
 			ChartUtilities.saveChartAsPNG(Resource.getNewFile(graphName+".png"), chart, 1000, 700);
-			System.out.println(">>>>>>>> ho stampato il grafico!!! <<<<<<<");
+			System.out.println(">>>>>>>> ho stampato il grafico: "+graphName+"!!! <<<<<<<");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

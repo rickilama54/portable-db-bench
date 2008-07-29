@@ -12,9 +12,7 @@
     	<!-- operations -->
     	<operation name="WritePersonOperation" class="com.eris4.benchdb.operation.WritePersonOperation"/>
     	<operation name="ReadPersonOperation" class="com.eris4.benchdb.operation.ReadPersonOperation"/>
-    	<!-- reporters -->
-    	<!-- <reporter name="GraphReporter" class="com.eris4.benchdb.reporter.GraphReporter"/> -->
-	</definitions>
+    </definitions>
 	
 	<!-- DATABASE LIST -->
 	<databases>
@@ -30,13 +28,21 @@
 	<reporter name="Transazioni in lettura">
 		<line x="5" y="7" name=""/>		
 	</reporter>
+	<!--<reporter name="test scrittura e lettura concorrenti">
+		<line x="13" y="15" name="read"/>
+		<line x="17" y="19" name="write"/>
+	</reporter>
+	<reporter name="test scrittura e lettura sincrone">
+		<line x="9" y="11" name="Instant"/>
+	</reporter>-->
+	
 		
 	<!-- TEST LIST -->
 	<!-- esempio TimedSpeedTest multioperation -->
 	<tests>
-		<test time="2000" name="Test di prova">
-			<initializator name="PersonInitializator" numberOfObjects="10000"/>
-			<task>
+		<test time="5000" name="Test di scrittura">
+			<initializator name="PersonInitializator" numberOfObjects="10"/>
+			<task >
 				<operation name="WritePersonOperation" repetition="1"/>	
 				<monitor name="TimeMonitor" id="1"/>
 				<monitor name="MemoryMonitor" id="2"/>						
@@ -44,11 +50,10 @@
 				<monitor name="AvgTransactionMonitor" id="4"/>
 			</task>	
 		</test>
-	</tests>
-	<tests>
-		<test time="3000" name="Test di prova">
+
+		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
-			<task>
+			<task tps="5000">
 				<operation name="ReadPersonOperation" repetition="1"/>	
 				<monitor name="TimeMonitor" id="5"/>
 				<monitor name="MemoryMonitor" id="6"/>						
@@ -56,5 +61,35 @@
 				<monitor name="AvgTransactionMonitor" id="8"/>
 			</task>	
 		</test>
+<!--		
+		<test time="5000" name="Test di lettura e scrittura sincrone">
+			<initializator name="PersonInitializator" numberOfObjects="10000"/>
+			<task>
+				<operation name="WritePersonOperation" repetition="1"/>
+				<operation name="ReadPersonOperation" repetition="1"/>	
+				<monitor name="TimeMonitor" id="9"/>
+				<monitor name="MemoryMonitor" id="10"/>						
+				<monitor name="TransactionMonitor" id="11"/>
+				<monitor name="AvgTransactionMonitor" id="12"/>
+			</task>	
+		</test>
+		
+		<test time="5000" name="Test di lettura e scrittura concorrenti">
+			<initializator name="PersonInitializator" numberOfObjects="10000"/>
+			<task>
+				<operation name="ReadPersonOperation" repetition="1"/>	
+				<monitor name="TimeMonitor" id="13"/>
+				<monitor name="MemoryMonitor" id="14"/>						
+				<monitor name="TransactionMonitor" id="15"/>
+				<monitor name="AvgTransactionMonitor" id="16"/>
+			</task>	
+			<task>
+				<operation name="WritePersonOperation" repetition="1"/>				
+				<monitor name="TimeMonitor" id="17"/>
+				<monitor name="MemoryMonitor" id="18"/>						
+				<monitor name="TransactionMonitor" id="19"/>
+				<monitor name="AvgTransactionMonitor" id="20"/>
+			</task>	
+		</test>-->
 	</tests>
 </bench>
