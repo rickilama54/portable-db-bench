@@ -6,7 +6,6 @@ import java.util.List;
 import com.eris4.benchdb.core.monitor.AvgTransactionMonitor;
 import com.eris4.benchdb.core.monitor.Monitor;
 import com.eris4.benchdb.core.monitor.TimeMonitor;
-import com.eris4.benchdb.core.util.MyMath;
 import com.eris4.benchdb.core.util.ThreadUtils;
 
 public class Task implements Runnable{
@@ -15,6 +14,7 @@ public class Task implements Runnable{
 	private List<Operation> operations;
 	private List<Monitor> monitors;
 	private int transactionPerSecond;
+	private int transactionCheckTime = 10;
 		
 	public Task(List<Operation> operations){
 		this.operations = operations;
@@ -46,6 +46,7 @@ public class Task implements Runnable{
 	public void run() {
 		stop = false;
 		AvgTransactionMonitor transactionMonitor = new AvgTransactionMonitor();
+		int sleepTime = 1000/(transactionPerSecond/transactionCheckTime);
 		transactionMonitor.start();
 		TimeMonitor timeKeeper = new TimeMonitor();
 		for (Monitor monitor : monitors) {
@@ -54,7 +55,7 @@ public class Task implements Runnable{
 		synchronized (operations) {
 			while (!stop) {
 				timeKeeper.start();
-				for (int i = 0; i <= transactionPerSecond && !stop; i++) {
+				for (int i = 0; i <= transactionCheckTime  && !stop; i++) {
 					for (Operation operation : operations) {
 						operation.execute();
 					}
@@ -64,7 +65,7 @@ public class Task implements Runnable{
 					transactionMonitor.update();
 				}
 				if (transactionMonitor.getValue() > transactionPerSecond){
-					long sleepTime = MyMath.getMillisToNextSecond(timeKeeper.getValue());
+//					long sleepTime = MyMath.getMillisToNextSecond(timeKeeper.getValue());
 					ThreadUtils.sleep(sleepTime);
 				}
 			}
