@@ -7,11 +7,17 @@ public abstract class DbInitializator {
 	public void setNumberOfObjects(int numberOfObjects) {
 		this.numberOfObjects = numberOfObjects;
 	}
+	
+	public int getNumberOfObjects() {
+		return numberOfObjects;
+	}
 
 	public void init(Database database) throws NoSuitableDriverException, TestDriverException {
 		init(database,numberOfObjects);
 	}
 
 	public abstract void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException;
+
+	public abstract String getDescription();
 
 }

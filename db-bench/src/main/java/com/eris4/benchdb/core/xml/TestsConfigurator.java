@@ -13,6 +13,7 @@ import com.eris4.benchdb.core.Operation;
 import com.eris4.benchdb.core.Task;
 import com.eris4.benchdb.core.Test;
 import com.eris4.benchdb.core.monitor.Monitor;
+import com.eris4.benchdb.core.reporter.Reporter;
 
 public class TestsConfigurator {
 
@@ -44,6 +45,7 @@ public class TestsConfigurator {
 		List<DbInitializator> dbInizializators = new LinkedList<DbInitializator>();
 		List<Task> tasks = new LinkedList<Task>();
 		List<Monitor> monitors = new LinkedList<Monitor>();
+		List<Reporter> reporters = new LinkedList<Reporter>();
 		NodeList childs = test.getChildNodes();
 		for (int i = 0; i < childs.getLength(); i++){
 			Node child = childs.item(i);
@@ -57,10 +59,13 @@ public class TestsConfigurator {
 			else if (nodeName.equals(XmlConstants.MONITOR_NODE)){
 				monitors.add(loadMonitor(child));
 			}
+			else if (nodeName.equals(XmlConstants.REPORTER_NODE)){
+				reporters.add(ReportersConfigurator.loadReporter(child, monitorsMap));// warning: the monitorsMap is initialized only after loading the tasks
+			}
 		}		
 		long time = Long.parseLong(test.getAttributes().getNamedItem(XmlConstants.TEST_TIME_ATTRIBUTE).getNodeValue());
 		String name = test.getAttributes().getNamedItem(XmlConstants.TEST_NAME_ATTRIBUTE).getNodeValue();
-		return new Test(dbInizializators,tasks,monitors,time,name);
+		return new Test(dbInizializators,tasks,reporters,time,name);
 	}
 
 	
