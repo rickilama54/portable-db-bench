@@ -24,7 +24,7 @@
 	
 	<!-- TEST LIST -->
 	<tests>
-		
+		<!--
 		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task >
@@ -63,14 +63,14 @@
 				<monitor name="TransactionMonitor" id="11"/>
 				<monitor name="AvgTransactionMonitor" id="12"/>
 			</task>	
-			<reporter name="test scrittura e lettura concorrenti">
-				<line x="13" y="15" name="Reads"/>
-				<line x="17" y="19" name="Writes"/>
+			<reporter name="test scrittura e lettura sincrone">
+				<line x="9" y="11" name="Transactions"/>
 			</reporter>
 		</test>
 		
-		<test time="5000" name="Test di lettura e scrittura concorrenti">
-			<initializator name="PersonInitializator" numberOfObjects="10000"/>
+		-->
+		<test time="20000" name="Test di lettura e scrittura concorrenti">
+			<initializator name="PersonInitializator" numberOfObjects="1000000"/>
 			<task>
 				<operation name="ReadPersonOperation" repetition="1"/>	
 				<monitor name="TimeMonitor" id="13"/>
@@ -85,11 +85,11 @@
 				<monitor name="TransactionMonitor" id="19"/>
 				<monitor name="AvgTransactionMonitor" id="20"/>
 			</task>	
-			<reporter name="test scrittura e lettura sincrone">
-				<line x="9" y="11" name="Transactions"/>
-			</reporter>
+			<reporter name="test scrittura e lettura concorrenti">
+				<line x="13" y="15" name="Reads"/>
+				<line x="17" y="19" name="Writes"/>
+			</reporter>			
 		</test>
-	<!--
-		-->
+	
 	</tests>
 </bench>

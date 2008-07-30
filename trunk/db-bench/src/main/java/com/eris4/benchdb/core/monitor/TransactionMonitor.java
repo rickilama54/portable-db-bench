@@ -50,8 +50,12 @@ public class TransactionMonitor extends Monitor{
 	@Override
 	public long getValue() {
 		long time = timeMonitor.getValue() - savedTime[0];
-		if (time <= 0)
+		if(stop){
+			time = savedTime[HISTORY_LENGTH-1];
+		}		
+		if (time <= 0){
 			time = 1;
+		}
 		return ((numberOfTransaction - savedNumberOfTransction[0]) * 1000) / time;
 	}
 	
@@ -65,6 +69,11 @@ public class TransactionMonitor extends Monitor{
 	@Override
 	public void update() {
 		numberOfTransaction++;
+	}
+
+	@Override
+	public void reset() {
+		savedNumberOfTransction[0] = numberOfTransaction;
 	}
 	
 

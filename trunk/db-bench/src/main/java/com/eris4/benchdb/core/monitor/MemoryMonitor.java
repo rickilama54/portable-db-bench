@@ -72,4 +72,9 @@ public class MemoryMonitor extends Monitor{
 		}
 	}
 
+	@Override
+	public void reset() {
+		maxMemory = startMemory;
+	}
+
 }

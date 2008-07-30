@@ -37,5 +37,10 @@ public class TimeMonitor extends Monitor {
 		return (System.currentTimeMillis() - startTime) + totalTime;
 	}
 
+	@Override
+	public void reset() {
+		totalTime = 0;
+	}
+
 	
 }

@@ -12,6 +12,8 @@ public abstract class Monitor {
 		begin();
 	}
 
+	public abstract void reset();
+
 	public abstract void begin();
 
 	public void stop(){

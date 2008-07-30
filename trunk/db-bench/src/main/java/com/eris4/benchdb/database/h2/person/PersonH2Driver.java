@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.core.util.StringGenerator;
+import com.eris4.benchdb.database.h2.H2Database;
 import com.eris4.benchdb.domain.Person;
 import com.eris4.benchdb.domain.PersonDriver;
 import com.eris4.benchdb.domain.PersonImpl;
@@ -20,7 +21,7 @@ public class PersonH2Driver implements PersonDriver {
 	private final String CREATE_TABLE_QUERY = "create table PERSON (name varchar,id bigint primary key)";
 	private final String COUNT_PERSON = "select count(*) from PeRSON"; 
 	private String password = "";
-	private String databaseURL = "jdbc:h2:file:db/h2/database";
+	private String databaseURL = "jdbc:h2:file:"+new H2Database().getFileName()+"/database";
 	private String username = "sa";
 	private String driver="org.h2.Driver";
 	private Connection con;

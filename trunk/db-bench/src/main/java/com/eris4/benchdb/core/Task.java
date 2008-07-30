@@ -28,6 +28,9 @@ public class Task implements Runnable{
 	}
 	
 	public void setUp() throws TestDriverException, OperationException{
+		for (Monitor monitor : monitors) {
+			monitor.reset();
+		}
 		for (Operation operation : operations) {
 			operation.setUp();
 		}
