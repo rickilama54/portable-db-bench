@@ -1,5 +1,6 @@
 package com.eris4.benchdb.core.reporter;
 
+import java.awt.font.NumericShaper;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -9,6 +10,10 @@ import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.LogarithmicAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -76,7 +81,12 @@ public class GraphReporter extends Reporter {
 			for (XYSeries series : xySeriesList) {
 				dataset.addSeries(series);
 			}
-			JFreeChart chart = ChartFactory.createXYLineChart(graphName ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);
+			JFreeChart chart = ChartFactory.createXYLineChart(graphName ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);			
+//			chart.getXYPlot().setDomainAxes(new ValueAxis[]{new NumberAxis(xAxisLabel),null,null,new LogarithmicAxis(yAxisLabel)});
+//			chart.getXYPlot().setDomainAxis(4,new LogarithmicAxis(yAxisLabel));
+			LogAxis logAxis = new LogAxis(yAxisLabel);
+			logAxis.setSmallestValue(0.1);
+			chart.getXYPlot().setRangeAxis(0,logAxis);
 			ChartUtilities.saveChartAsPNG(Resource.getNewFile(graphName+".png"), chart, 1000, 700);
 			System.out.println(">>>>>>>> ho stampato il grafico: "+graphName+"!!! <<<<<<<");
 		} catch (IOException e) {

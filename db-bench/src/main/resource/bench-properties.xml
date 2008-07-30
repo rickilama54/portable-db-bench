@@ -18,28 +18,27 @@
 	<databases>
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
 		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
+		<database class="com.eris4.benchdb.database.h2.H2Database"/>
+		  <!-- -->
 	</databases>
 	
-	<!-- reporters -->
-	<reporter name="Transazioni in scrittura">
-		<line x="1" y="3" name="Instant"/>
-		<line x="1" y="4" name="Avg"/>
-	</reporter>
-	<reporter name="Transazioni in lettura">
-		<line x="5" y="7" name=""/>		
-	</reporter>
-	<!--<reporter name="test scrittura e lettura concorrenti">
-		<line x="13" y="15" name="read"/>
-		<line x="17" y="19" name="write"/>
-	</reporter>
-	<reporter name="test scrittura e lettura sincrone">
-		<line x="9" y="11" name="Instant"/>
-	</reporter>-->
-	
-		
 	<!-- TEST LIST -->
-	<!-- esempio TimedSpeedTest multioperation -->
 	<tests>
+		
+		<test time="5000" name="Test di lettura">
+			<initializator name="PersonInitializator" numberOfObjects="10000"/>
+			<task >
+				<operation name="ReadPersonOperation" repetition="1"/>	
+				<monitor name="TimeMonitor" id="5"/>
+				<monitor name="MemoryMonitor" id="6"/>						
+				<monitor name="TransactionMonitor" id="7"/>
+				<monitor name="AvgTransactionMonitor" id="8"/>
+			</task>	
+			<reporter name="Transazioni in lettura">
+				<line x="5" y="7" name="Transactions"/>		
+			</reporter>
+		</test>
+	
 		<test time="5000" name="Test di scrittura">
 			<initializator name="PersonInitializator" numberOfObjects="10"/>
 			<task >
@@ -49,19 +48,11 @@
 				<monitor name="TransactionMonitor" id="3"/>
 				<monitor name="AvgTransactionMonitor" id="4"/>
 			</task>	
-		</test>
-
-		<test time="5000" name="Test di lettura">
-			<initializator name="PersonInitializator" numberOfObjects="10000"/>
-			<task tps="5000">
-				<operation name="ReadPersonOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="5"/>
-				<monitor name="MemoryMonitor" id="6"/>						
-				<monitor name="TransactionMonitor" id="7"/>
-				<monitor name="AvgTransactionMonitor" id="8"/>
-			</task>	
-		</test>
-<!--		
+			<reporter name="Transazioni in scrittura">
+				<line x="1" y="3" name="Transactions"/>				
+			</reporter>
+		</test>		
+			
 		<test time="5000" name="Test di lettura e scrittura sincrone">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task>
@@ -72,6 +63,10 @@
 				<monitor name="TransactionMonitor" id="11"/>
 				<monitor name="AvgTransactionMonitor" id="12"/>
 			</task>	
+			<reporter name="test scrittura e lettura concorrenti">
+				<line x="13" y="15" name="Reads"/>
+				<line x="17" y="19" name="Writes"/>
+			</reporter>
 		</test>
 		
 		<test time="5000" name="Test di lettura e scrittura concorrenti">
@@ -90,6 +85,11 @@
 				<monitor name="TransactionMonitor" id="19"/>
 				<monitor name="AvgTransactionMonitor" id="20"/>
 			</task>	
-		</test>-->
+			<reporter name="test scrittura e lettura sincrone">
+				<line x="9" y="11" name="Transactions"/>
+			</reporter>
+		</test>
+	<!--
+		-->
 	</tests>
 </bench>

@@ -27,14 +27,23 @@ public class TestRunner {
 				reporter.setDatabase(database);
 			}
 			test.start();
-		} catch (NoSuitableDriverException e) {
-			System.err.println(test.getClass().getSimpleName()+" is skipped");
-			System.err.println(e);
-		} catch (TestDriverException e) {
-			System.err.println(test.getClass().getSimpleName()+" is skipped");
-			System.err.println(e);
-		}
-		//TODO la close del database deve cmq essere effettuata!!!!!
+		} catch (Exception e) {
+			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
+			e.printStackTrace();
+		} 
+//		catch (NoSuitableDriverException e) {
+//			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
+//			System.err.println(e);
+//			e.printStackTrace();
+//		} catch (TestDriverException e) {
+//			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
+//			System.err.println(e);
+//			e.printStackTrace();
+//		} catch (OperationException e) {
+//			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
+//			System.err.println(e);
+//			e.printStackTrace();
+//		}
 	}
 
 }

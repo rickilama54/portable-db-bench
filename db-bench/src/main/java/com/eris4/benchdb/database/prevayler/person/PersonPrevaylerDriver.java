@@ -39,12 +39,11 @@ public class PersonPrevaylerDriver implements PersonDriver {
 	}
 
 	@Override
-	public void close() {
+	public void close() throws TestDriverException {
 		try {
 			prevayler.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new TestDriverException(e);
 		}
 	}
 	

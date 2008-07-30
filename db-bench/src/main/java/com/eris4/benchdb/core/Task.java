@@ -27,13 +27,13 @@ public class Task implements Runnable{
 		}
 	}
 	
-	public void setUp() throws TestDriverException{
+	public void setUp() throws TestDriverException, OperationException{
 		for (Operation operation : operations) {
 			operation.setUp();
 		}
 	}
 
-	public void warmUp() {
+	public void warmUp() throws OperationException, TestDriverException {
 		for (Monitor monitor : monitors) {
 			monitor.warmUp();
 		}		
@@ -57,7 +57,13 @@ public class Task implements Runnable{
 				timeKeeper.start();
 				for (int i = 0; i <= transactionCheckTime  && !stop; i++) {
 					for (Operation operation : operations) {
-						operation.execute();
+						try {
+							operation.execute();
+						} catch (Exception e) {
+							System.err.println("This task has beed stopped due to: "+e.getMessage());
+							e.printStackTrace();
+							break;
+						} 
 					}
 					for (Monitor monitor : monitors) {
 						monitor.update();
@@ -82,7 +88,7 @@ public class Task implements Runnable{
 		//chiamare teardown direttamente qui?		
 	}
 
-	public void tearDown() {
+	public void tearDown() throws OperationException, TestDriverException {
 		synchronized (operations) {
 			for (Operation operation : operations) {
 				operation.tearDown();
