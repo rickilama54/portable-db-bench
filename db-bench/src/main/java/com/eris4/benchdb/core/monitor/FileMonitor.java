@@ -51,4 +51,9 @@ public class FileMonitor extends Monitor {
 		
 	}
 
+	@Override
+	public void reset() {
+		fileName = null;		
+	}
+
 }

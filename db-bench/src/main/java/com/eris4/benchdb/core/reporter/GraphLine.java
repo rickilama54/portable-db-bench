@@ -15,15 +15,21 @@ class GraphLine {
 	
 	public GraphLine(String name,Monitor xAxis,Monitor yAxis){
 		this.name = name;
-		xySeries = new XYSeries(name,false,true);
+		xySeries = new XYSeries(name,true,false);
 		this.xAxis = xAxis;
 		this.yAxis = yAxis;	
 	}
 	
 	public void registerCoord(){
 		yValue = new Long(yAxis.getValue()).doubleValue();
-		xValue = new Long(xAxis.getValue()).doubleValue();
-		xySeries.add(xValue,yValue);
+		if (yValue == 0){
+			yValue = 1;
+		}
+		double tmp = new Long(xAxis.getValue()).doubleValue();
+		if (tmp != xValue){
+			xValue = tmp;			
+			xySeries.add(xValue,yValue);
+		}
 	}
 	
 	public XYSeries getXYSeries(){

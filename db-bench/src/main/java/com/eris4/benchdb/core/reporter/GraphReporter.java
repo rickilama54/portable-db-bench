@@ -85,7 +85,7 @@ public class GraphReporter extends Reporter {
 //			chart.getXYPlot().setDomainAxes(new ValueAxis[]{new NumberAxis(xAxisLabel),null,null,new LogarithmicAxis(yAxisLabel)});
 //			chart.getXYPlot().setDomainAxis(4,new LogarithmicAxis(yAxisLabel));
 			LogAxis logAxis = new LogAxis(yAxisLabel);
-			logAxis.setSmallestValue(0.1);
+			logAxis.setSmallestValue(1);
 			chart.getXYPlot().setRangeAxis(0,logAxis);
 			ChartUtilities.saveChartAsPNG(Resource.getNewFile(graphName+".png"), chart, 1000, 700);
 			System.out.println(">>>>>>>> ho stampato il grafico: "+graphName+"!!! <<<<<<<");

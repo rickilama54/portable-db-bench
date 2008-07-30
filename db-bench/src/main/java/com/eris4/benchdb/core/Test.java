@@ -62,14 +62,9 @@ public class Test {
 				e.printStackTrace();
 			}
 		}		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		for (Monitor monitor: monitors) {
-			System.out.println(monitor.getDescription()+" -- "+monitor.getFormattedValue());
-		}
 		for (Task task : tasks) {
 			task.printResult();
 		}
-		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	}
 	
 	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Monitor> monitors,long time, String name){
