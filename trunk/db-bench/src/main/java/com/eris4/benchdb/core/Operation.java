@@ -8,7 +8,7 @@ public abstract class Operation {
 		this.repetition = repetition;
 	}
 	
-	public void execute() {
+	public void execute() throws OperationException, TestDriverException {
 		for (int i = 0; i < repetition; i++) {
 			doOperation();			
 		}		
@@ -16,9 +16,9 @@ public abstract class Operation {
 
 	
 	public abstract void setDatabase(Database database) throws NoSuitableDriverException;
-	public abstract void setUp() throws TestDriverException;
-	public abstract void doOperation();
-	public abstract void tearDown();
-	public abstract void warmUp();
+	public abstract void setUp() throws OperationException, TestDriverException;
+	public abstract void doOperation() throws OperationException, TestDriverException;
+	public abstract void tearDown() throws OperationException, TestDriverException;
+	public abstract void warmUp() throws OperationException, TestDriverException;
 
 }

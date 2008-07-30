@@ -8,13 +8,13 @@ public interface PersonDriver {
 	
 	public void init(int numberOfObject) throws TestDriverException;
 	
-	public int getNumberOfPerson();
+	public int getNumberOfPerson() throws TestDriverException;
 	
-	public void close();
+	public void close() throws TestDriverException;
 	
-	public Person read(long personId);
+	public Person read(long personId) throws TestDriverException;
 	
-	public void write(Person person);
+	public void write(Person person) throws TestDriverException;
 
 	
 

@@ -26,33 +26,27 @@ public class WritePersonOperation extends Operation {
 	@Override
 	public void setUp() throws TestDriverException {
 		personDriver.connect();
-		numberOfObject = personDriver.getNumberOfPerson();
+		numberOfObject = personDriver.getNumberOfPerson();		
 	}
 		
 	@Override
-	public void warmUp() {
+	public void warmUp() throws TestDriverException {
 		for (int i = 0; i < 10; i++) {
 			doOperation();			
 		}
 	}
 	
 	@Override
-	public void doOperation() {
+	public void doOperation() throws TestDriverException {
 		Person person = newRandomPerson();
-		person.setId(id + numberOfObject);		
-		try {
-			personDriver.write(person);
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			System.out.println(person.getId()+" - "+person.getName());
-			throw new RuntimeException();
-		}
+		person.setId(id + numberOfObject);	
+		personDriver.write(person);
 		id ++;
 	}	
 
 	@Override
-	public void tearDown() {
-		personDriver.close();		
+	public void tearDown() throws TestDriverException {	
+		personDriver.close();			
 	}
 	
 	

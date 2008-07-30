@@ -15,41 +15,53 @@ public class Test {
 	private long time;
 	private String name;
 	
-	public void start() throws TestDriverException, NoSuitableDriverException{
+	public void start() throws NoSuitableDriverException, OperationException, TestDriverException{
 		System.out.println("########### STARTING TEST ############");
 		System.out.println("########### "+name+" ############");
 		System.out.println("########### "+database.getClass().getSimpleName()+" ############");
 		List<Thread> threads = new LinkedList<Thread>();
-		System.out.println("DB INITIALIZATION...");
-		for (DbInitializator dbInitializator : dbInitializators) {
-			dbInitializator.init(database);
-		}
-		System.out.println("THREAD CREATION...");
-		for (Task task : tasks) {
-			threads.add(new Thread(task));
-		}
-		System.out.println("TASK SET UP...");
-		for (Task task : tasks) {
-			task.setUp();
-		}
-		System.out.println("TASK WARMP UP...");
-		for (Task task : tasks) {
-			task.warmUp();
-		}
-		System.out.println("RUNNING TEST...");
-		for (Thread thread: threads) {
-			thread.start();
-		}
-		ThreadUtils.sleep(time); //a better timer can be used, but there is no need for a perfect one
-		System.out.println("STOPPPING TEST...");
-		for (Task task : tasks) {
-			task.stop();
-		}
-		System.out.println("TASK TEAR DOWN...");
-		for (Task task : tasks) {
-			task.tearDown();
-		}
-		System.out.println("TEST FINISHED!");
+		try {
+			System.out.println("DB INITIALIZATION...");
+			for (DbInitializator dbInitializator : dbInitializators) {
+				dbInitializator.init(database);
+			}
+			System.out.println("THREAD CREATION...");
+			for (Task task : tasks) {
+				threads.add(new Thread(task));
+			}			
+			System.out.println("TASK SET UP...");
+			for (Task task : tasks) {
+				task.setUp();
+			}
+			System.out.println("TASK WARMP UP...");
+			for (Task task : tasks) {
+				task.warmUp();
+			}
+			System.out.println("RUNNING TEST...");
+			for (Thread thread: threads) {
+				thread.start();
+			}
+			ThreadUtils.sleep(time); //a better timer can be used, but there is no need for a perfect one
+			System.out.println("STOPPPING TEST...");
+			for (Task task : tasks) {
+				task.stop();
+			}
+		} catch (OperationException e) {
+			throw e;
+		} catch (TestDriverException e) {
+			throw e;
+		} finally {
+			try {
+				System.out.println("TASK TEAR DOWN...");
+				for (Task task : tasks) {
+					task.tearDown();
+				}
+				System.out.println("TEST FINISHED!");
+			} catch (RuntimeException e) {
+				System.out.println("Task tear down error: ");
+				e.printStackTrace();
+			}
+		}		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		for (Monitor monitor: monitors) {
 			System.out.println(monitor.getDescription()+" -- "+monitor.getFormattedValue());
@@ -76,6 +88,10 @@ public class Test {
 		for (Task task : tasks) {
 			task.setDatabase(database);			
 		}
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 }
