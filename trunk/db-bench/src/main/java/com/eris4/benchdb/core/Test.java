@@ -3,7 +3,7 @@ package com.eris4.benchdb.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.eris4.benchdb.core.monitor.Monitor;
+import com.eris4.benchdb.core.reporter.Reporter;
 import com.eris4.benchdb.core.util.ThreadUtils;
 
 public class Test {
@@ -11,7 +11,7 @@ public class Test {
 	private Database database;
 	private List<Task> tasks;
 	private List<DbInitializator> dbInitializators;
-	private List<Monitor> monitors;	
+	private List<Reporter> reporters;	
 	private long time;
 	private String name;
 	
@@ -37,12 +37,18 @@ public class Test {
 			for (Task task : tasks) {
 				task.warmUp();
 			}
+			for (Reporter reporter: reporters) {
+				reporter.start();
+			}
 			System.out.println("RUNNING TEST...");
 			for (Thread thread: threads) {
 				thread.start();
 			}
 			ThreadUtils.sleep(time); //a better timer can be used, but there is no need for a perfect one
 			System.out.println("STOPPPING TEST...");
+			for (Reporter reporter: reporters) {
+				reporter.stop();
+			}
 			for (Task task : tasks) {
 				task.stop();
 			}
@@ -65,23 +71,32 @@ public class Test {
 		for (Task task : tasks) {
 			task.printResult();
 		}
+		for (Reporter reporter: reporters) {
+			reporter.report();
+		}
 	}
 	
-	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Monitor> monitors,long time, String name){
+	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Reporter> reporters,long time, String name){
 		this.dbInitializators = dbInitializators;
 		this.tasks = tasks;
-		this.monitors = monitors;
+		this.reporters = reporters;
 		this.time = time;
 		this.name = name;
-//		for (Task task : tasks) {
-//			task.setMonitors(monitors);
-//		}
+		for (DbInitializator dbInitializator : dbInitializators) {
+			for (Reporter reporter: this.reporters) {
+				reporter.addDescription(dbInitializator.getDescription());
+			}
+		}
+		
 	}
 
 	public void setDatabase(Database database) throws NoSuitableDriverException {
 		this.database = database;
 		for (Task task : tasks) {
 			task.setDatabase(database);			
+		}
+		for (Reporter reporter: reporters) {
+			reporter.setDatabase(database);
 		}
 	}
 	

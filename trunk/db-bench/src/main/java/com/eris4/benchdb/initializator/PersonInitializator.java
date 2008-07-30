@@ -15,6 +15,11 @@ public class PersonInitializator extends DbInitializator {
 		personDriver.init(numberOfObjects);		
 		personDriver.close();		
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Number of Person initialized: " + getNumberOfObjects();
+	}
 
 	
 	

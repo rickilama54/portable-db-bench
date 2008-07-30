@@ -32,7 +32,7 @@ public class ReportersConfigurator {
 		return result;
 	}
 	
-	private Reporter loadReporter(Node reporter, Map<String, Monitor> monitorsMap)  {
+	public static Reporter loadReporter(Node reporter, Map<String, Monitor> monitorsMap)  {
 		String graphName = reporter.getAttributes().getNamedItem(XmlConstants.REPORTER_NAME_ATTRIBUTE).getNodeValue() ;
 		GraphReporter result = new GraphReporter(graphName);
 		NodeList childs = reporter.getChildNodes();

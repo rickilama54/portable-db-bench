@@ -15,6 +15,7 @@ import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -31,6 +32,7 @@ public class GraphReporter extends Reporter {
 	private List<GraphLine> list = new LinkedList<GraphLine>();
 	private List<XYSeries> xySeriesList = new LinkedList<XYSeries>();
 	private String graphName = "Grafico senza nome";
+	private List<String> descriptions = new LinkedList<String>();
 	
 	public GraphReporter(String graphName) {
 		this.graphName = graphName;
@@ -46,8 +48,6 @@ public class GraphReporter extends Reporter {
 		xAxisLabel = xAxis.getDescription();
 		yAxisLabel = yAxis.getDescription();
 		list.add(new GraphLine(name,xAxis,yAxis));
-
-		yAxis.registerReporter(this);
 	}
 
 	@Override
@@ -81,9 +81,11 @@ public class GraphReporter extends Reporter {
 			for (XYSeries series : xySeriesList) {
 				dataset.addSeries(series);
 			}
-			JFreeChart chart = ChartFactory.createXYLineChart(graphName ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);			
-//			chart.getXYPlot().setDomainAxes(new ValueAxis[]{new NumberAxis(xAxisLabel),null,null,new LogarithmicAxis(yAxisLabel)});
-//			chart.getXYPlot().setDomainAxis(4,new LogarithmicAxis(yAxisLabel));
+			String title = graphName;
+			for (String description : descriptions) {
+				title += "\n" + description;
+			}			
+			JFreeChart chart = ChartFactory.createXYLineChart(title ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);		
 			LogAxis logAxis = new LogAxis(yAxisLabel);
 			logAxis.setSmallestValue(1);
 			chart.getXYPlot().setRangeAxis(0,logAxis);
@@ -96,6 +98,11 @@ public class GraphReporter extends Reporter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void addDescription(String description) {		
+		descriptions.add(description);
 	}
 	
 

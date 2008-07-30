@@ -24,7 +24,7 @@
 	
 	<!-- TEST LIST -->
 	<tests>
-		<!--
+		
 		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task >
@@ -38,7 +38,7 @@
 				<line x="5" y="7" name="Transactions"/>		
 			</reporter>
 		</test>
-	
+	<!--
 		<test time="5000" name="Test di scrittura">
 			<initializator name="PersonInitializator" numberOfObjects="10"/>
 			<task >
@@ -68,7 +68,7 @@
 			</reporter>
 		</test>
 		
-		-->
+		
 		<test time="20000" name="Test di lettura e scrittura concorrenti">
 			<initializator name="PersonInitializator" numberOfObjects="1000000"/>
 			<task>
@@ -90,6 +90,6 @@
 				<line x="17" y="19" name="Writes"/>
 			</reporter>			
 		</test>
-	
+	-->
 	</tests>
 </bench>
