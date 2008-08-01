@@ -1,7 +1,6 @@
 package com.eris4.benchdb.core.reporter;
 
-import java.awt.font.NumericShaper;
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
@@ -11,17 +10,17 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.LogAxis;
-import org.jfree.chart.axis.LogarithmicAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import com.eris4.benchdb.core.Printer;
 import com.eris4.benchdb.core.monitor.Monitor;
 import com.eris4.benchdb.core.util.Resource;
 import com.eris4.benchdb.core.util.ThreadUtils;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.Section;
 
 public class GraphReporter extends Reporter {
 
@@ -33,6 +32,7 @@ public class GraphReporter extends Reporter {
 	private List<XYSeries> xySeriesList = new LinkedList<XYSeries>();
 	private String graphName = "Grafico senza nome";
 	private List<String> descriptions = new LinkedList<String>();
+	private String name = "GraphReporter";
 	
 	public GraphReporter(String graphName) {
 		this.graphName = graphName;
@@ -75,7 +75,7 @@ public class GraphReporter extends Reporter {
 	}
 
 	@Override
-	public void report() {
+	public void report(Section section) throws DocumentException {
 		try {
 			XYSeriesCollection dataset = new XYSeriesCollection();
 			for (XYSeries series : xySeriesList) {
@@ -89,20 +89,36 @@ public class GraphReporter extends Reporter {
 			LogAxis logAxis = new LogAxis(yAxisLabel);
 			logAxis.setSmallestValue(1);
 			chart.getXYPlot().setRangeAxis(0,logAxis);
-			ChartUtilities.saveChartAsPNG(Resource.getNewFile(graphName+".png"), chart, 1000, 700);
-			System.out.println(">>>>>>>> ho stampato il grafico: "+graphName+"!!! <<<<<<<");
+			BufferedImage chartImage = chart.createBufferedImage(1000, 700);
+			Image image = Image.getInstance(ChartUtilities.encodeAsPNG(chartImage));
+			image.scaleToFit(Printer.IMAGE_WIDTH, 400);
+			section.add(image);
+			
+//			ChartUtilities.saveChartAsPNG(Resource.getNewFile(graphName+".png"), chart, 1000, 700);
+//			System.out.println(">>>>>>>> ho stampato il grafico: "+graphName+"!!! <<<<<<<");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
+//		catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override
 	public void addDescription(String description) {		
 		descriptions.add(description);
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 

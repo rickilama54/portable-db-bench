@@ -5,6 +5,12 @@ import java.util.List;
 
 import com.eris4.benchdb.core.reporter.Reporter;
 import com.eris4.benchdb.core.util.ThreadUtils;
+import com.lowagie.text.Chapter;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Section;
 
 public class Test {
 
@@ -71,9 +77,7 @@ public class Test {
 		for (Task task : tasks) {
 			task.printResult();
 		}
-		for (Reporter reporter: reporters) {
-			reporter.report();
-		}
+		
 	}
 	
 	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Reporter> reporters,long time, String name){
@@ -102,6 +106,28 @@ public class Test {
 	
 	public String getName() {
 		return name;
+	}
+
+	public void print(Chapter chapter) throws DocumentException {
+		Paragraph sectionInitializator = new Paragraph("The Database Initialization",Printer.SECTION_FONT);
+		sectionInitializator.setSpacingBefore(Printer.PARAGRAPH_SPACE_BEFORE);
+		Section section1 = chapter.addSection(sectionInitializator);
+		Paragraph introInitializator = new Paragraph("The Databases have been initialized with the following parameters:");
+		introInitializator.setSpacingBefore(Printer.PARAGRAPH_SPACE_BEFORE);		
+		com.lowagie.text.List parameters = new com.lowagie.text.List(false,Printer.LIST_LEADING);
+		for (DbInitializator dbInitializator : dbInitializators) {
+			parameters.add(dbInitializator.getDescription());
+		}		
+		section1.add(introInitializator);
+		section1.add(parameters);
+		
+		
+		for (Reporter reporter: reporters) {
+			Paragraph reporterParagraph = new Paragraph(reporter.getName(),Printer.SECTION_FONT);
+			reporterParagraph.setSpacingBefore(Printer.PARAGRAPH_SPACE_BEFORE);
+			Section section = chapter.addSection(reporterParagraph);
+			reporter.report(section);
+		}	
 	}
 	
 }
