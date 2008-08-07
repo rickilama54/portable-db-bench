@@ -3,17 +3,18 @@ package com.eris4.benchdb.core;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.eris4.benchdb.core.reporter.Reporter;
 import com.eris4.benchdb.core.util.ThreadUtils;
 import com.lowagie.text.Chapter;
-import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Section;
 
 public class Test {
 
+	private static Logger logger = Logger.getLogger(Test.class);
 	private Database database;
 	private List<Task> tasks;
 	private List<DbInitializator> dbInitializators;
@@ -27,31 +28,31 @@ public class Test {
 		System.out.println("########### "+database.getClass().getSimpleName()+" ############");
 		List<Thread> threads = new LinkedList<Thread>();
 		try {
-			System.out.println("DB INITIALIZATION...");
+			logger.info("DB INITIALIZATION...");
 			for (DbInitializator dbInitializator : dbInitializators) {
 				dbInitializator.init(database);
 			}
-			System.out.println("THREAD CREATION...");
+			logger.info("THREAD CREATION...");
 			for (Task task : tasks) {
 				threads.add(new Thread(task));
-			}			
-			System.out.println("TASK SET UP...");
+			}		
+			logger.info("TASK SET UP...");
 			for (Task task : tasks) {
 				task.setUp();
 			}
-			System.out.println("TASK WARMP UP...");
+			logger.info("TASK WARMP UP...");
 			for (Task task : tasks) {
 				task.warmUp();
 			}
 			for (Reporter reporter: reporters) {
 				reporter.start();
 			}
-			System.out.println("RUNNING TEST...");
+			logger.info("RUNNING TEST...");
 			for (Thread thread: threads) {
 				thread.start();
 			}
 			ThreadUtils.sleep(time); //a better timer can be used, but there is no need for a perfect one
-			System.out.println("STOPPPING TEST...");
+			logger.info("STOPPPING TEST...");
 			for (Reporter reporter: reporters) {
 				reporter.stop();
 			}
@@ -64,14 +65,14 @@ public class Test {
 			throw e;
 		} finally {
 			try {
-				System.out.println("TASK TEAR DOWN...");
+				logger.info("TASK TEAR DOWN...");
 				for (Task task : tasks) {
 					task.tearDown();
 				}
-				System.out.println("TEST FINISHED!");
-			} catch (RuntimeException e) {
-				System.out.println("Task tear down error: ");
-				e.printStackTrace();
+				database.shutdown();
+				logger.info("TEST FINISHED!");
+			} catch (Exception e) {
+				logger.error("Task tear down error", e);
 			}
 		}		
 		for (Task task : tasks) {

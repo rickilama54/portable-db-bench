@@ -2,8 +2,12 @@ package com.eris4.benchdb.core;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 
 public class TestRunner {
+	
+	private Logger logger = Logger.getLogger(TestRunner.class);
 
 	public void execute(List<Test> tests,List<Database> databases) {
 		for (Test test : tests) {
@@ -23,22 +27,8 @@ public class TestRunner {
 			test.setDatabase(database);			
 			test.start();
 		} catch (Exception e) {
-			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
-			e.printStackTrace();
+			logger.error(test.getName()+" is skipped on database: "+database.getClass().getSimpleName(), e);			
 		} 
-//		catch (NoSuitableDriverException e) {
-//			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
-//			System.err.println(e);
-//			e.printStackTrace();
-//		} catch (TestDriverException e) {
-//			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
-//			System.err.println(e);
-//			e.printStackTrace();
-//		} catch (OperationException e) {
-//			System.err.println(test.getName()+" is skipped on database: "+database.getClass().getSimpleName());
-//			System.err.println(e);
-//			e.printStackTrace();
-//		}
 	}
 
 }
