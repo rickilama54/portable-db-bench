@@ -1,6 +1,12 @@
 package com.eris4.benchdb.database.h2;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
+
 import com.eris4.benchdb.core.Database;
+import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.common.DirectoryCleaner;
 import com.eris4.benchdb.database.h2.person.PersonH2Driver;
 import com.eris4.benchdb.domain.PersonDriver;
@@ -19,6 +25,11 @@ public class H2Database extends Database {
 	@Override
 	public String getFileName() {
 		return "db/h2";
+	}
+
+	@Override
+	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException {
+		//TODO		
 	}
 
 }

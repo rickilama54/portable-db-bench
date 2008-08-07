@@ -11,6 +11,7 @@ public class TransactionMonitor extends Monitor{
 	private boolean stop;
 	private long[] savedTime = new long[HISTORY_LENGTH];
 	private long PERDIO_CHECK = 100;
+	private long savedValue;
 	
 
 	@Override
@@ -43,6 +44,7 @@ public class TransactionMonitor extends Monitor{
 	
 	@Override
 	public void end(){
+		savedValue = getValue();
 		stop = true;
 		timeMonitor.stop();
 	}
@@ -51,7 +53,7 @@ public class TransactionMonitor extends Monitor{
 	public long getValue() {
 		long time = timeMonitor.getValue() - savedTime[0];
 		if(stop){
-			time = savedTime[HISTORY_LENGTH-1];
+			return savedValue;
 		}		
 		if (time <= 0){
 			time = 1;

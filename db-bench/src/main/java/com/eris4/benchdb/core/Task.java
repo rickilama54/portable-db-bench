@@ -3,6 +3,8 @@ package com.eris4.benchdb.core;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.eris4.benchdb.core.monitor.AvgTransactionMonitor;
 import com.eris4.benchdb.core.monitor.Monitor;
 import com.eris4.benchdb.core.monitor.TimeMonitor;
@@ -15,6 +17,7 @@ public class Task implements Runnable{
 	private List<Monitor> monitors;
 	private int transactionPerSecond;
 	private int transactionCheckTime = 10;
+	private Logger logger = Logger.getLogger(Task.class);
 		
 	public Task(List<Operation> operations){
 		this.operations = operations;
@@ -47,6 +50,7 @@ public class Task implements Runnable{
 
 	@Override
 	public void run() {
+		logger.trace("Task started");
 		stop = false;
 		AvgTransactionMonitor transactionMonitor = new AvgTransactionMonitor();
 		int sleepTime = 1000/(transactionPerSecond/transactionCheckTime);
@@ -54,7 +58,8 @@ public class Task implements Runnable{
 		TimeMonitor timeKeeper = new TimeMonitor();
 		for (Monitor monitor : monitors) {
 			monitor.start();
-		}		
+		}	
+		logger.trace("Starting while cicle");
 		synchronized (operations) {
 			while (!stop) {
 				timeKeeper.start();
@@ -63,8 +68,8 @@ public class Task implements Runnable{
 						try {
 							operation.execute();
 						} catch (Exception e) {
-							System.err.println("This task has beed stopped due to: "+e.getMessage());
-							e.printStackTrace();
+							logger.error("Task stopped: an error during the execution of an operation ", e);	
+							stop();
 							break;
 						} 
 					}
@@ -79,6 +84,7 @@ public class Task implements Runnable{
 				}
 			}
 		}
+		logger.trace("Out of the while");
 		transactionMonitor.stop();
 		for (Monitor monitor : monitors) {
 			monitor.stop();
@@ -88,7 +94,6 @@ public class Task implements Runnable{
 	
 	public void stop(){
 		stop = true;
-		//chiamare teardown direttamente qui?		
 	}
 
 	public void tearDown() throws OperationException, TestDriverException {

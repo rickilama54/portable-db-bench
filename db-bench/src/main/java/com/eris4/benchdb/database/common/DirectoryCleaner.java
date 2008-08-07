@@ -12,7 +12,7 @@ public class DirectoryCleaner {
 					throw new FileBusyException("cannot delete the file");
 			}
 		} catch (NullPointerException e) {
-			System.out.println("Null Pointer Exception while deleting the db "+directoryName+". Probably the firs time you run this test! Don't worry");
+			System.out.println("Null Pointer Exception while deleting the db "+directoryName+". Probably the first time you run this test! Don't worry");
 		}		
 			
 	}

@@ -1,5 +1,9 @@
 package com.eris4.benchdb.core;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +34,8 @@ public abstract class Database {
 	public abstract void clear(); 
 
 	public abstract String getFileName();
+
+	public abstract void shutdown() throws TestDriverException, FileNotFoundException, SQLException, IOException, URISyntaxException;
 
 	
 

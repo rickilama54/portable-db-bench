@@ -2,7 +2,6 @@ package com.eris4.benchdb.core.reporter;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import com.eris4.benchdb.core.Printer;
 import com.eris4.benchdb.core.monitor.Monitor;
-import com.eris4.benchdb.core.util.Resource;
 import com.eris4.benchdb.core.util.ThreadUtils;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;

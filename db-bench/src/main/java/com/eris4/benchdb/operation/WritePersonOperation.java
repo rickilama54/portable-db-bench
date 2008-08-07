@@ -1,5 +1,7 @@
 package com.eris4.benchdb.operation;
 
+import org.apache.log4j.Logger;
+
 import com.eris4.benchdb.core.Database;
 import com.eris4.benchdb.core.NoSuitableDriverException;
 import com.eris4.benchdb.core.Operation;
@@ -15,6 +17,7 @@ public class WritePersonOperation extends Operation {
 	private int id;
 	private PersonDriver personDriver;
 	private int numberOfObject;
+	private Logger logger = Logger.getLogger(WritePersonOperation.class);
 	
 	@Override
 	public void setDatabase(Database database) throws NoSuitableDriverException{
@@ -37,7 +40,7 @@ public class WritePersonOperation extends Operation {
 	}
 	
 	@Override
-	public void doOperation() throws TestDriverException {
+	public void doOperation() throws TestDriverException {		
 		Person person = newRandomPerson();
 		person.setId(id + numberOfObject);	
 		personDriver.write(person);
