@@ -4,7 +4,6 @@
     <definitions>
     	<!-- initializators -->
     	<initializator name="PersonInitializator" class="com.eris4.benchdb.test.person.initializator.PersonInitializator"/>    	
-    	<initializator name="AccountInitializator" class="com.eris4.benchdb.test.account.initializator.AccountInitializator"/>
     	<!-- monitors -->
     	<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
     	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
@@ -14,8 +13,6 @@
     	<!-- operations -->
     	<operation name="WritePersonOperation" class="com.eris4.benchdb.test.person.operation.WritePersonOperation"/>
     	<operation name="ReadPersonOperation" class="com.eris4.benchdb.test.person.operation.ReadPersonOperation"/>
-    	<operation name="WriteAccountOperation" class="com.eris4.benchdb.test.account.operation.WriteAccountOperation"/>
-    	<operation name="ReadAccountOperation" class="com.eris4.benchdb.test.account.operation.ReadAccountOperation"/>
     </definitions>
 	
 	<!-- DATABASE LIST -->
@@ -30,40 +27,6 @@
 	<!-- TEST LIST -->
 	<tests>
 		<!--  -->
-		<test time="5000" name="Test di lettura account">
-			<initializator name="AccountInitializator" numberOfObjects="10000"/>
-			<task >
-				<operation name="ReadAccountOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="26"/>
-				<monitor name="MemoryMonitor" id="27"/>						
-				<monitor name="TransactionMonitor" id="28"/>
-				<monitor name="AvgTransactionMonitor" id="29"/>				
-			</task>	
-			<reporter name="Transazioni in lettura">
-				<line x="26" y="28" name="Transactions"/>		
-			</reporter>			
-		</test>
-		
-		<test time="5000" name="Test di scrittura account">
-			<initializator name="AccountInitializator" numberOfObjects="1000"/>
-			<task>
-				<operation name="WriteAccountOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="21"/>
-				<monitor name="MemoryMonitor" id="22"/>						
-				<monitor name="TransactionMonitor" id="23"/>
-				<monitor name="AvgTransactionMonitor" id="24"/>
-				<monitor name="TotalTransactionMonitor" id="25"/>
-			</task>	
-			<reporter name="Transazioni in scrittura">
-				<line x="21" y="23" name="Transactions"/>				
-			</reporter>
-			<reporter name="Memory usage">
-				<line x="25" y="22" name="Memory"/>		
-			</reporter>
-		</test>	
-		
-		
-		<!--
 		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task >
@@ -95,7 +58,7 @@
 				<line x="0" y="2" name="Memory"/>		
 			</reporter>
 		</test>		
-		
+		<!--
 		<test time="5000" name="Test di lettura e scrittura sincrone">
 			<initializator name="PersonInitializator" numberOfObjects="30000"/>
 			<task>
@@ -109,7 +72,8 @@
 			<reporter name="test scrittura e lettura sincrone">
 				<line x="9" y="11" name="Transactions"/>
 			</reporter>
-		</test>		
+		</test>
+		
 	
 		<test time="10000" name="Test di lettura e scrittura concorrenti">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>

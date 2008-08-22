@@ -2,7 +2,7 @@ package com.eris4.benchdb.database.prevayler.person;
 
 import java.io.Serializable;
 
-import com.eris4.benchdb.domain.Person;
+import com.eris4.benchdb.test.person.domain.Person;
 
 public class PersonPrevayler implements Serializable,Person{
 

@@ -1,9 +1,9 @@
 package com.eris4.benchdb.database.pico4.person;
 
 import com.eris4.benchdb.core.TestDriverException;
-import com.eris4.benchdb.domain.Person;
-import com.eris4.benchdb.domain.PersonDriver;
-import com.eris4.benchdb.domain.PersonUtil;
+import com.eris4.benchdb.test.person.domain.Person;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonUtil;
 import com.eris4.pico4.PersistentMap;
 
 public class PersonPico4Driver implements PersonDriver {
@@ -18,8 +18,8 @@ public class PersonPico4Driver implements PersonDriver {
 		map.load();
 	}
 	
+	@Override
 	public void init(int numberOfObject){			
-		
 		for (int i = 0; i < numberOfObject; i++) {
 			PersonPico4Impl person = new PersonPico4Impl();
 			personUtil.newRandomPerson(person);

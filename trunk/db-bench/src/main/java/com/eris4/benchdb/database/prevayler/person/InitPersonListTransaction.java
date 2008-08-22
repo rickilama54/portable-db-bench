@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.prevayler.Transaction;
 
-import com.eris4.benchdb.domain.PersonUtil;
+import com.eris4.benchdb.test.person.domain.PersonUtil;
 
 public class InitPersonListTransaction implements Transaction {
 

@@ -9,9 +9,9 @@ import java.sql.SQLException;
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.core.util.StringGenerator;
 import com.eris4.benchdb.database.h2.H2Database;
-import com.eris4.benchdb.domain.Person;
-import com.eris4.benchdb.domain.PersonDriver;
-import com.eris4.benchdb.domain.PersonImpl;
+import com.eris4.benchdb.test.person.domain.Person;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonImpl;
 
 public class PersonH2Driver implements PersonDriver {
 	

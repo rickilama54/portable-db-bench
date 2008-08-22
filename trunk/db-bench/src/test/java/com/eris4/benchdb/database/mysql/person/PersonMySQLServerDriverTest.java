@@ -3,8 +3,8 @@ package com.eris4.benchdb.database.mysql.person;
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.core.util.ThreadUtils;
 import com.eris4.benchdb.database.mysql.MySQLDatabase;
-import com.eris4.benchdb.domain.Person;
-import com.eris4.benchdb.domain.PersonImpl;
+import com.eris4.benchdb.test.person.domain.Person;
+import com.eris4.benchdb.test.person.domain.PersonImpl;
 
 import junit.framework.TestCase;
 

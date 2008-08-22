@@ -68,11 +68,10 @@ public class Test {
 				logger.info("TASK TEAR DOWN...");
 				for (Task task : tasks) {
 					task.tearDown();
-				}
-				database.shutdown();
+				}				
 				logger.info("TEST FINISHED!");
 			} catch (Exception e) {
-				logger.error("Task tear down error", e);
+				logger.warn("Can't tear down task "+e.getMessage());
 			}
 		}		
 		for (Task task : tasks) {

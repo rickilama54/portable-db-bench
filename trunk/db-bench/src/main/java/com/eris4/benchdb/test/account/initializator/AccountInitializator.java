@@ -1,4 +1,4 @@
-package com.eris4.benchdb.initializator;
+package com.eris4.benchdb.test.account.initializator;
 
 import org.apache.log4j.Logger;
 
@@ -6,27 +6,27 @@ import com.eris4.benchdb.core.Database;
 import com.eris4.benchdb.core.DbInitializator;
 import com.eris4.benchdb.core.NoSuitableDriverException;
 import com.eris4.benchdb.core.TestDriverException;
-import com.eris4.benchdb.domain.PersonDriver;
+import com.eris4.benchdb.test.account.domain.AccountDriver;
 
-public class PersonInitializator extends DbInitializator {
+public class AccountInitializator extends DbInitializator {
 	
 	private Logger logger = Logger.getLogger(DbInitializator.class);
 
 	@Override
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
-		PersonDriver personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
+		AccountDriver accountDriver = (AccountDriver) database.getSpecificDriver(AccountDriver.class);
 		logger.debug("specific driver acquired");
-		personDriver.connect();
+		accountDriver.connect();
 		logger.debug("connected to the database");
-		personDriver.init(numberOfObjects);
+		accountDriver.init(numberOfObjects);
 		logger.debug("init done of number of objects = "+numberOfObjects);
-		personDriver.close();	
+		accountDriver.close();	
 		logger.debug("closed the connection");
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Number of Person initialized: " + getNumberOfObjects();
+		return "Number of Account initialized: " + getNumberOfObjects();
 	}
 
 	

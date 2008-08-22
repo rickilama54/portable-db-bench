@@ -7,9 +7,9 @@ import org.prevayler.PrevaylerFactory;
 
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.prevayler.PrevaylerDatabase;
-import com.eris4.benchdb.domain.Person;
-import com.eris4.benchdb.domain.PersonDriver;
-import com.eris4.benchdb.domain.PersonUtil;
+import com.eris4.benchdb.test.person.domain.Person;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonUtil;
 
 public class PersonPrevaylerDriver implements PersonDriver {
 
