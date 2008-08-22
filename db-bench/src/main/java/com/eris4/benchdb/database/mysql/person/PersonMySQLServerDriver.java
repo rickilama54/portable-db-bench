@@ -22,9 +22,9 @@ import com.eris4.benchdb.core.util.Resource;
 import com.eris4.benchdb.core.util.StringGenerator;
 import com.eris4.benchdb.core.util.ThreadUtils;
 import com.eris4.benchdb.database.mysql.MySQLDatabase;
-import com.eris4.benchdb.domain.Person;
-import com.eris4.benchdb.domain.PersonDriver;
-import com.eris4.benchdb.domain.PersonImpl;
+import com.eris4.benchdb.test.person.domain.Person;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonImpl;
 
 public class PersonMySQLServerDriver implements PersonDriver {
 	
@@ -37,7 +37,8 @@ public class PersonMySQLServerDriver implements PersonDriver {
 	private Connection con;
 	private Logger logger = Logger.getLogger(PersonMySQLServerDriver.class);
 	
-	private static final String baseDir = "C:\\Users\\error0\\Documents\\universita\\tesi\\workspace\\db-bench\\mysql-basedir";
+	//TODO don't use absolute path, but relative!
+	private static final String baseDir = "C:\\Users\\error0\\Documents\\universita\\tesi\\workspace\\db-bench\\target\\classes\\mysql-basedir";
 	private static final String dataDir = "C:\\Users\\error0\\Documents\\universita\\tesi\\workspace\\db-bench\\db";
 	private static final String driver="com.mysql.jdbc.Driver";
     private static final String databaseURL="jdbc:mysql:mxj://localhost/mysql" +
@@ -102,6 +103,8 @@ public class PersonMySQLServerDriver implements PersonDriver {
 	public void init(int numberOfObject) throws TestDriverException {
 		logger.trace("init: "+numberOfObject);
 		try {
+			PreparedStatement createStatement2 = con.prepareStatement("FLUSH TABLES");
+			createStatement2.executeUpdate();
 			PreparedStatement createStatement = con.prepareStatement(CREATE_TABLE_QUERY);
 			createStatement.executeUpdate();
 			PreparedStatement writeStatement = con.prepareStatement(WRITE_QUERY);
@@ -135,7 +138,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 
 	@Override
 	public void write(Person person) throws TestDriverException {
-		logger.debug("person -> name: "+person.getName()+" id: "+person.getId());
+		logger.trace("person -> name: "+person.getName()+" id: "+person.getId());
 		try {
 			PreparedStatement st = con.prepareStatement(WRITE_QUERY);
 			st.setString(1, person.getName());

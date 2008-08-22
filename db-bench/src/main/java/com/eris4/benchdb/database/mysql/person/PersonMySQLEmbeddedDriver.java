@@ -22,9 +22,9 @@ import com.eris4.benchdb.core.util.Resource;
 import com.eris4.benchdb.core.util.StringGenerator;
 import com.eris4.benchdb.core.util.ThreadUtils;
 import com.eris4.benchdb.database.mysql.MySQLDatabase;
-import com.eris4.benchdb.domain.Person;
-import com.eris4.benchdb.domain.PersonDriver;
-import com.eris4.benchdb.domain.PersonImpl;
+import com.eris4.benchdb.test.person.domain.Person;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonImpl;
 
 public class PersonMySQLEmbeddedDriver implements PersonDriver {
 	

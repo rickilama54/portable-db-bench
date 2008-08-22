@@ -12,7 +12,7 @@ import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.core.util.Resource;
 import com.eris4.benchdb.database.common.DirectoryCleaner;
 import com.eris4.benchdb.database.mysql.person.PersonMySQLServerDriver;
-import com.eris4.benchdb.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
 
 public class MySQLDatabase extends Database {
 	

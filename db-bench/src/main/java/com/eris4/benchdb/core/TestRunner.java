@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.eris4.benchdb.core.util.ThreadUtils;
+
 
 public class TestRunner {
 	
@@ -26,6 +28,10 @@ public class TestRunner {
 			database.clear();
 			test.setDatabase(database);			
 			test.start();
+			database.shutdown();
+			ThreadUtils.sleep(15000);
+		} catch (NoSuitableDriverException e) {
+			logger.warn(test.getName()+" is skipped on database "+database.getClass().getSimpleName() + ". The database doesn't implement a suitable driver.");
 		} catch (Exception e) {
 			logger.error(test.getName()+" is skipped on database: "+database.getClass().getSimpleName(), e);			
 		} 

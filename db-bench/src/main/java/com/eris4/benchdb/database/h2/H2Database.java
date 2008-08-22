@@ -9,7 +9,7 @@ import com.eris4.benchdb.core.Database;
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.common.DirectoryCleaner;
 import com.eris4.benchdb.database.h2.person.PersonH2Driver;
-import com.eris4.benchdb.domain.PersonDriver;
+import com.eris4.benchdb.test.person.domain.PersonDriver;
 
 public class H2Database extends Database {
 	
