@@ -1,7 +1,6 @@
 package com.eris4.benchdb.test.session.domain;
 
 import com.eris4.benchdb.core.TestDriverException;
-import com.eris4.benchdb.test.account.domain.Account;
 
 public interface SessionDriver {
 	
@@ -16,7 +15,7 @@ public void connect() throws TestDriverException;
 	
 	
 	
-	public Session read(long accountId) throws TestDriverException;
+	public Session read(long sessionId) throws TestDriverException;
 	
 	public void write(Session session) throws TestDriverException;
 
