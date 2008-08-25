@@ -5,6 +5,8 @@
     	<!-- initializators -->
     	<initializator name="PersonInitializator" class="com.eris4.benchdb.test.person.initializator.PersonInitializator"/>    	
     	<initializator name="AccountInitializator" class="com.eris4.benchdb.test.account.initializator.AccountInitializator"/>
+    	<initializator name="MsisdnInitializator" class="com.eris4.benchdb.test.msisdn.initializator.MsisdnInitializator"/>
+    	<initializator name="SessionInitializator" class="com.eris4.benchdb.test.session.initializator.SessionInitializator"/>
     	<!-- monitors -->
     	<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
     	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
@@ -16,6 +18,10 @@
     	<operation name="ReadPersonOperation" class="com.eris4.benchdb.test.person.operation.ReadPersonOperation"/>
     	<operation name="WriteAccountOperation" class="com.eris4.benchdb.test.account.operation.WriteAccountOperation"/>
     	<operation name="ReadAccountOperation" class="com.eris4.benchdb.test.account.operation.ReadAccountOperation"/>
+    	<operation name="WriteMsisdnOperation" class="com.eris4.benchdb.test.msisdn.operation.WriteMsisdnOperation"/>
+    	<operation name="ReadMsisdnOperation" class="com.eris4.benchdb.test.msisdn.operation.ReadMsisdnOperation"/>
+    	<operation name="WriteSessionOperation" class="com.eris4.benchdb.test.session.operation.WriteSessionOperation"/>
+    	<operation name="ReadSessionOperation" class="com.eris4.benchdb.test.session.operation.ReadSessionOperation"/>
     </definitions>
 	
 	<!-- DATABASE LIST -->
@@ -32,8 +38,12 @@
 		<!--  -->
 		<test time="5000" name="Test di lettura account">
 			<initializator name="AccountInitializator" numberOfObjects="10000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
+			<initializator name="SessionInitializator" numberOfObjects="10000"/>
 			<task >
-				<operation name="ReadAccountOperation" repetition="1"/>	
+				<operation name="ReadAccountOperation" repetition="1"/>
+				<operation name="ReadMsisdnOperation" repetition="1"/>
+				<operation name="ReadSessionOperation" repetition="1"/>		
 				<monitor name="TimeMonitor" id="26"/>
 				<monitor name="MemoryMonitor" id="27"/>						
 				<monitor name="TransactionMonitor" id="28"/>
@@ -46,8 +56,12 @@
 		
 		<test time="5000" name="Test di scrittura account">
 			<initializator name="AccountInitializator" numberOfObjects="1000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
+			<initializator name="SessionInitializator" numberOfObjects="10000"/>
 			<task>
-				<operation name="WriteAccountOperation" repetition="1"/>	
+				<operation name="WriteAccountOperation" repetition="1"/>
+				<operation name="WriteMsisdnOperation" repetition="1"/>	
+				<operation name="ReadSessionOperation" repetition="1"/>		
 				<monitor name="TimeMonitor" id="21"/>
 				<monitor name="MemoryMonitor" id="22"/>						
 				<monitor name="TransactionMonitor" id="23"/>
