@@ -9,19 +9,19 @@ import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.test.msisdn.domain.MsisdnDriver;
 import com.eris4.benchdb.test.session.domain.SessionDriver;
 
-public class MsisdnInitializator extends DbInitializator {
+public class SessionInitializator extends DbInitializator {
 	
 	private Logger logger = Logger.getLogger(DbInitializator.class);
 
 	@Override
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
-		SessionDriver sessionDriver = (SessionDriver) database.getSpecificDriver(SessionDriver.class);
+		SessionDriver msisdnDriver = (SessionDriver) database.getSpecificDriver(SessionDriver.class);
 		logger.debug("specific driver acquired");
-		sessionDriver.connect();
+		msisdnDriver.connect();
 		logger.debug("connected to the database");
-		sessionDriver.init(numberOfObjects);
+		msisdnDriver.init(numberOfObjects);
 		logger.debug("init done of number of objects = "+numberOfObjects);
-		sessionDriver.close();	
+		msisdnDriver.close();	
 		logger.debug("closed the connection");
 	}
 	
