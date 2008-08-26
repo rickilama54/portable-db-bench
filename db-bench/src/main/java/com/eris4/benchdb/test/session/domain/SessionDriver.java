@@ -15,7 +15,7 @@ public void connect() throws TestDriverException;
 	
 	
 	
-	public Session read(long sessionId) throws TestDriverException;
+	public Session read(int sessionId) throws TestDriverException;
 	
 	public void write(Session session) throws TestDriverException;
 

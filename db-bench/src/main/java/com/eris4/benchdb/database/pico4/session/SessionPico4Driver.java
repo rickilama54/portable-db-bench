@@ -41,7 +41,7 @@ public class SessionPico4Driver implements SessionDriver {
 	}
 
 	@Override
-	public Session read(long sessionId) throws TestDriverException {
+	public Session read(int sessionId) throws TestDriverException {
 		return (Session) map.get(String.valueOf(sessionId));
 	}
 
