@@ -16,7 +16,8 @@ public class AccountPrevaylerDriver implements AccountDriver {
 	
 	private Prevayler prevayler;
 	private Map<Integer,Account> accountMap;
-	private String directory = new PrevaylerDatabase().getFileName();
+	private static final String DB_NAME = "/account";
+	private String directory = new PrevaylerDatabase().getFileName() + DB_NAME;
 
 	@Override
 	public void close() throws TestDriverException {

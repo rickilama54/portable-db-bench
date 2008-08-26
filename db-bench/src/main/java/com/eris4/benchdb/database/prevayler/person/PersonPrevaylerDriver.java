@@ -13,7 +13,8 @@ import com.eris4.benchdb.test.person.domain.PersonUtil;
 
 public class PersonPrevaylerDriver implements PersonDriver {
 
-	private String directory = new PrevaylerDatabase().getFileName();
+	private static final String DB_NAME = "/person";
+	private String directory = new PrevaylerDatabase().getFileName() + DB_NAME;
 	private Prevayler prevayler;
 	private PersonList persons;
 	private PersonUtil personUtil = PersonUtil.getInstance();
