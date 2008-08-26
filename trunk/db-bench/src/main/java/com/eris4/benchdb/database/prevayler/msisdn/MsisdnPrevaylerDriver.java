@@ -15,8 +15,9 @@ import com.eris4.benchdb.test.msisdn.domain.MsisdnDriver;
 public class MsisdnPrevaylerDriver implements MsisdnDriver {
 	
 	private Prevayler prevayler;
+	private static final String DB_NAME = "/msisdn";
 	private Map<Integer,Msisdn> msisdnMap;
-	private String directory = new PrevaylerDatabase().getFileName();
+	private String directory = new PrevaylerDatabase().getFileName() + DB_NAME;
 
 	@Override
 	public void close() throws TestDriverException {
