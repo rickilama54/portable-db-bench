@@ -15,7 +15,7 @@ public interface AccountDriver {
 	
 	
 	
-	public Account read(long accountId) throws TestDriverException;
+	public Account read(int accountId) throws TestDriverException;
 	
 	public void write(Account account) throws TestDriverException;
 
