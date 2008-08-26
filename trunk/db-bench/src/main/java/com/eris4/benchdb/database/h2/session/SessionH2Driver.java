@@ -1,4 +1,4 @@
-package com.eris4.benchdb.database.h2.account;
+package com.eris4.benchdb.database.h2.session;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,16 +9,17 @@ import java.util.Random;
 
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.h2.H2Database;
-import com.eris4.benchdb.test.account.domain.Account;
-import com.eris4.benchdb.test.account.domain.AccountDriver;
 import com.eris4.benchdb.test.account.domain.AccountImpl;
+import com.eris4.benchdb.test.session.domain.Session;
+import com.eris4.benchdb.test.session.domain.SessionDriver;
+import com.eris4.benchdb.test.session.domain.SessionImpl;
 
-public class AccountH2Driver implements AccountDriver {
+public class SessionH2Driver implements SessionDriver {
 	
-	private final String WRITE_QUERY = "insert into ACCOUNT values (?,?)";
-	private final String READ_QUERY = "select balance from ACCOUNT where accountId=?";
-	private final String CREATE_TABLE_QUERY = "create table ACCOUNT (balance int,accountId int primary key)";
-	private final String COUNT_ACCOUNT = "select count(*) from ACCOUNT"; 
+	private final String WRITE_QUERY = "insert into SESSION values (?,?,?)";
+	private final String READ_QUERY = "select accountId,startTime from SESSION where sessionId=?";
+	private final String CREATE_TABLE_QUERY = "create table SESSION (accountId int,startTime bigint,sessionId int primary key)";
+	private final String COUNT_SESSION = "select count(*) from SESSION"; 
 	private String password = "";
 	private String databaseURL = "jdbc:h2:file:"+new H2Database().getFileName()+"/database";
 	private String username = "sa";
@@ -48,10 +49,10 @@ public class AccountH2Driver implements AccountDriver {
 	}
 
 	@Override
-	public int getNumberOfAccount() throws TestDriverException {
+	public int getNumberOfSession() throws TestDriverException {
 		int result = 0;
 		try {
-			PreparedStatement st = con.prepareStatement(COUNT_ACCOUNT);
+			PreparedStatement st = con.prepareStatement(COUNT_SESSION);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()){
 				result = rs.getInt(1);
@@ -69,8 +70,9 @@ public class AccountH2Driver implements AccountDriver {
 			createTableQuery.executeUpdate();
 			PreparedStatement writeQuery = con.prepareStatement(WRITE_QUERY);
 			for (int i = 0; i < numberOfObject; i++) {
-				writeQuery.setDouble(1,random.nextInt());
-				writeQuery.setInt(2, i);
+				writeQuery.setInt(1,random.nextInt());
+				writeQuery.setLong(2, System.currentTimeMillis());
+				writeQuery.setInt(3,i);
 				writeQuery.executeUpdate();
 			}			
 		} catch (SQLException e) {
@@ -79,29 +81,31 @@ public class AccountH2Driver implements AccountDriver {
 	}
 
 	@Override
-	public Account read(int accountId) throws TestDriverException {
-		Account account = null;
+	public Session read(int sessionId) throws TestDriverException {
+		Session session = null;
 		try {
 			PreparedStatement st = con.prepareStatement(READ_QUERY);
-			st.setInt(1, accountId);
+			st.setInt(1, sessionId);
 			ResultSet rs = st.executeQuery();
-			account = new AccountImpl();
+			session = new SessionImpl();
 			if (rs.next()){
-				account.setAccountId(accountId);
-				account.setBalance(rs.getInt(1));
+				session.setSessionId(sessionId);
+				session.setAccountId(rs.getInt(1));
+				session.setStartTime(rs.getLong(2));
 			}
 		} catch (SQLException e) {
 			throw new TestDriverException(e);
 		}
-		return account;
+		return session;
 	}
 
 	@Override
-	public void write(Account account) throws TestDriverException {
+	public void write(Session session) throws TestDriverException {
 		try {
 			PreparedStatement st = con.prepareStatement(WRITE_QUERY);
-			st.setDouble(1,account.getBalance());
-			st.setInt(2,account.getAccountId());
+			st.setInt(1,session.getAccountId());
+			st.setLong(2,session.getStartTime());
+			st.setInt(3,session.getSessionId());
 			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new TestDriverException(e);

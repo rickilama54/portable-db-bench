@@ -36,8 +36,8 @@
 	<!-- TEST LIST -->
 	<tests>
 		<!--  	-->
-		<test time="5000" name="Test temporaneo">
-			<initializator name="SessionInitializator" numberOfObjects="10000"/>
+		<test time="2000" name="Test temporaneo">			
+			<initializator name="SessionInitializator" numberOfObjects="1000"/>
 			<task >
 				<operation name="ReadSessionOperation" repetition="1"/>	
 				<operation name="WriteSessionOperation" repetition="1"/>
@@ -48,8 +48,8 @@
 			</task>			
 		</test>
 		<!--
-		<test time="5000" name="Telephone company use case">
-			<initializator name="AccountInitializator" numberOfObjects="10000"/>
+		<test time="2000" name="Telephone company use case">
+			<initializator name="AccountInitializator" numberOfObjects="1000"/>
 			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
 			<initializator name="SessionInitializator" numberOfObjects="10000"/>
 			<task tps="10" name="Check balance">
@@ -95,9 +95,7 @@
 			<reporter name="Memory usage">
 				<line x="21" y="22" name="Memory"/>		
 			</reporter>
-		</test>	
-		
-		
+		</test>		
 		
 		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
