@@ -18,7 +18,7 @@ public class MsisdnH2Driver implements MsisdnDriver {
 	private final String WRITE_QUERY = "insert into MSISDN values (?,?)";
 	private final String READ_QUERY = "select accountId from MSISDN where msisdnId=?";
 	private final String CREATE_TABLE_QUERY = "create table MSISDN (accountId int,msisdnId int primary key)";
-	private final String COUNT_ACCOUNT = "select count(*) from MSISDN"; 
+	private final String COUNT_MSISDN = "select count(*) from MSISDN"; 
 	private String password = "";
 	private String databaseURL = "jdbc:h2:file:"+new H2Database().getFileName()+"/database";
 	private String username = "sa";
@@ -51,7 +51,7 @@ public class MsisdnH2Driver implements MsisdnDriver {
 	public int getNumberOfMsisdn() throws TestDriverException {
 		int result = 0;
 		try {
-			PreparedStatement st = con.prepareStatement(COUNT_ACCOUNT);
+			PreparedStatement st = con.prepareStatement(COUNT_MSISDN);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()){
 				result = rs.getInt(1);
