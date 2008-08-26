@@ -35,49 +35,70 @@
 	
 	<!-- TEST LIST -->
 	<tests>
-		<!--  -->
-		<test time="5000" name="Test di lettura account">
+		<!--  	-->
+		<test time="5000" name="Test temporaneo">
+			<initializator name="AccountInitializator" numberOfObjects="10000"/>
+			<task >
+				<operation name="ReadAccountOperation" repetition="1"/>	
+				<operation name="WriteAccountOperation" repetition="1"/>
+				<monitor name="TimeMonitor" />
+				<monitor name="MemoryMonitor" />						
+				<monitor name="TransactionMonitor" />
+				<monitor name="AvgTransactionMonitor" />				
+			</task>			
+		</test>
+		<!--
+		<test time="5000" name="Telephone company use case">
 			<initializator name="AccountInitializator" numberOfObjects="10000"/>
 			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
 			<initializator name="SessionInitializator" numberOfObjects="10000"/>
-			<task >
-				<operation name="ReadAccountOperation" repetition="1"/>
+			<task tps="10" name="Check balance">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
-				<operation name="ReadSessionOperation" repetition="1"/>		
-				<monitor name="TimeMonitor" id="26"/>
-				<monitor name="MemoryMonitor" id="27"/>						
-				<monitor name="TransactionMonitor" id="28"/>
-				<monitor name="AvgTransactionMonitor" id="29"/>				
-			</task>	
-			<reporter name="Transazioni in lettura">
-				<line x="26" y="28" name="Transactions"/>		
-			</reporter>			
-		</test>
-		
-		<test time="5000" name="Test di scrittura account">
-			<initializator name="AccountInitializator" numberOfObjects="1000"/>
-			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
-			<initializator name="SessionInitializator" numberOfObjects="10000"/>
-			<task>
-				<operation name="WriteAccountOperation" repetition="1"/>
-				<operation name="WriteMsisdnOperation" repetition="1"/>	
-				<operation name="ReadSessionOperation" repetition="1"/>		
+				<operation name="ReadAccountOperation" repetition="1"/>					
 				<monitor name="TimeMonitor" id="21"/>
 				<monitor name="MemoryMonitor" id="22"/>						
 				<monitor name="TransactionMonitor" id="23"/>
 				<monitor name="AvgTransactionMonitor" id="24"/>
 				<monitor name="TotalTransactionMonitor" id="25"/>
 			</task>	
-			<reporter name="Transazioni in scrittura">
-				<line x="21" y="23" name="Transactions"/>				
+			<task tps="10" name="Account creation"> 
+				<operation name="WriteAccountOperation" repetition="1"/>
+				<operation name="WriteMsisdnOperation" repetition="2"/>
+				<monitor name="TimeMonitor" id="26"/>
+				<monitor name="MemoryMonitor" id="27"/>						
+				<monitor name="TransactionMonitor" id="28"/>
+				<monitor name="AvgTransactionMonitor" id="29"/>
+				<monitor name="TotalTransactionMonitor" id="30"/>
+			</task>				
+			<task tps="2000" name="Start call">
+				<operation name="ReadMsisdnOperation" repetition="1"/>
+				<operation name="ReadAccountOperation" repetition="1"/>					
+				<operation name="WriteSessionOperation" repetition="1"/>		
+				<monitor name="TimeMonitor" id="31"/>
+				<monitor name="MemoryMonitor" id="32"/>						
+				<monitor name="TransactionMonitor" id="33"/>
+				<monitor name="AvgTransactionMonitor" id="34"/>
+				<monitor name="TotalTransactionMonitor" id="35"/>
+			</task>	
+			<reporter name="check balance transactions">
+				<line x="21" y="23" name="Transactions"/>
+				<line x="21" y="24" name="AVG"/>						
+			</reporter>
+			<reporter name="account creation transactions">
+				<line x="26" y="28" name="Transactions"/>
+				<line x="26" y="29" name="AVG"/>					
+			</reporter>
+			<reporter name="start call transactions">
+				<line x="31" y="33" name="Transactions"/>
+				<line x="31" y="34" name="AVG"/>				
 			</reporter>
 			<reporter name="Memory usage">
-				<line x="25" y="22" name="Memory"/>		
+				<line x="21" y="22" name="Memory"/>		
 			</reporter>
 		</test>	
 		
 		
-		<!--
+		
 		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task >

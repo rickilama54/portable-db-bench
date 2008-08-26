@@ -41,7 +41,7 @@ public class AccountPico4Driver implements AccountDriver {
 	}
 
 	@Override
-	public Account read(long accountId) throws TestDriverException {
+	public Account read(int accountId) throws TestDriverException {
 		return (Account) map.get(String.valueOf(accountId));
 	}
 
