@@ -37,10 +37,10 @@
 	<tests>
 		<!--  	-->
 		<test time="5000" name="Test temporaneo">
-			<initializator name="AccountInitializator" numberOfObjects="10000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
 			<task >
-				<operation name="ReadAccountOperation" repetition="1"/>	
-				<operation name="WriteAccountOperation" repetition="1"/>
+				<operation name="ReadMsisdnOperation" repetition="1"/>	
+				<operation name="WriteMsisdnOperation" repetition="1"/>
 				<monitor name="TimeMonitor" />
 				<monitor name="MemoryMonitor" />						
 				<monitor name="TransactionMonitor" />
