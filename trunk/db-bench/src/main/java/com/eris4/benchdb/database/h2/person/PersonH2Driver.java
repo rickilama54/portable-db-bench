@@ -72,7 +72,7 @@ public class PersonH2Driver implements PersonDriver {
 				writeStatement.setLong(2, i);
 				writeStatement.executeUpdate();
 			}
-			con.createStatement().execute("SHUTDOWN");
+			con.createStatement().execute("SHUTDOWN");//TODO da sistemare!!!!
 		} catch (SQLException e) {
 			throw new TestDriverException(e);
 		}
