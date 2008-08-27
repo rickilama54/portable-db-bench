@@ -29,6 +29,7 @@
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
 		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
 		<database class="com.eris4.benchdb.database.h2.H2Database"/>
+		<database class="com.eris4.benchdb.database.hsqldb.HsqldbDatabase"/>
 		<!-- <database class="com.eris4.benchdb.database.mysql.MySQLDatabase"/>	
 			  -->
 	</databases>
@@ -47,11 +48,12 @@
 				<monitor name="AvgTransactionMonitor" />				
 			</task>			
 		</test>
+		
 		<!--
 		<test time="2000" name="Telephone company use case">
 			<initializator name="AccountInitializator" numberOfObjects="1000"/>
-			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
-			<initializator name="SessionInitializator" numberOfObjects="10000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="1000"/>
+			<initializator name="SessionInitializator" numberOfObjects="1000"/>
 			<task tps="10" name="Check balance">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
@@ -82,14 +84,20 @@
 			</task>	
 			<reporter name="check balance transactions">
 				<line x="21" y="23" name="Transactions"/>
+			</reporter>
+			<reporter name="check balance AVG transactions">
 				<line x="21" y="24" name="AVG"/>						
 			</reporter>
 			<reporter name="account creation transactions">
 				<line x="26" y="28" name="Transactions"/>
+			</reporter>
+			<reporter name="account creation AVG transactions">
 				<line x="26" y="29" name="AVG"/>					
 			</reporter>
 			<reporter name="start call transactions">
-				<line x="31" y="33" name="Transactions"/>
+				<line x="31" y="33" name="Transactions"/>				
+			</reporter>
+			<reporter name="start call AVG transactions">
 				<line x="31" y="34" name="AVG"/>				
 			</reporter>
 			<reporter name="Memory usage">
