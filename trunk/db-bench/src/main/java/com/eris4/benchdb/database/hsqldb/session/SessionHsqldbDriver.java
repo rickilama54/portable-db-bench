@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.h2.H2Database;
+import com.eris4.benchdb.database.hsqldb.HsqldbDatabase;
 import com.eris4.benchdb.test.account.domain.AccountImpl;
 import com.eris4.benchdb.test.session.domain.Session;
 import com.eris4.benchdb.test.session.domain.SessionDriver;
@@ -21,7 +22,7 @@ public class SessionHsqldbDriver implements SessionDriver {
 	private final String CREATE_TABLE_QUERY = "create table SESSION (accountId int,startTime bigint,sessionId int primary key)";
 	private final String COUNT_SESSION = "select count(*) from SESSION"; 
 	private String password = "";
-	private String databaseURL = "jdbc:hsqldb:file:"+new H2Database().getFileName()+"/database";
+	private String databaseURL = "jdbc:hsqldb:file:"+new HsqldbDatabase().getFileName()+"/database";
 	private String username = "sa";
     private static final String driver="org.hsqldb.jdbcDriver";
 	private Connection con;

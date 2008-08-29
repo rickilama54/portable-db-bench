@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.h2.H2Database;
+import com.eris4.benchdb.database.hsqldb.HsqldbDatabase;
 import com.eris4.benchdb.test.account.domain.Account;
 import com.eris4.benchdb.test.account.domain.AccountDriver;
 import com.eris4.benchdb.test.account.domain.AccountImpl;
@@ -20,7 +21,7 @@ public class AccountHsqldbDriver implements AccountDriver {
 	private final String CREATE_TABLE_QUERY = "create table ACCOUNT (balance int,accountId int primary key)";
 	private final String COUNT_ACCOUNT = "select count(*) from ACCOUNT"; 
 	private String password = "";
-	private String databaseURL = "jdbc:hsqldb:file:"+new H2Database().getFileName()+"/database";
+	private String databaseURL = "jdbc:hsqldb:file:"+new HsqldbDatabase().getFileName()+"/database";
 	private String username = "sa";
     private static final String driver="org.hsqldb.jdbcDriver";
 	private Connection con;
