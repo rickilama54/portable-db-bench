@@ -11,4 +11,8 @@ public class TestDriverException extends Exception{
 		super(e);
 	}
 
+	public TestDriverException(String message) {
+		super(message);
+	}
+
 }

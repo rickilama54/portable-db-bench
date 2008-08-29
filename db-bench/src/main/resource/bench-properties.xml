@@ -25,35 +25,36 @@
     </definitions>
 	
 	<!-- DATABASE LIST -->
-	<databases>
+	<databases><!-- 
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
 		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
-		<database class="com.eris4.benchdb.database.h2.H2Database"/>
-		<database class="com.eris4.benchdb.database.hsqldb.HsqldbDatabase"/>
+		<database class="com.eris4.benchdb.database.h2.H2Database"/>-->
+		<database class="com.eris4.benchdb.database.hsqldb.HsqldbDatabase"/> 
+		<database class="com.eris4.benchdb.database.db4o.Db4oDatabase"/>
 		<!-- <database class="com.eris4.benchdb.database.mysql.MySQLDatabase"/>	
 			  -->
 	</databases>
 	
 	<!-- TEST LIST -->
 	<tests>
-		<!--  	-->
-		<test time="2000" name="Test temporaneo">			
-			<initializator name="SessionInitializator" numberOfObjects="1000"/>
+		<!--  		
+		<test time="5000" name="Test temporaneo">								
+			<initializator name="PersonInitializator" numberOfObjects="1000"/>
 			<task >
-				<operation name="ReadSessionOperation" repetition="1"/>	
-				<operation name="WriteSessionOperation" repetition="1"/>
+				<operation name="ReadPersonOperation" repetition="1"/>	
+				<operation name="WritePersonOperation" repetition="1"/>
 				<monitor name="TimeMonitor" />
 				<monitor name="MemoryMonitor" />						
 				<monitor name="TransactionMonitor" />
 				<monitor name="AvgTransactionMonitor" />				
 			</task>			
-		</test>
-		
-		<!--
-		<test time="2000" name="Telephone company use case">
-			<initializator name="AccountInitializator" numberOfObjects="1000"/>
-			<initializator name="MsisdnInitializator" numberOfObjects="1000"/>
-			<initializator name="SessionInitializator" numberOfObjects="1000"/>
+		</test>	
+			-->
+			
+		<test time="3000" name="Telephone company use case">
+			<initializator name="AccountInitializator" numberOfObjects="10000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
+			<initializator name="SessionInitializator" numberOfObjects="10000"/>
 			<task tps="10" name="Check balance">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
@@ -104,7 +105,22 @@
 				<line x="21" y="22" name="Memory"/>		
 			</reporter>
 		</test>		
-		
+		<!--
+		<test time="30000" name="Memory test">								
+			<initializator name="SessionInitializator" numberOfObjects="100000"/>
+			<task tps="500">
+				<operation name="WriteSessionOperation" repetition="1"/>
+				<monitor name="TimeMonitor" id="36"/>
+				<monitor name="MemoryMonitor" id="37"/>						
+				<monitor name="TransactionMonitor" id="38"/>
+				<monitor name="AvgTransactionMonitor" id="39"/>		
+				<monitor name="TotalTransactionMonitor" id="40"/>		
+			</task>		
+			<reporter name="Memory usage">
+				<line y="37" x="40" name="Memory"/>		
+			</reporter>	
+		</test>
+	
 		<test time="5000" name="Test di lettura">
 			<initializator name="PersonInitializator" numberOfObjects="10000"/>
 			<task >

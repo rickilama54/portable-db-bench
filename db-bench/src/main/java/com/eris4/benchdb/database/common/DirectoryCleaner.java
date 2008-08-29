@@ -9,6 +9,7 @@ public class DirectoryCleaner {
 	private static Logger logger = Logger.getLogger(DirectoryCleaner.class);
 	
 	public static void clean(String directoryName){
+		logger.info("Deleting file: " + new File(directoryName).getAbsolutePath());
 		try {
 			for (File file : new File(directoryName).listFiles()) {
 				if (file.isDirectory()){
