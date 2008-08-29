@@ -29,7 +29,7 @@ public class TestRunner {
 			test.setDatabase(database);			
 			test.start();
 			database.shutdown();
-			ThreadUtils.sleep(15000);
+//			ThreadUtils.sleep(15000);
 		} catch (NoSuitableDriverException e) {
 			logger.warn(test.getName()+" is skipped on database "+database.getClass().getSimpleName() + ". The database doesn't implement a suitable driver: "+e.getMessage());
 		} catch (Exception e) {

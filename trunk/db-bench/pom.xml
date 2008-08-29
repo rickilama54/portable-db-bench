@@ -79,5 +79,10 @@
       <artifactId>hsqldb</artifactId>
       <version>1.8.0.7</version>
     </dependency>
+    <dependency>
+      <groupId>eris4</groupId>
+      <artifactId>db4o</artifactId>
+      <version>7.2.39.10644</version>
+    </dependency>
   </dependencies>
 </project>
