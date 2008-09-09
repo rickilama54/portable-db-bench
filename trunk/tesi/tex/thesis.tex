@@ -1,0 +1,80 @@
+%\ifx\pdfoutput\undefined % We're not running pdftex
+%	\documentclass[11pt,a4paper,oneside]{book} 
+%\else
+%	\documentclass[pdftex,11pt,a4paper,oneside]{book}
+
+%	\usepackage{thumbpdf}
+%	\pdfcompresslevel=9
+%\fi
+\documentclass[a4paper,oneside,12pt]{book} 
+
+%%pacchetto per l'inserimento di pezzi di codice
+\usepackage{verbatim}
+\usepackage{color,listings}
+\lstset{
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{red}\bfseries,
+	commentstyle=\color{green},
+	stringstyle=\color{blue},
+	language=Java,
+	breaklines=true,
+	prebreak=\mbox{\tiny$\searrow$},
+	%postbreak=\mbox{{\color{blue}\tiny$\rightarrow$}}}
+}
+%pacchetto per bibtex
+\usepackage{cite}
+%%pacchetto per l'inclusione di figure postscript
+\usepackage{graphics}
+%%pacchetto per l'inclusione di figure eps
+\usepackage[dvips]{graphicx}
+%pacchetto per i link dell'indice
+\usepackage[pdfborder={0 0 0}]{hyperref}
+
+%%interlinea
+%\linespread{1.6}
+\usepackage{setspace}
+\doublespacing
+%codifica
+%\usepackage[T1]{fontenc}
+% per l'intestazione di pagina
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{} % rimuove l'attuale contenuto dell'intestazione
+% e del pi\`e di pagina
+\fancyfoot[C]{\thepage}
+\fancyhead[LE,RO]{\slshape\rightmark}
+\fancyhead[LO,RE]{\slshape\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+%-------------------
+
+%-----------------------------------------------------------
+\begin{document}
+
+\frontmatter
+\pagestyle{plain}
+\include{titlepage}
+\include{dedica}
+\pagestyle{fancy}
+\include{ringraziamenti}
+\include{introduzione}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+\include{part1}
+\include{part2}
+
+\appendix
+\include{appendixA}
+%\include{bibliography}
+\bibliography{mybibliography}
+%\bibliographystyle{amsalpha}
+%\bibliographystyle{apalike}
+\bibliographystyle{these}
+
+
+\end{document}
