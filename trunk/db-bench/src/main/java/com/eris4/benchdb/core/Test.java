@@ -1,12 +1,16 @@
 package com.eris4.benchdb.core;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.eris4.benchdb.core.monitor.CpuMonitor;
+import com.eris4.benchdb.core.monitor.FileMonitor;
+import com.eris4.benchdb.core.monitor.MemoryMonitor;
+import com.eris4.benchdb.core.monitor.Monitor;
 import com.eris4.benchdb.core.reporter.Reporter;
-import com.eris4.benchdb.core.util.ThreadUtils;
 import com.lowagie.text.Chapter;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
@@ -16,82 +20,135 @@ public class Test {
 
 	private static Logger logger = Logger.getLogger(Test.class);
 	private Database database;
+	private String name;
 	private List<Task> tasks;
 	private List<DbInitializator> dbInitializators;
 	private List<Reporter> reporters;	
-	private long time;
-	private String name;
+	private List<Monitor> monitors;
+	private FileMonitor fileMonitor;		
+	private CpuMonitor cpuMonitor;
+	private MemoryMonitor memoryMonitor;
 	
-	public void start() throws NoSuitableDriverException, OperationException, TestDriverException{
-		System.out.println("########### STARTING TEST ############");
-		System.out.println("########### "+name+" ############");
-		System.out.println("########### "+database.getClass().getSimpleName()+" ############");
-		List<Thread> threads = new LinkedList<Thread>();
+	public void start() throws NoSuitableDriverException, OperationException, TestDriverException, InterruptedException{
+		logger.info("########### Test summary");
+		logger.info("########### "+name);
+		logger.info("########### "+database.getClass().getSimpleName());			
 		try {
-			logger.info("DB INITIALIZATION...");
-			for (DbInitializator dbInitializator : dbInitializators) {
-				dbInitializator.init(database);
-			}
-			logger.info("THREAD CREATION...");
-			for (Task task : tasks) {
-				threads.add(new Thread(task));
-			}		
-			logger.info("TASK SET UP...");
-			for (Task task : tasks) {
-				task.setUp();
-			}
-			logger.info("TASK WARMP UP...");
-			for (Task task : tasks) {
-				task.warmUp();
-			}
-			for (Reporter reporter: reporters) {
-				reporter.start();
-			}
-			logger.info("RUNNING TEST...");
-			for (Thread thread: threads) {
-				thread.start();
-			}
-			ThreadUtils.sleep(time); //a better timer can be used, but there is no need for a perfect one
-			logger.info("STOPPPING TEST...");
-			for (Reporter reporter: reporters) {
-				reporter.stop();
-			}
-			for (Task task : tasks) {
-				task.stop();
-			}
+			List<Thread> threads = initializationTask();
+			initializationMonitor(threads);			
+			startTask(threads);			
+			stopTask();
 		} catch (OperationException e) {
 			throw e;
 		} catch (TestDriverException e) {
 			throw e;
 		} finally {
-			try {
-				logger.info("TASK TEAR DOWN...");
-				for (Task task : tasks) {
-					task.tearDown();
-				}				
-				logger.info("TEST FINISHED!");
-			} catch (Exception e) {
-				logger.warn("Can't tear down task "+e.getMessage());
-			}
+			tearDownTask();
 		}		
+		System.out.println("============== test result ============");
+		for (Monitor monitor: monitors) {
+			System.out.println(monitor.getDescription()+" -- "+monitor.getFormattedValue());
+		}
 		for (Task task : tasks) {
 			task.printResult();
 		}
 		
 	}
+
+	private void tearDownTask() {
+		try {
+			logger.debug("Task tear down...");
+			for (Task task : tasks) {
+				task.tearDown();
+			}				
+			logger.info("Test finished correctly!");
+		} catch (Exception e) {
+			logger.warn("Can't tear down task "+e.getMessage());
+		}
+	}
+
+	private void stopTask() throws InterruptedException {
+		for (Task task : tasks) {
+			synchronized (task) {
+				if (!task.isStopped()){
+					task.wait();
+				}
+			}				
+		}		
+		logger.info("Tasks stopped");
+		for (Monitor monitor : monitors) {
+			monitor.stop();
+		}
+		for (Reporter reporter: reporters) {
+			reporter.stop();
+		}
+	}
+
+	private void startTask(List<Thread> threads) {
+		logger.info("Starting tasks...");
+		for (Reporter reporter: reporters) {
+			reporter.start();
+		}
+		for (Monitor monitor : monitors) {
+			monitor.start();
+		}
+		for (Thread thread: threads) {
+			thread.start();
+		}
+	}
+
+	private void initializationMonitor(List<Thread> threads) {
+		for (Monitor monitor : monitors) {
+			monitor.reset();
+		}
+		for (Thread thread : threads) {
+			cpuMonitor.addThread(thread);
+		}
+		fileMonitor.setFileName(database.getFileName());
+		for (Monitor monitor : monitors) {
+			monitor.warmUp();
+		}		
+	}
+
+	private List<Thread> initializationTask() throws NoSuitableDriverException,	TestDriverException, OperationException {
+		List<Thread> threads = new LinkedList<Thread>();	
+		logger.info("Database initialization...");
+		for (DbInitializator dbInitializator : dbInitializators) {
+			dbInitializator.init(database);
+		}			
+		logger.debug("Thread creation...");			
+		for (Task task : tasks) {
+			threads.add(new Thread(task));
+		}					
+		logger.debug("Task set up...");
+		for (Task task : tasks) {
+			task.setUp();
+		}
+		logger.info("Task warm up...");
+		for (Task task : tasks) {
+			task.warmUp();
+		}
+		return threads;
+	}
 	
-	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Reporter> reporters,long time, String name){
+	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Reporter> reporters,String name){
+		monitors = new LinkedList<Monitor>();
+		memoryMonitor = new MemoryMonitor();
+		fileMonitor = new FileMonitor();
+		cpuMonitor = new CpuMonitor();
+		monitors.add(fileMonitor);		
+		monitors.add(cpuMonitor);		
+		monitors.add(memoryMonitor);
+		
 		this.dbInitializators = dbInitializators;
 		this.tasks = tasks;
 		this.reporters = reporters;
-		this.time = time;
 		this.name = name;
 		for (DbInitializator dbInitializator : dbInitializators) {
 			for (Reporter reporter: this.reporters) {
 				reporter.addDescription(dbInitializator.getDescription());
 			}
-		}
-		
+		}		
 	}
 
 	public void setDatabase(Database database) throws NoSuitableDriverException {
@@ -102,12 +159,35 @@ public class Test {
 		for (Reporter reporter: reporters) {
 			reporter.setDatabase(database);
 		}
+//		fileMonitor.setFileName(database.getFileName());
 	}
 	
 	public String getName() {
 		return name;
 	}
+	
+	public CpuMonitor getCpuMonitor() {
+		return cpuMonitor;
+	}
+	
+	public FileMonitor getFileMonitor() {
+		return fileMonitor;
+	}
+	
+	public MemoryMonitor getMemoryMonitor() {
+		return memoryMonitor;
+	}
+	
+	public List<Monitor> getMonitors() {
+		return monitors;
+	}
 
+	
+	
+	/*
+	 * print method
+	 */	
+	
 	public void print(Chapter chapter) throws DocumentException {
 		Paragraph sectionInitializator = new Paragraph("The Database Initialization",Printer.SECTION_FONT);
 		sectionInitializator.setSpacingBefore(Printer.PARAGRAPH_SPACE_BEFORE);

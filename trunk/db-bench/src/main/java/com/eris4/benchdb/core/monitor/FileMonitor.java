@@ -10,6 +10,12 @@ public class FileMonitor extends Monitor {
 		this.fileName = fileName;
 	}
 	
+	public FileMonitor(){}
+	
+	public void setFileName(String fileName){
+		this.fileName = fileName;
+	}
+	
 	@Override
 	public String getDescription() {
 		return "File(s) size (bytes)";

@@ -23,6 +23,18 @@
     	<operation name="WriteSessionOperation" class="com.eris4.benchdb.test.session.operation.WriteSessionOperation"/>
     	<operation name="ReadSessionOperation" class="com.eris4.benchdb.test.session.operation.ReadSessionOperation"/>
     </definitions>
+    
+    <testmonitors>
+    		<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
+    	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
+    	<monitor name="TransactionMonitor" class="com.eris4.benchdb.core.monitor.TransactionMonitor"/>
+    	<monitor name="TotalTransactionMonitor" class="com.eris4.benchdb.core.monitor.TotalTransactionMonitor"/>
+    	<monitor name="AvgTransactionMonitor" class="com.eris4.benchdb.core.monitor.AvgTransactionMonitor"/>
+    </testmonitors>
+    
+    <taskmonitors>
+    
+    </taskmonitors>
 	
 	<!-- DATABASE LIST -->
 	<databases><!-- 
@@ -37,25 +49,34 @@
 	
 	<!-- TEST LIST -->
 	<tests>
-		<!--  		
-		<test time="5000" name="Test temporaneo">								
+		<!--  	-->		
+		<test  name="Test temporaneo">								
 			<initializator name="PersonInitializator" numberOfObjects="1000"/>
-			<task >
-				<operation name="ReadPersonOperation" repetition="1"/>	
-				<operation name="WritePersonOperation" repetition="1"/>
-				<monitor name="TimeMonitor" />
-				<monitor name="MemoryMonitor" />						
-				<monitor name="TransactionMonitor" />
-				<monitor name="AvgTransactionMonitor" />				
-			</task>			
+			<task time="5000" >
+				<operation name="WritePersonOperation" repetition="1"/>		
+				<monitor name="TransactionMonitor" id="2"/>	
+				<monitor name="TimeMonitor" id="1"/>		
+				<monitor name="TotalTransactionMonitor" id="4"/>	
+			</task>	
+			<task time="5000" >
+				<operation name="ReadPersonOperation" repetition="1"/>							
+			</task>	
+			<monitor name="MemoryMonitor" id="3"/>
+			<reporter name="un SECONDO monitor a caso">
+				<line x="4" y="3" name="memoria"/>
+			</reporter>
+			<reporter name="un monitor a caso">
+				<line x="1" y="2" name="Transactions"/>
+			</reporter>		
 		</test>	
-			-->
 			
-		<test time="3000" name="Telephone company use case">
+		
+	<!--
+		<test name="Telephone company use case">
 			<initializator name="AccountInitializator" numberOfObjects="10000"/>
 			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
 			<initializator name="SessionInitializator" numberOfObjects="10000"/>
-			<task tps="10" name="Check balance">
+			<task tps="10" time="3000" name="Check balance">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
 				<monitor name="TimeMonitor" id="21"/>
@@ -64,7 +85,7 @@
 				<monitor name="AvgTransactionMonitor" id="24"/>
 				<monitor name="TotalTransactionMonitor" id="25"/>
 			</task>	
-			<task tps="10" name="Account creation"> 
+			<task tps="10" time="3000" name="Account creation"> 
 				<operation name="WriteAccountOperation" repetition="1"/>
 				<operation name="WriteMsisdnOperation" repetition="2"/>
 				<monitor name="TimeMonitor" id="26"/>
@@ -73,7 +94,7 @@
 				<monitor name="AvgTransactionMonitor" id="29"/>
 				<monitor name="TotalTransactionMonitor" id="30"/>
 			</task>				
-			<task tps="2000" name="Start call">
+			<task tps="2000" time="3000" name="Start call">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
 				<operation name="WriteSessionOperation" repetition="1"/>		
@@ -105,10 +126,10 @@
 				<line x="21" y="22" name="Memory"/>		
 			</reporter>
 		</test>		
-		<!--
-		<test time="30000" name="Memory test">								
+	
+		<test name="Memory and Trend Transaction Test">								
 			<initializator name="SessionInitializator" numberOfObjects="100000"/>
-			<task tps="500">
+			<task transaction="4000000" time="5000">
 				<operation name="WriteSessionOperation" repetition="1"/>
 				<monitor name="TimeMonitor" id="36"/>
 				<monitor name="MemoryMonitor" id="37"/>						
@@ -119,77 +140,10 @@
 			<reporter name="Memory usage">
 				<line y="37" x="40" name="Memory"/>		
 			</reporter>	
-		</test>
-	
-		<test time="5000" name="Test di lettura">
-			<initializator name="PersonInitializator" numberOfObjects="10000"/>
-			<task >
-				<operation name="ReadPersonOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="5"/>
-				<monitor name="MemoryMonitor" id="6"/>						
-				<monitor name="TransactionMonitor" id="7"/>
-				<monitor name="AvgTransactionMonitor" id="8"/>				
-			</task>	
-			<reporter name="Transazioni in lettura">
-				<line x="5" y="7" name="Transactions"/>		
-			</reporter>			
-		</test>
-			
-		<test time="5000" name="Test di scrittura">
-			<initializator name="PersonInitializator" numberOfObjects="1000"/>
-			<task tps="1000">
-				<operation name="WritePersonOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="1"/>
-				<monitor name="MemoryMonitor" id="2"/>						
-				<monitor name="TransactionMonitor" id="3"/>
-				<monitor name="AvgTransactionMonitor" id="4"/>
-				<monitor name="TotalTransactionMonitor" id="0"/>
-			</task>	
-			<reporter name="Transazioni in scrittura">
-				<line x="1" y="3" name="Transactions"/>				
-			</reporter>
-			<reporter name="Memory usage">
-				<line x="0" y="2" name="Memory"/>		
-			</reporter>
-		</test>		
-		
-		<test time="5000" name="Test di lettura e scrittura sincrone">
-			<initializator name="PersonInitializator" numberOfObjects="30000"/>
-			<task>
-				<operation name="WritePersonOperation" repetition="1"/>
-				<operation name="ReadPersonOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="9"/>
-				<monitor name="MemoryMonitor" id="10"/>						
-				<monitor name="TransactionMonitor" id="11"/>
-				<monitor name="AvgTransactionMonitor" id="12"/>
-			</task>	
-			<reporter name="test scrittura e lettura sincrone">
-				<line x="9" y="11" name="Transactions"/>
-			</reporter>
-		</test>		
-	
-		<test time="10000" name="Test di lettura e scrittura concorrenti">
-			<initializator name="PersonInitializator" numberOfObjects="10000"/>
-			<task>
-				<operation name="ReadPersonOperation" repetition="1"/>	
-				<monitor name="TimeMonitor" id="13"/>
-				<monitor name="MemoryMonitor" id="14"/>						
-				<monitor name="TransactionMonitor" id="15"/>
-				<monitor name="AvgTransactionMonitor" id="16"/>
-			</task>	
-			<task>
-				<operation name="WritePersonOperation" repetition="1"/>				
-				<monitor name="TimeMonitor" id="17"/>
-				<monitor name="MemoryMonitor" id="18"/>						
-				<monitor name="TransactionMonitor" id="19"/>
-				<monitor name="AvgTransactionMonitor" id="20"/>
-			</task>	
-			<reporter name="test scrittura e lettura concorrenti">
-				<line x="13" y="15" name="Reads"/>
-				<line x="17" y="19" name="Writes"/>
-			</reporter>			
-		</test>
-		
+			<reporter name="Transaction per objects inserted">
+				<line y="38" x="40" name="Transactions"/>		
+			</reporter>	
+		</test>				
 	-->
 	</tests>
 </bench>

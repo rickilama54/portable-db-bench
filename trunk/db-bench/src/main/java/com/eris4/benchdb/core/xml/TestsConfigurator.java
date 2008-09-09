@@ -63,9 +63,10 @@ public class TestsConfigurator {
 				reporters.add(ReportersConfigurator.loadReporter(child, monitorsMap));// warning: the monitorsMap is initialized only after loading the tasks
 			}
 		}		
-		long time = Long.parseLong(test.getAttributes().getNamedItem(XmlConstants.TEST_TIME_ATTRIBUTE).getNodeValue());
+		// time parameter in class Test
+//		long time = Long.parseLong(test.getAttributes().getNamedItem(XmlConstants.TEST_TIME_ATTRIBUTE).getNodeValue());
 		String name = test.getAttributes().getNamedItem(XmlConstants.TEST_NAME_ATTRIBUTE).getNodeValue();
-		return new Test(dbInizializators,tasks,reporters,time,name);
+		return new Test(dbInizializators,tasks,reporters,name);
 	}
 
 	
@@ -103,6 +104,18 @@ public class TestsConfigurator {
 			transactionPerSecond = Integer.parseInt(attributeTps.getNodeValue());
 		}
 		result.setTransactionPerSecond(transactionPerSecond);
+		Node attributeTotalTransaction = task.getAttributes().getNamedItem(XmlConstants.TASK_TRANSACTION_ATTRIBUTE);
+		int totalTransaction = XmlConstants.DEFAULT_TOTAL_TRANSACTION;
+		if (attributeTotalTransaction != null){
+			totalTransaction = Integer.parseInt(attributeTotalTransaction.getNodeValue());
+		}
+		result.setTotalTransaction(totalTransaction);
+		Node attributeTime = task.getAttributes().getNamedItem(XmlConstants.TASK_TIME_ATTRIBUTE);
+		int time = XmlConstants.DEFAULT_TIME;
+		if (attributeTime != null){
+			time = Integer.parseInt(attributeTime.getNodeValue());
+		}
+		result.setTime(time);
 		return result;
 	}
 	

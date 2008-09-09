@@ -46,6 +46,14 @@ public class CpuMonitor extends Monitor {
 	public String getDescription() {
 		return "Cpu usage";
 	}
+	
+	public long getAvgValue(){
+		int result = 0;
+		for (ThreadMonitor threadMonitor : threadMonitors) {
+			result += threadMonitor.getAvgValue();
+		}
+		return result;
+	}
 
 	@Override
 	public long getValue() {
