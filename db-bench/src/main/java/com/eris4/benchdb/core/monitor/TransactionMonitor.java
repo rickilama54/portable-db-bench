@@ -50,11 +50,11 @@ public class TransactionMonitor extends Monitor{
 	}
 
 	@Override
-	public long getValue() {
-		long time = timeMonitor.getValue() - savedTime[0];
+	public long getValue() {		
 		if(stop){
 			return savedValue;
-		}		
+		}
+		long time = timeMonitor.getValue() - savedTime[0];
 		if (time <= 0){
 			time = 1;
 		}
