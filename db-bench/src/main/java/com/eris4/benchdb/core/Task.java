@@ -1,5 +1,6 @@
 package com.eris4.benchdb.core;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Task implements Runnable{
 	private List<Operation> operations;
 	private List<Monitor> monitors;		
 	private Logger logger = Logger.getLogger(Task.class);
+	private String name;
 		
 	public Task(List<Operation> operations){
 		this.operations = operations;
@@ -145,9 +147,7 @@ public class Task implements Runnable{
 		return time - timeMonitor.getValue();
 	}
 
-	public void setMonitors(List<Monitor> monitors) {
-		
-		
+	public void setMonitors(Collection<Monitor> monitors) {		
 		for (Monitor monitor : monitors) {
 			if (monitor instanceof AvgTransactionMonitor) {
 				this.monitors.remove(avgTransactionMonitor);
@@ -168,6 +168,14 @@ public class Task implements Runnable{
 		for (Monitor monitor: monitors) {
 			System.out.println(monitor.getDescription()+" -- "+monitor.getFormattedValue());
 		}
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	
