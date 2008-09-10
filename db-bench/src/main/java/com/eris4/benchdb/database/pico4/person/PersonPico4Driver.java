@@ -1,20 +1,20 @@
 package com.eris4.benchdb.database.pico4.person;
 
 import com.eris4.benchdb.core.TestDriverException;
+import com.eris4.benchdb.database.pico4.PersistentMapSingleton;
 import com.eris4.benchdb.test.person.domain.Person;
 import com.eris4.benchdb.test.person.domain.PersonDriver;
 import com.eris4.benchdb.test.person.domain.PersonUtil;
-import com.eris4.pico4.PersistentMap;
 
 public class PersonPico4Driver implements PersonDriver {
 	
 	private String mapName = "PersonPico4";	
-	private PersistentMap map;
+	private PersistentMapSingleton map;
 	private PersonUtil personUtil = PersonUtil.getInstance();
 	
 	@Override
 	public void connect() throws TestDriverException {
-		map = new PersistentMap(mapName);
+		map = PersistentMapSingleton.getInstance(mapName);
 		map.load();
 	}
 	

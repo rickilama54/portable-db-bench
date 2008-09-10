@@ -3,14 +3,14 @@ package com.eris4.benchdb.database.pico4.account;
 import java.util.Random;
 
 import com.eris4.benchdb.core.TestDriverException;
+import com.eris4.benchdb.database.pico4.PersistentMapSingleton;
 import com.eris4.benchdb.test.account.domain.Account;
 import com.eris4.benchdb.test.account.domain.AccountDriver;
-import com.eris4.pico4.PersistentMap;
 
 public class AccountPico4Driver implements AccountDriver {
 	
 	private String mapName = "AccountPico4";
-	private PersistentMap map;
+	private PersistentMapSingleton map;
 	private Random random = new Random();
 
 	@Override
@@ -20,7 +20,7 @@ public class AccountPico4Driver implements AccountDriver {
 
 	@Override
 	public void connect() throws TestDriverException {
-		map = new PersistentMap(mapName);
+		map = PersistentMapSingleton.getInstance(mapName);
 		map.load();
 	}
 
