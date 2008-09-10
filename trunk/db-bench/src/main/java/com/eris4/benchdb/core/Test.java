@@ -1,15 +1,19 @@
 package com.eris4.benchdb.core;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.eris4.benchdb.core.monitor.AvgTransactionMonitor;
 import com.eris4.benchdb.core.monitor.CpuMonitor;
 import com.eris4.benchdb.core.monitor.FileMonitor;
 import com.eris4.benchdb.core.monitor.MemoryMonitor;
 import com.eris4.benchdb.core.monitor.Monitor;
+import com.eris4.benchdb.core.monitor.TimeMonitor;
+import com.eris4.benchdb.core.monitor.TotalTransactionMonitor;
 import com.eris4.benchdb.core.reporter.Reporter;
 import com.lowagie.text.Chapter;
 import com.lowagie.text.DocumentException;
@@ -21,13 +25,12 @@ public class Test {
 	private static Logger logger = Logger.getLogger(Test.class);
 	private Database database;
 	private String name;
-	private List<Task> tasks;
+	private Collection<Task> tasks;
 	private List<DbInitializator> dbInitializators;
 	private List<Reporter> reporters;	
 	private List<Monitor> monitors;
 	private FileMonitor fileMonitor;		
 	private CpuMonitor cpuMonitor;
-	private MemoryMonitor memoryMonitor;
 	
 	public void start() throws NoSuitableDriverException, OperationException, TestDriverException, InterruptedException{
 		logger.info("########### Test summary");
@@ -131,17 +134,15 @@ public class Test {
 		return threads;
 	}
 	
-	public Test(List<DbInitializator> dbInitializators,List<Task> tasks,List<Reporter> reporters,String name){
+	public Test(List<DbInitializator> dbInitializators,Collection<Task> collection,List<Reporter> reporters,String name){
 		monitors = new LinkedList<Monitor>();
-		memoryMonitor = new MemoryMonitor();
 		fileMonitor = new FileMonitor();
 		cpuMonitor = new CpuMonitor();
 		monitors.add(fileMonitor);		
 		monitors.add(cpuMonitor);		
-		monitors.add(memoryMonitor);
 		
 		this.dbInitializators = dbInitializators;
-		this.tasks = tasks;
+		this.tasks = collection;
 		this.reporters = reporters;
 		this.name = name;
 		for (DbInitializator dbInitializator : dbInitializators) {
@@ -149,6 +150,19 @@ public class Test {
 				reporter.addDescription(dbInitializator.getDescription());
 			}
 		}		
+	}	
+
+	public void setMonitors(Collection<Monitor> monitors) {
+		for (Monitor monitor : monitors) {
+			if (monitor instanceof FileMonitor) {
+				this.monitors.remove(fileMonitor);
+				fileMonitor = (FileMonitor) monitor;				
+			} else if (monitor instanceof CpuMonitor) {
+				this.monitors.remove(cpuMonitor);
+				cpuMonitor = (CpuMonitor) monitor;				
+			} 
+			this.monitors.add(monitor);			
+		}
 	}
 
 	public void setDatabase(Database database) throws NoSuitableDriverException {
@@ -165,23 +179,6 @@ public class Test {
 	public String getName() {
 		return name;
 	}
-	
-	public CpuMonitor getCpuMonitor() {
-		return cpuMonitor;
-	}
-	
-	public FileMonitor getFileMonitor() {
-		return fileMonitor;
-	}
-	
-	public MemoryMonitor getMemoryMonitor() {
-		return memoryMonitor;
-	}
-	
-	public List<Monitor> getMonitors() {
-		return monitors;
-	}
-
 	
 	
 	/*
@@ -209,5 +206,6 @@ public class Test {
 			reporter.report(section);
 		}	
 	}
+
 	
 }

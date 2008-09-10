@@ -7,12 +7,6 @@
     	<initializator name="AccountInitializator" class="com.eris4.benchdb.test.account.initializator.AccountInitializator"/>
     	<initializator name="MsisdnInitializator" class="com.eris4.benchdb.test.msisdn.initializator.MsisdnInitializator"/>
     	<initializator name="SessionInitializator" class="com.eris4.benchdb.test.session.initializator.SessionInitializator"/>
-    	<!-- monitors -->
-    	<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
-    	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
-    	<monitor name="TransactionMonitor" class="com.eris4.benchdb.core.monitor.TransactionMonitor"/>
-    	<monitor name="TotalTransactionMonitor" class="com.eris4.benchdb.core.monitor.TotalTransactionMonitor"/>
-    	<monitor name="AvgTransactionMonitor" class="com.eris4.benchdb.core.monitor.AvgTransactionMonitor"/>
     	<!-- operations -->
     	<operation name="WritePersonOperation" class="com.eris4.benchdb.test.person.operation.WritePersonOperation"/>
     	<operation name="ReadPersonOperation" class="com.eris4.benchdb.test.person.operation.ReadPersonOperation"/>
@@ -22,19 +16,18 @@
     	<operation name="ReadMsisdnOperation" class="com.eris4.benchdb.test.msisdn.operation.ReadMsisdnOperation"/>
     	<operation name="WriteSessionOperation" class="com.eris4.benchdb.test.session.operation.WriteSessionOperation"/>
     	<operation name="ReadSessionOperation" class="com.eris4.benchdb.test.session.operation.ReadSessionOperation"/>
-    </definitions>
-    
-    <testmonitors>
-    		<monitor name="MemoryMonitor" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
-    	<monitor name="TimeMonitor" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
-    	<monitor name="TransactionMonitor" class="com.eris4.benchdb.core.monitor.TransactionMonitor"/>
-    	<monitor name="TotalTransactionMonitor" class="com.eris4.benchdb.core.monitor.TotalTransactionMonitor"/>
-    	<monitor name="AvgTransactionMonitor" class="com.eris4.benchdb.core.monitor.AvgTransactionMonitor"/>
-    </testmonitors>
-    
-    <taskmonitors>
-    
-    </taskmonitors>
+    	
+    	<testmonitor name="Memory" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
+    	<testmonitor name="Time" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
+    	<testmonitor name="Cpu" class="com.eris4.benchdb.core.monitor.CpuMonitor"/>
+    	<testmonitor name="File" class="com.eris4.benchdb.core.monitor.FileMonitor"/>
+    	
+    	<taskmonitor name="Time" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
+    	<taskmonitor name="Transaction" class="com.eris4.benchdb.core.monitor.TransactionMonitor"/>
+    	<taskmonitor name="TotalTransaction" class="com.eris4.benchdb.core.monitor.TotalTransactionMonitor"/>
+    	<taskmonitor name="AvgTransaction" class="com.eris4.benchdb.core.monitor.AvgTransactionMonitor"/>
+    	
+    </definitions>  
 	
 	<!-- DATABASE LIST -->
 	<databases><!-- 
@@ -50,24 +43,25 @@
 	<!-- TEST LIST -->
 	<tests>
 		<!--  	-->		
-		<test  name="Test temporaneo">								
+		<test name="Test di Test">								
 			<initializator name="PersonInitializator" numberOfObjects="1000"/>
-			<task time="5000" >
+			<task name="write task" time="5000" >
 				<operation name="WritePersonOperation" repetition="1"/>		
-				<monitor name="TransactionMonitor" id="2"/>	
-				<monitor name="TimeMonitor" id="1"/>		
-				<monitor name="TotalTransactionMonitor" id="4"/>	
 			</task>	
-			<task time="5000" >
+			<task name="read task" time="5000" >
 				<operation name="ReadPersonOperation" repetition="1"/>							
 			</task>	
-			<monitor name="MemoryMonitor" id="3"/>
-			<reporter name="un SECONDO monitor a caso">
-				<line x="4" y="3" name="memoria"/>
-			</reporter>
-			<reporter name="un monitor a caso">
-				<line x="1" y="2" name="Transactions"/>
-			</reporter>		
+			<loggraphreporter name="transaction">
+				<line x="Time" xTask="write task" y="Transaction" yTask="write task" name="transactions"/>
+			</loggraphreporter>
+			<loggraphreporter name="memory usage">
+				<line x="TotalTransaction" xTask="write task" y="Memory"  name="memory"/>
+			</loggraphreporter>
+			<lineargraphreporter name="cpu usage">
+				<line x="Time" y="Cpu" name="cpu"/>
+			</lineargraphreporter>		
+			<textreporter>
+			</textreporter>	
 		</test>	
 			
 		

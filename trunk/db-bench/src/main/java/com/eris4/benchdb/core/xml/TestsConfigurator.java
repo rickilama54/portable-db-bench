@@ -20,15 +20,14 @@ public class TestsConfigurator {
 	private NodeList tests;
 	private DefinitionsConfigurator definitionsConfigurator;
 	private ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-	private Map<String,Monitor> monitorsMap;
+	private Map<String,Map<String,Monitor>> taskMonitorsMap;
+	private Map<String,Monitor> testMonitorsMap;
 
-	public TestsConfigurator(NodeList tests, DefinitionsConfigurator definitionsConfigurator) {
-		monitorsMap = new HashMap<String,Monitor>();
+	public TestsConfigurator(NodeList tests, DefinitionsConfigurator definitionsConfigurator) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		testMonitorsMap = definitionsConfigurator.getTestMonitors();		
 		this.tests = tests;
 		this.definitionsConfigurator = definitionsConfigurator;
 	}
-	
-	
 	
 	public List<Test> readTests() throws InstantiationException, IllegalAccessException, ClassNotFoundException, MissingDefinitionException {
 		List<Test> result = new LinkedList<Test>();
@@ -43,61 +42,49 @@ public class TestsConfigurator {
 
 	private Test loadTest(Node test) throws InstantiationException, IllegalAccessException, ClassNotFoundException, MissingDefinitionException {
 		List<DbInitializator> dbInizializators = new LinkedList<DbInitializator>();
-		List<Task> tasks = new LinkedList<Task>();
-		List<Monitor> monitors = new LinkedList<Monitor>();
-		List<Reporter> reporters = new LinkedList<Reporter>();
+		Map<String,Task> mapTask = new HashMap<String, Task>();
+		testMonitorsMap = definitionsConfigurator.getTestMonitors();
+		taskMonitorsMap = new HashMap<String, Map<String,Monitor>>();		
+		List<Reporter> reporters = new LinkedList<Reporter>();		
 		NodeList childs = test.getChildNodes();
 		for (int i = 0; i < childs.getLength(); i++){
 			Node child = childs.item(i);
 			String nodeName = child.getNodeName();
 			if (nodeName.equals(XmlConstants.INITIALIZATOR_NODE)){
 				dbInizializators.add(loadDbInitializator(child));
+			} else if (nodeName.equals(XmlConstants.TASK_NODE)){
+				Task task = loadTask(child);
+				mapTask.put(task.getName(), task);
+			} else if (nodeName.equals(XmlConstants.LOG_GRAPH_REPORTER_NODE)){
+				/*warning: the monitorsMap is initialized only after loading the tasks
+				solution: load reporter in a new for cycle, after this 1 finished*/
+				reporters.add(ReportersConfigurator.loadLogGraphReporter(child, taskMonitorsMap,testMonitorsMap));
+			} else if (nodeName.equals(XmlConstants.LINEAR_GRAPH_REPORTER_NODE)){
+				reporters.add(ReportersConfigurator.loadLinearGraphReporter(child, taskMonitorsMap,testMonitorsMap));
+			} else if (nodeName.equals(XmlConstants.TEXT_REPORTER_NODE)){
+				//TODO
 			}
-			else if (nodeName.equals(XmlConstants.TASK_NODE)){
-				tasks.add(loadTask(child));
-			}
-			else if (nodeName.equals(XmlConstants.MONITOR_NODE)){
-				monitors.add(loadMonitor(child));
-			}
-			else if (nodeName.equals(XmlConstants.REPORTER_NODE)){
-				reporters.add(ReportersConfigurator.loadReporter(child, monitorsMap));// warning: the monitorsMap is initialized only after loading the tasks
-			}
+			//aggiungere i monitor TODO
 		}		
 		// time parameter in class Test
 //		long time = Long.parseLong(test.getAttributes().getNamedItem(XmlConstants.TEST_TIME_ATTRIBUTE).getNodeValue());
 		String name = test.getAttributes().getNamedItem(XmlConstants.TEST_NAME_ATTRIBUTE).getNodeValue();
-		return new Test(dbInizializators,tasks,reporters,name);
-	}
-
-	
-
-	private Monitor loadMonitor(Node monitor) throws InstantiationException, IllegalAccessException, ClassNotFoundException, MissingDefinitionException {
-		Node attributeName = monitor.getAttributes().getNamedItem(XmlConstants.MONITOR_NAME_ATTRIBUTE);
-		String path = definitionsConfigurator.getMonitorClassFromDefinition(attributeName.getNodeValue());
-		Monitor result = (Monitor) classLoader .loadClass(path).newInstance();
-		Node attributeId = monitor.getAttributes().getNamedItem(XmlConstants.MONITOR_ID_ATTRIBUTE);
-		if (attributeId != null){
-			monitorsMap.put(attributeId.getNodeValue(),result);
-		}
+		Test result = new Test(dbInizializators,mapTask.values(),reporters,name);
+		result.setMonitors(testMonitorsMap.values());
 		return result;
 	}
 
-
 	private Task loadTask(Node task) throws InstantiationException, IllegalAccessException, ClassNotFoundException, MissingDefinitionException {
 		List<Operation> operations = new LinkedList<Operation>();
-		List<Monitor> monitors = new LinkedList<Monitor>();
 		NodeList childs = task.getChildNodes();
 		for (int i = 0; i < childs.getLength(); i++){
 			Node child = childs.item(i);
 			if (child.getNodeName().equals(XmlConstants.OPERATION_NODE)){
 				operations.add(loadOperation(child));
 			}
-			if (child.getNodeName().equals(XmlConstants.MONITOR_NODE)){
-				monitors.add(loadMonitor(child));
-			}
-		}				
-		Task result = new Task(operations);
-		result.setMonitors(monitors);
+		}			
+		Task result = new Task(operations);		
+		//loading task attributes
 		Node attributeTps = task.getAttributes().getNamedItem(XmlConstants.TASK_TPS_ATTRIBUTE);
 		int transactionPerSecond = XmlConstants.DEFAULT_TRANSACTION_PER_SECOND;
 		if (attributeTps != null){
@@ -116,6 +103,15 @@ public class TestsConfigurator {
 			time = Integer.parseInt(attributeTime.getNodeValue());
 		}
 		result.setTime(time);
+		Node attributeName = task.getAttributes().getNamedItem(XmlConstants.TASK_NAME_ATTRIBUTE);
+		String name = null;
+		if (attributeName != null){
+			name = attributeName.getNodeValue();
+		}
+		result.setName(name);
+		Map<String, Monitor> taskMonitors = definitionsConfigurator.getTaskMonitors();
+		taskMonitorsMap.put(name,taskMonitors);
+		result.setMonitors(taskMonitors.values());
 		return result;
 	}
 	
@@ -140,15 +136,6 @@ public class TestsConfigurator {
 		int numberOfObjects = Integer.parseInt(attributeNumberOfObjects.getNodeValue());
 		result.setNumberOfObjects(numberOfObjects);
 		return result;
-	}
-
-
-
-	public Map<String, Monitor> getMonitorsMap() {
-		return monitorsMap;
-	}
-
-
-	
+	}	
 
 }

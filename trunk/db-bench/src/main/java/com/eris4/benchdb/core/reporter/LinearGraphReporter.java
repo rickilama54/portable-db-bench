@@ -20,7 +20,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
 import com.lowagie.text.Section;
 
-public class GraphReporter extends Reporter {
+public class LinearGraphReporter extends Reporter {
 
 	protected static final long PERIOD_CHECK = 100;
 	private boolean stop;
@@ -31,11 +31,8 @@ public class GraphReporter extends Reporter {
 	private String graphName = "Grafico senza nome";
 	private List<String> descriptions = new LinkedList<String>();
 	private String name = "GraphReporter";
+	protected boolean logarithmic = false;
 	
-	public GraphReporter(String graphName) {
-		this.graphName = graphName;
-	}
-
 	private void registerCoord() {
 		for (GraphLine graph : list) {
 			graph.registerCoord();
@@ -83,10 +80,12 @@ public class GraphReporter extends Reporter {
 			for (String description : descriptions) {
 				title += "\n" + description;
 			}			
-			JFreeChart chart = ChartFactory.createXYLineChart(title ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);		
-			LogAxis logAxis = new LogAxis(yAxisLabel);
-			logAxis.setSmallestValue(1);
-			chart.getXYPlot().setRangeAxis(0,logAxis);
+			JFreeChart chart = ChartFactory.createXYLineChart(title ,xAxisLabel,yAxisLabel,dataset,PlotOrientation.VERTICAL,true,true,false);
+			if (logarithmic  == true){
+				LogAxis logAxis = new LogAxis(yAxisLabel);
+				logAxis.setSmallestValue(1);
+				chart.getXYPlot().setRangeAxis(0,logAxis);
+			}
 			BufferedImage chartImage = chart.createBufferedImage(1000, 700);
 			Image image = Image.getInstance(ChartUtilities.encodeAsPNG(chartImage));
 			image.scaleToFit(Printer.IMAGE_WIDTH, 400);
