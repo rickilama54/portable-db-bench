@@ -2,11 +2,9 @@ package com.eris4.benchdb.database.prevayler.person;
 
 import java.io.IOException;
 
-import org.prevayler.Prevayler;
-import org.prevayler.PrevaylerFactory;
-
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.prevayler.PrevaylerDatabase;
+import com.eris4.benchdb.database.prevayler.PrevaylerSingleton;
 import com.eris4.benchdb.test.person.domain.Person;
 import com.eris4.benchdb.test.person.domain.PersonDriver;
 import com.eris4.benchdb.test.person.domain.PersonUtil;
@@ -15,14 +13,14 @@ public class PersonPrevaylerDriver implements PersonDriver {
 
 	private static final String DB_NAME = "/person";
 	private String directory = new PrevaylerDatabase().getFileName() + DB_NAME;
-	private Prevayler prevayler;
+	private PrevaylerSingleton prevayler;
 	private PersonList persons;
 	private PersonUtil personUtil = PersonUtil.getInstance();
 
 	@Override
 	public void connect() throws TestDriverException {
 		try {			
-			prevayler = PrevaylerFactory.createPrevayler(new PersonList(),directory);
+			prevayler = PrevaylerSingleton.createPrevayler(new PersonList(),directory);
 			persons = (PersonList) prevayler.prevalentSystem();			
 		} catch (Exception e) {
 			throw new TestDriverException(e);

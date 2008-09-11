@@ -46,7 +46,7 @@ public class ReadAccountOperation extends Operation {
 		Account account = accountDriver.read(randomId);
 		if (account == null){
 			logger.debug("Account == null for the accountId = " + randomId);
-			throw new OperationException("Null person in ReadAccountOperation: is the database initialized?");
+			throw new OperationException("Null account in ReadAccountOperation: is the database initialized?");
 		}
 	}	
 
