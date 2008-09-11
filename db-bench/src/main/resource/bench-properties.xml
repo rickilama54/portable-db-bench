@@ -30,13 +30,13 @@
     </definitions>  
 	
 	<!-- DATABASE LIST -->
-	<databases><!-- 
+	<databases><!-- -->
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
-		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
-		<database class="com.eris4.benchdb.database.h2.H2Database"/>-->
+		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/><!--
+		<database class="com.eris4.benchdb.database.h2.H2Database"/>
 		<database class="com.eris4.benchdb.database.hsqldb.HsqldbDatabase"/> 
 		<database class="com.eris4.benchdb.database.db4o.Db4oDatabase"/>
-		<!-- <database class="com.eris4.benchdb.database.mysql.MySQLDatabase"/>	
+		<database class="com.eris4.benchdb.database.mysql.MySQLDatabase"/>	
 			  -->
 	</databases>
 	
@@ -44,7 +44,7 @@
 	<tests>
 		<!--  	-->		
 		<test name="Test di Test">								
-			<initializator name="PersonInitializator" numberOfObjects="1000"/>
+			<initializator name="PersonInitializator" numberOfObjects="10"/>
 			<task name="write task" time="5000" >
 				<operation name="WritePersonOperation" repetition="1"/>		
 			</task>	

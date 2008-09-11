@@ -9,20 +9,25 @@ import com.eris4.pico4.PersistentMap;
 public class PersistentMapSingleton {
 	
 	private PersistentMap persitentMap;	
+	private String name;
 	private int counter = 0;
 
 	public synchronized void close() {
 		counter --;
 		if (counter == 0){
 			persitentMap.close();
+			singletonMap.remove(name);
 		}
-	}
+	}		
 
 	public synchronized void load() {
-		if (counter == 0){
+		if (counter == 1){
 			persitentMap.load();
-		}
-		counter ++;
+		}		
+	}
+	
+	public synchronized void commit() {
+		persitentMap.commit();
 	}
 
 	public int size() {
@@ -31,10 +36,6 @@ public class PersistentMapSingleton {
 
 	public void put(String valueOf, PICO4PersistentObject object) {
 		persitentMap.put(valueOf,object);
-	}
-
-	public synchronized void commit() {
-		persitentMap.commit();
 	}
 
 	public PICO4PersistentObject get(String valueOf) {
@@ -52,6 +53,8 @@ public class PersistentMapSingleton {
 	
 	private PersistentMapSingleton(String mapName){
 		this.persitentMap = new PersistentMap(mapName);
+		this.name = mapName;
+		this.counter ++;
 	}
 
 	public synchronized static PersistentMapSingleton getInstance(String mapName) {
