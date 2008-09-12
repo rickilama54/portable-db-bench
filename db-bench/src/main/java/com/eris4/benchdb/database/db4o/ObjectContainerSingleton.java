@@ -13,6 +13,8 @@ public class ObjectContainerSingleton {
 	
 	private ObjectContainer db;
 	private static ObjectContainerSingleton singleton;
+	
+	private ObjectContainerSingleton(){}
 
 	private ObjectContainerSingleton(String filename){
 		Configuration conf = Db4o.newConfiguration();
@@ -23,7 +25,7 @@ public class ObjectContainerSingleton {
 		db = Db4o.openFile(conf,filename);
 	}
 	
-	public static ObjectContainerSingleton getInstance(){
+	public synchronized static ObjectContainerSingleton getInstance(){
 		if (singleton == null){
 			singleton = new ObjectContainerSingleton(new Db4oDatabase().getFileName() + "/db4o");
 		}
@@ -38,11 +40,11 @@ public class ObjectContainerSingleton {
 		db.store(o);
 	}
 
-	public void commit() {
+	public synchronized void commit() {
 		db.commit();
 	}
 
-	public void shutdown() {
+	public synchronized void shutdown() {
 		db.close();
 	}
 
