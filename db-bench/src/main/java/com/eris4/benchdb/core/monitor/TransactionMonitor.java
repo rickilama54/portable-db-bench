@@ -76,6 +76,7 @@ public class TransactionMonitor extends Monitor{
 	@Override
 	public void reset() {
 		savedNumberOfTransction[0] = numberOfTransaction;
+		savedValue = 0;
 	}
 	
 
