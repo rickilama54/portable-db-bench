@@ -28,7 +28,6 @@ public class LinearGraphReporter extends Reporter {
 	private String yAxisLabel;
 	private List<GraphLine> list = new LinkedList<GraphLine>();
 	private List<XYSeries> xySeriesList = new LinkedList<XYSeries>();
-	private String graphName = "Grafico senza nome";
 	private List<String> descriptions = new LinkedList<String>();
 	private String name = "GraphReporter";
 	protected boolean logarithmic = false;
@@ -50,6 +49,7 @@ public class LinearGraphReporter extends Reporter {
 		for (GraphLine line : list) {
 			line.reset(getDatabase().getClass().getSimpleName());
 		}	
+		registerCoord();
 		stop  = false;		
 		new Thread(){
 			public void run() {
@@ -64,6 +64,7 @@ public class LinearGraphReporter extends Reporter {
 	@Override
 	public void stop() {
 		stop = true;
+		registerCoord();
 		for (GraphLine line : list) {
 			xySeriesList.add(line.getXYSeries());
 		}		
@@ -76,7 +77,7 @@ public class LinearGraphReporter extends Reporter {
 			for (XYSeries series : xySeriesList) {
 				dataset.addSeries(series);
 			}
-			String title = graphName;
+			String title = name;
 			for (String description : descriptions) {
 				title += "\n" + description;
 			}			
