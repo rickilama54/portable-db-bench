@@ -77,6 +77,7 @@ public class TransactionMonitor extends Monitor{
 	public void reset() {
 		savedNumberOfTransction[0] = numberOfTransaction;
 		savedValue = 0;
+		numberOfTransaction = 0;
 	}
 	
 
