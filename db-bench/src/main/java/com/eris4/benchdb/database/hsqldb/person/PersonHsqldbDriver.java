@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.core.util.StringGenerator;
-import com.eris4.benchdb.database.h2.H2Database;
 import com.eris4.benchdb.database.hsqldb.HsqldbDatabase;
 import com.eris4.benchdb.test.person.domain.Person;
 import com.eris4.benchdb.test.person.domain.PersonDriver;
@@ -20,7 +19,7 @@ public class PersonHsqldbDriver implements PersonDriver {
 	private final String WRITE_QUERY = "insert into PERSON values (?,?)";
 	private final String READ_QUERY = "select name from PERSON where id=?";
 	private final String CREATE_TABLE_QUERY = "create table PERSON (name varchar,id bigint primary key)";
-	private final String COUNT_PERSON = "select count(*) from PeRSON"; 
+	private final String COUNT_PERSON = "select count(*) from PERSON"; 
 	private String password = "";
 	private String databaseURL = "jdbc:hsqldb:file:"+new HsqldbDatabase().getFileName()+"/database";
 	private String username = "sa";
@@ -35,7 +34,7 @@ public class PersonHsqldbDriver implements PersonDriver {
 		} catch (SQLException e) {
 			throw new TestDriverException(e);
 		}
-	}
+	}	
 
 	@Override
 	public void connect() throws TestDriverException {

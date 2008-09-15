@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.db4o.ObjectSet;
 import com.eris4.benchdb.core.TestDriverException;
 import com.eris4.benchdb.database.db4o.ObjectContainerSingleton;
+import com.eris4.benchdb.test.person.domain.Person;
 import com.eris4.benchdb.test.session.domain.Session;
 import com.eris4.benchdb.test.session.domain.SessionDriver;
 import com.eris4.benchdb.test.session.domain.SessionImpl;
@@ -50,11 +51,11 @@ public class SessionDb4oDriver implements SessionDriver {
 		Session session = new SessionImpl();
 		session.setSessionId(sessionId);
 		ObjectSet<Session> result = db.queryByExample(session);
-		if (result.hasNext()){
-			return result.next();
-		}
-		if(result.hasNext()){
-			throw new TestDriverException("There is more than 1 session object while it shouln't be possible");
+		while(result.hasNext()){
+			Session tmp = result.next();
+			if (tmp.getSessionId() == sessionId){
+				return tmp;
+			}
 		}
 		return null;
 	}

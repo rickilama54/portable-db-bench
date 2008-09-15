@@ -17,7 +17,7 @@ public class DirectoryCleaner {
 				}else {
 					boolean b = file.delete();
 					if (b==false)
-						throw new FileBusyException("cannot delete the file");
+						throw new FileBusyException("cannot delete the file: "+file.getAbsolutePath());
 				}				
 			}
 		} catch (NullPointerException e) {

@@ -11,6 +11,7 @@ import com.eris4.benchdb.database.db4o.session.SessionDb4oDriver;
 import com.eris4.benchdb.test.account.domain.Account;
 import com.eris4.benchdb.test.account.domain.AccountDriver;
 import com.eris4.benchdb.test.account.domain.AccountImpl;
+import com.eris4.benchdb.test.person.domain.Person;
 
 public class AccountDb4oDriver implements AccountDriver {
 	
@@ -50,11 +51,11 @@ public class AccountDb4oDriver implements AccountDriver {
 		Account account = new AccountImpl();
 		account.setAccountId(accountId);
 		ObjectSet<Account> result = db.queryByExample(account);
-		if (result.hasNext()){
-			return result.next();
-		}
-		if(result.hasNext()){
-			throw new TestDriverException("There is more than 1 account object while it shouln't be possible");
+		while(result.hasNext()){
+			Account tmp = result.next();
+			if (tmp.getAccountId() == accountId){
+				return tmp;
+			}
 		}
 		return null;
 	}

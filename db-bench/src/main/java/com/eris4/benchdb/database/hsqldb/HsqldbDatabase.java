@@ -3,6 +3,8 @@ package com.eris4.benchdb.database.hsqldb;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.eris4.benchdb.core.Database;
@@ -36,9 +38,16 @@ public class HsqldbDatabase extends Database {
 		return "db/hsqldb";
 	}
 
+	private String password = "";
+	private String databaseURL = "jdbc:hsqldb:file:db/hsqldb/database";
+	private String username = "sa";
+    private static final String driver="org.hsqldb.jdbcDriver";
+	
 	@Override
-	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException {
-		//TODO		
+	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException, ClassNotFoundException {
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(databaseURL,username,password);
+		con.createStatement().execute("SHUTDOWN");	
 	}
 
 }
