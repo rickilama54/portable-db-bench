@@ -20,7 +20,6 @@ public class PersonDb4oDriver implements PersonDriver {
 	Random random = new Random();
 	private Logger logger = Logger.getLogger(PersonDb4oDriver.class);
 	
-
 	@Override
 	public void close() throws TestDriverException {
 		logger.debug("close");
@@ -54,11 +53,11 @@ public class PersonDb4oDriver implements PersonDriver {
 		Person person = new PersonImpl();
 		person.setId(personId);
 		ObjectSet<Person> result = db.queryByExample(person);
-		if (result.hasNext()){
-			return result.next();
-		}
-		if (result.hasNext()){
-			throw new TestDriverException("There is more than 1 person object while it shouln't be possible");
+		while(result.hasNext()){
+			Person tmp = result.next();
+			if (tmp.getId() == personId){
+				return tmp;
+			}
 		}
 		return null;
 	}

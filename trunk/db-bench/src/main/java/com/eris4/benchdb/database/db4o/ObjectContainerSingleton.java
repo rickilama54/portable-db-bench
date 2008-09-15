@@ -46,6 +46,7 @@ public class ObjectContainerSingleton {
 
 	public synchronized void shutdown() {
 		db.close();
+		singleton = null;
 	}
 
 }

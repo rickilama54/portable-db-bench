@@ -53,16 +53,8 @@ public class AccountPrevaylerDriver implements AccountDriver {
 	}
 
 	@Override
-	public synchronized Account read(int accountId) throws TestDriverException {
-//		accountMap = (Map<Integer, Account>) prevayler.prevalentSystem();
-		Account account = accountMap.get(new Integer(accountId));
-//		if(account == null){
-//			System.out.println("size: "+((Map<Integer, Account>) prevayler.prevalentSystem()).size());
-//			for (Integer i : accountMap.keySet()) {
-//				System.out.println("KEY: "+i+" - OBJECT: "+account);
-//			}
-//		}		
-		return account;
+	public Account read(int accountId) throws TestDriverException {
+		return accountMap.get(new Integer(accountId));
 	}
 
 	@Override

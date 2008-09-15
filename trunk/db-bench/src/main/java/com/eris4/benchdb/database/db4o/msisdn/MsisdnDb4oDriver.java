@@ -10,6 +10,7 @@ import com.eris4.benchdb.database.db4o.ObjectContainerSingleton;
 import com.eris4.benchdb.test.msisdn.domain.Msisdn;
 import com.eris4.benchdb.test.msisdn.domain.MsisdnDriver;
 import com.eris4.benchdb.test.msisdn.domain.MsisdnImpl;
+import com.eris4.benchdb.test.person.domain.Person;
 
 public class MsisdnDb4oDriver implements MsisdnDriver {
 	
@@ -49,11 +50,11 @@ public class MsisdnDb4oDriver implements MsisdnDriver {
 		Msisdn msisdn = new MsisdnImpl();
 		msisdn.setMsisdnId(msisdnId);
 		ObjectSet<Msisdn> result = db.queryByExample(msisdn);
-		if (result.hasNext()) {
-			return result.next();
-		}
-		if (result.hasNext()) {
-			throw new TestDriverException("There is more than 1 msisdn object, while it shouldn't be possible.");
+		while(result.hasNext()){
+			Msisdn tmp = result.next();
+			if (tmp.getMsisdnId() == msisdnId){
+				return tmp;
+			}
 		}
 		return null;
 	}
