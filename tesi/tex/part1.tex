@@ -1,5 +1,5 @@
 
-\part{In-Memory Database}
+\part{In-Memory Database Overview}
 
 \chapter{A Brief Introduction}
 	\emph{
@@ -189,20 +189,47 @@
 	database in main memory, both commercial and open source. Although all of them share the capability 
 	to maintain the database in main memory, they offer different sets of feature. 
 	
-	In this chapter we will analyze the most popular IMDBs, investigating 
+	In this chapter we will make a competitive landscape		
+	%In this chapter we will analyze the most popular IMDBs, investigating 
+	%their advantages and disadvantages, the stability and reliability of the project 
+	%and how much development is going on. Eventually we will go to the development stage and, 
+	%in some case, we will also have a look "under the hood" to see how the DB works.
+	
+	\section{The Analysis' Structure}
+	Every in-memory database will be analyzed investigating 
 	their advantages and disadvantages, the stability and reliability of the project 
 	and how much development is going on. Eventually we will go to the development stage and, 
 	in some case, we will also have a look "under the hood" to see how the DB works.
 	
-	\section{The Analysis' Structure}
-	- point of view 
-	- come è strutturata l'analisi (vantaggi/svantaggi/project info/esempi)
-	- vantaggi e svantaggi che in linea di massima condividono tutti gli IMDBs
-	- le sorgenti sono sourceforge e olho
+	\subsection{Common Advantages}
+	Not all IMDBs have the same advantages, but generally they share some feature:
 	
-	% section (conclusion):
-	% - riassunto anche tabulare dei risultati ottenuti
+\begin{description}
+	\item[Lightweigth] is one of the common advantages IMDBs share. This kind of databases is really simple: they 
+	don't implement any of the complex mechanism used by traditional database to speed up the disk I/O. Thus, 
+	most of the time, an in-memory database consist of a simple jar, whose size is less than 1 MB. 
+	\item[Robustness] is a direct consequence of the previous point: (citing Henry Ford) it is impossible to 
+	break something that doesn't exist.
+	\item[High Performance] is another common feature for every IMDB, because they all store the whole database 
+	in main memory, avoiding disk access.
+\end{description}
 	
+	\subsection{Common Disadvantages}
+	On the other side, all IMDBs require high quantity of main memory. It is larger as the database image increases, 
+	but this doesn't mean that every IMDB uses the same RAM quantity for the same database image. 
+	
+	A common question 
+	is about what may happen when the RAM is not enough. Altought this question is really interesting, generally 
+	an IMDB makes the assumption there is always enough main memory to hold the database image.
+	
+	\subsection{Common references}
+	The source of informations described in the following sections comes from the web, 
+	mainly from sourceforge or 
+	ohloh.net. Both these web site offer a variety of news such as the size of developer team, the frequency of 
+	commits, the date of the last realese, etc. 
+	
+	Another source is, naturally, the IMDBs' official web site. Although this is a huge source, it 
+	cannont be considered impartial. Therefore the following analysis may not be consistent with facts. 
 		
 		\section{Prevayler}		
 		Prevayler is an object persistence library for Java, written in Java. 
@@ -441,9 +468,9 @@ The replication logic is still under development.
 java.io.EOFException
 			\end{lstlisting}
 			
-			Reading the javadoc comes out that this feature is \itshape{reserved for future implementation}. 
+			Reading the javadoc comes out that this feature is \emph{reserved for future implementation}. 
 			Contacting Prevayler's author, Klaus Wuestefeld, by email, he said this feature 
-			will probably will be done within the 2009, because he needs it for other projects.
+			will be probably done within the 2009, because he needs it for other projects.
 			
 		\section{HSQLDB}
 HSQLDB is a relational database written in Java. It is based on Thomas Mueller's Hypersonic SQL project and therefore its name \footnote{HSQLDB stands for Hypersonic SQL DataBase.}. 
@@ -716,3 +743,5 @@ HSQLDB is a relational database written in Java. It is based on Thomas Mueller's
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
 		
+		\section{Conclusion}
+		Tabular result here!
