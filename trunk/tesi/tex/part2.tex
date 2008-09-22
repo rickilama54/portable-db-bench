@@ -1,21 +1,50 @@
-\part{Database Performance Analysis}
+\part{Performance Analysis}
 
-\chapter{Test Suite}
+\chapter{The Contest}
+\emph{Every database vendor cites benchmark data that "proves" its database is the fastest, and each vendor chooses the benchmark test that presents its product in the most favorable light}\cite{burleson}.
+
+In this chapter we will introduce performance analisys's problems, talking about how it is possible to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
+
+We will analyze the performance of each in-memory database we have previously studied. To achieve this goal it's not enough to read what the vendor says about his IMDB. If we work in this way, every IMDB should be the fastest, with the smallest footprint, very reliable, and so on. Therefore we are going to prepare several test to deeply analyze the performance, especially measuring the following parameters: 
+
+	\section{Measures}
+	
+	
+	\section{}
+	\subsection{The Axiom}
+\emph{There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark}\cite{Bernt}.
+	
+	\section{Choosing a Database}
+Non c'è da considerare solo le performance, ma anche... no winner \cite{burleson}.	
+
+\chapter{Test Suite}	
 	\section{Base Test Case}
-	\section{Real Time Prepaid System Test Case}
-		\subsection{Domain Object}
-		\subsection{Check Balance Test}
-		\subsection{Write New Account Test}
-		\subsection{Manage Call Test}
+		\subsection{Race Test}
+	\section{Load Test Case}
+\emph{I don't buy the fastest car in the market. I don't even buy the fastest car I can afford. I buy a car I can afford that fits my needs... e.g. drive to the northern Norway with 2 grown-ups, 3 kids, a kayak, sleeping bags, a large tent, glacier climbing equipment, food, clothes and so on. Can't do that with a Lamborghini}\cite{Bernt}.
+
+		\subsection{Real Time Prepaid System}
+			\subsubsection{Domain Object}
+			\subsubsection{Check Balance Test}
+			\subsubsection{Write New Account Test}
+			\subsubsection{Manage Call Test}
 	\section{Acid Test Case}
+Citazione tpc pdf pagina 46.
 
 \chapter{Database Benchmark Softwares Overview}
-	\section{Our Requisites}%spostare nel capitolo successivo?
+	\section{Benchmark Requirements}
+Desirable attributes ... list of attributes \cite{tpc/sigmoid}.
+	
 	\section{The Open Source Database Benchmark}
 	\section{Transaction Processing Performance Council}
+\emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors. Therefore, TPC-C should not be used as a substitute for a \bfseries{specific customer application} benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
+	
 	\section{Apache JMeter}
 	\section{Poleposition}
 	
 \chapter{The New In-Memory Database Benchmark Application}
+	\section{Functional View}
+	\section{Development View}
+	\section{Plug-In Architecture}
 
-\chapter{Databases Comparison}
+\chapter{Results' Analysis}
