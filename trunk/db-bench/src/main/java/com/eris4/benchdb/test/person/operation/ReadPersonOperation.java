@@ -26,6 +26,7 @@ public class ReadPersonOperation extends Operation {
 
 	@Override
 	public void setUp() throws TestDriverException, OperationException {
+		logger.trace("Connection to the driver");
 		personDriver.connect();
 		numberOfObject = personDriver.getNumberOfPerson();
 		if (numberOfObject == 0)
@@ -46,11 +47,15 @@ public class ReadPersonOperation extends Operation {
 		if (person == null) {
 			logger.debug("Person == null for the id = " + randomId);
 			throw new OperationException("Null person in ReadPersonOperation: is the database initialized?");
-		}
+		} else if (person.getId() != randomId) {
+			logger.debug("Person with wrong id: "+person.getId()+". It should be: " + randomId);
+			throw new OperationException("Wrong id in person in ReadPersonOperation");
+		} 
 	}
 
 	@Override
 	public void tearDown() throws TestDriverException {
+		logger.trace("Disconnection from the driver");
 		personDriver.close();	
 	}
 

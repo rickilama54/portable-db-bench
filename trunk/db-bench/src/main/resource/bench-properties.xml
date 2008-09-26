@@ -32,27 +32,32 @@
 	<!-- DATABASE LIST -->
 	<databases><!-- -->
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
-		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/><!--
+		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
 		<database class="com.eris4.benchdb.database.h2.H2Database"/>
 		<database class="com.eris4.benchdb.database.hsqldb.HsqldbDatabase"/> 
-		<database class="com.eris4.benchdb.database.db4o.Db4oDatabase"/>
+		<database class="com.eris4.benchdb.database.db4o.Db4oDatabase"/><!-- 
 		<database class="com.eris4.benchdb.database.mysql.MySQLDatabase"/>	
-			  -->
+			 -->
 	</databases>
 	
 	<!-- TEST LIST -->
 	<tests>
-		<!--  	-->		
+		<!--  	
 		<test name="Test di Test">								
-			<initializator name="PersonInitializator" numberOfObjects="10"/>
-			<task name="write task" time="5000" >
+			<initializator name="PersonInitializator" numberOfObjects="100"/>
+			<task name="write task" time="5000" tps="2000">
 				<operation name="WritePersonOperation" repetition="1"/>		
 			</task>	
-			<task name="read task" time="5000" >
+			<task name="read task" time="5000" tps="10">
 				<operation name="ReadPersonOperation" repetition="1"/>							
 			</task>	
 			<loggraphreporter name="transaction">
 				<line x="Time" xTask="write task" y="Transaction" yTask="write task" name="transactions"/>
+				<line x="Time" xTask="write task" y="AvgTransaction" yTask="write task" name="transactions"/>
+			</loggraphreporter>
+			<loggraphreporter name="transaction">
+				<line x="Time" xTask="read task" y="Transaction" yTask="read task" name="transactions"/>
+				<line x="Time" xTask="read task" y="AvgTransaction" yTask="read task" name="transactions"/>
 			</loggraphreporter>
 			<loggraphreporter name="memory usage">
 				<line x="TotalTransaction" xTask="write task" y="Memory"  name="memory"/>
@@ -63,81 +68,83 @@
 			<textreporter>
 			</textreporter>	
 		</test>	
-			
+		-->			
 		
-	<!--
+	
 		<test name="Telephone company use case">
-			<initializator name="AccountInitializator" numberOfObjects="10000"/>
-			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
-			<initializator name="SessionInitializator" numberOfObjects="10000"/>
-			<task tps="10" time="3000" name="Check balance">
+			<initializator name="AccountInitializator" numberOfObjects="1000000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="1000000"/>
+			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
+			<task tps="10" time="120000" name="Check balance">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
-				<operation name="ReadAccountOperation" repetition="1"/>					
-				<monitor name="TimeMonitor" id="21"/>
-				<monitor name="MemoryMonitor" id="22"/>						
-				<monitor name="TransactionMonitor" id="23"/>
-				<monitor name="AvgTransactionMonitor" id="24"/>
-				<monitor name="TotalTransactionMonitor" id="25"/>
+				<operation name="ReadAccountOperation" repetition="1"/>						
 			</task>	
-			<task tps="10" time="3000" name="Account creation"> 
+			<task tps="10" time="120000" name="Account creation"> 
 				<operation name="WriteAccountOperation" repetition="1"/>
-				<operation name="WriteMsisdnOperation" repetition="2"/>
-				<monitor name="TimeMonitor" id="26"/>
-				<monitor name="MemoryMonitor" id="27"/>						
-				<monitor name="TransactionMonitor" id="28"/>
-				<monitor name="AvgTransactionMonitor" id="29"/>
-				<monitor name="TotalTransactionMonitor" id="30"/>
+				<operation name="WriteMsisdnOperation" repetition="2"/>				
 			</task>				
-			<task tps="2000" time="3000" name="Start call">
+			<task tps="2000" time="120000" name="Start call">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
-				<operation name="WriteSessionOperation" repetition="1"/>		
-				<monitor name="TimeMonitor" id="31"/>
-				<monitor name="MemoryMonitor" id="32"/>						
-				<monitor name="TransactionMonitor" id="33"/>
-				<monitor name="AvgTransactionMonitor" id="34"/>
-				<monitor name="TotalTransactionMonitor" id="35"/>
+				<operation name="WriteSessionOperation" repetition="1"/>				
 			</task>	
-			<reporter name="check balance transactions">
-				<line x="21" y="23" name="Transactions"/>
-			</reporter>
-			<reporter name="check balance AVG transactions">
-				<line x="21" y="24" name="AVG"/>						
-			</reporter>
-			<reporter name="account creation transactions">
-				<line x="26" y="28" name="Transactions"/>
-			</reporter>
-			<reporter name="account creation AVG transactions">
-				<line x="26" y="29" name="AVG"/>					
-			</reporter>
-			<reporter name="start call transactions">
-				<line x="31" y="33" name="Transactions"/>				
-			</reporter>
-			<reporter name="start call AVG transactions">
-				<line x="31" y="34" name="AVG"/>				
-			</reporter>
-			<reporter name="Memory usage">
-				<line x="21" y="22" name="Memory"/>		
-			</reporter>
+			<loggraphreporter name="check balance transactions">
+				<line x="Time" xTask="Check balance" y="Transaction" yTask="Check balance" name="Transactions"/>
+			</loggraphreporter>
+			<loggraphreporter name="check balance AVG transactions">
+				<line x="Time" xTask="Check balance" y="AvgTransaction" yTask="Check balance" name="AVG"/>						
+			</loggraphreporter>
+			<loggraphreporter name="account creation transactions">
+				<line x="Time" xTask="Account creation" y="Transaction" yTask="Account creation" name="Transactions"/>
+			</loggraphreporter>
+			<loggraphreporter name="account creation AVG transactions">
+				<line x="Time" xTask="Account creation" y="AvgTransaction" yTask="Account creation" name="AVG"/>					
+			</loggraphreporter>
+			<loggraphreporter name="start call transactions">
+				<line x="Time" xTask="Start call" y="Transaction" yTask="Start call" name="Transactions"/>				
+			</loggraphreporter>
+			<loggraphreporter name="start call AVG transactions">
+				<line x="Time" xTask="Start call" y="AvgTransaction" yTask="Start call" name="AVG"/>
+			</loggraphreporter>
+			<lineargraphreporter name="memory usage">
+				<line x="Time" y="Memory" name="Memory"/>		
+			</lineargraphreporter>
+			<lineargraphreporter name="cpu usage">
+				<line x="Time" y="Cpu" name="cpu"/>
+			</lineargraphreporter>		
 		</test>		
 	
-		<test name="Memory and Trend Transaction Test">								
-			<initializator name="SessionInitializator" numberOfObjects="100000"/>
-			<task transaction="4000000" time="5000">
+		<test name="Memory and Trend Transaction Test (fixed total number of transaction)">								
+			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
+			<task transaction="1000000" time="120000" name="Generic Writer Task">
 				<operation name="WriteSessionOperation" repetition="1"/>
-				<monitor name="TimeMonitor" id="36"/>
-				<monitor name="MemoryMonitor" id="37"/>						
-				<monitor name="TransactionMonitor" id="38"/>
-				<monitor name="AvgTransactionMonitor" id="39"/>		
-				<monitor name="TotalTransactionMonitor" id="40"/>		
+			</task>	
+			<loggraphreporter name="Race">
+				<line x="Time" xTask="Generic Writer Task" y="TotalTransaction" yTask="Generic Writer Task" name="transaction"/>		
+			</loggraphreporter>		
+			<lineargraphreporter name="Memory usage">
+				<line x="TotalTransaction" xTask="Generic Writer Task" y="Memory" name="memory"/>		
+			</lineargraphreporter>	
+			<loggraphreporter name="Transaction per objects inserted">
+				<line x="TotalTransaction" xTask="Generic Writer Task" y="Transaction" yTask="Generic Writer Task" name="Transactions"/>		
+			</loggraphreporter>	
+		</test>	
+		
+		<test name="Cpu usage test (constant transaction per second)">								
+			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
+			<task tps="200" time="60000" name="Generic Writer Task">
+				<operation name="WriteSessionOperation" repetition="1"/>
 			</task>		
-			<reporter name="Memory usage">
-				<line y="37" x="40" name="Memory"/>		
-			</reporter>	
-			<reporter name="Transaction per objects inserted">
-				<line y="38" x="40" name="Transactions"/>		
-			</reporter>	
-		</test>				
-	-->
+			<lineargraphreporter name="Cpu usage">
+				<line x="Time" xTask="Generic Writer Task" y="Cpu" name="cpu"/>		
+			</lineargraphreporter>
+			<lineargraphreporter name="Memory usage">
+				<line x="TotalTransaction" xTask="Generic Writer Task" y="Memory" name="memory"/>		
+			</lineargraphreporter>	
+			<lineargraphreporter name="Transaction per objects inserted">
+				<line x="Time" xTask="Generic Writer Task" y="Transaction" yTask="Generic Writer Task" name="Transactions"/>		
+			</lineargraphreporter>	
+		</test>					
+	<!-- -->
 	</tests>
 </bench>

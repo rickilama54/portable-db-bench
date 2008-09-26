@@ -10,18 +10,20 @@ import com.eris4.benchdb.core.monitor.AvgTransactionMonitor;
 import com.eris4.benchdb.core.monitor.Monitor;
 import com.eris4.benchdb.core.monitor.TimeMonitor;
 import com.eris4.benchdb.core.monitor.TotalTransactionMonitor;
+import com.eris4.benchdb.core.monitor.TransactionMonitor;
 import com.eris4.benchdb.core.util.ThreadUtils;
 
 public class Task implements Runnable{
 
 	private boolean stop;
 	private int totalTransaction = Integer.MAX_VALUE;
-	private int transactionCheckTime = 100;
+	private int transactionCheckTime = 5;
 	private int transactionPerSecond = Integer.MAX_VALUE;
 	private long time;
 	
 	private AvgTransactionMonitor avgTransactionMonitor;
 	private TotalTransactionMonitor totalTransactionMonitor;
+	private TransactionMonitor transactionMonitor;
 	private TimeMonitor timeMonitor;
 
 	private List<Operation> operations;
@@ -35,6 +37,8 @@ public class Task implements Runnable{
 		avgTransactionMonitor = new AvgTransactionMonitor();
 		totalTransactionMonitor = new TotalTransactionMonitor();
 		timeMonitor = new TimeMonitor();
+		transactionMonitor = new TransactionMonitor();
+		this.monitors.add(transactionMonitor);
 		this.monitors.add(avgTransactionMonitor);
 		this.monitors.add(totalTransactionMonitor);
 		this.monitors.add(timeMonitor);
@@ -69,7 +73,8 @@ public class Task implements Runnable{
 	@Override
 	public void run() {
 		logger.trace("Task started");		
-		int sleepTime = 1000/(transactionPerSecond/transactionCheckTime);			
+		int sleepTime = 1500/(transactionPerSecond/transactionCheckTime);	
+		transactionMonitor.setPeriodCheckTime(Math.max(sleepTime*3, 100));//ahahah
 		for (Monitor monitor : monitors) {
 			monitor.start();
 		}	
@@ -97,7 +102,6 @@ public class Task implements Runnable{
 			}
 		}
 		logger.trace("Out of the while");
-		avgTransactionMonitor.stop();
 		for (Monitor monitor : monitors) {
 			monitor.stop();
 		}
@@ -129,9 +133,9 @@ public class Task implements Runnable{
 
 	public void setTransactionPerSecond(int transactionPerSecond) {
 		this.transactionPerSecond  = transactionPerSecond;
-		this.transactionCheckTime = transactionPerSecond / 10;
-		if (this.transactionCheckTime == 0){
-			this.transactionCheckTime = 1;
+		this.transactionCheckTime = transactionPerSecond / 100;
+		if (this.transactionCheckTime < 1){
+			this.transactionCheckTime = 2;
 		}
 	}
 	
@@ -158,6 +162,9 @@ public class Task implements Runnable{
 			} else if (monitor instanceof TimeMonitor) {
 				this.monitors.remove(timeMonitor);
 				timeMonitor = (TimeMonitor) monitor;				
+			} else if (monitor instanceof TransactionMonitor) {
+				this.monitors.remove(transactionMonitor);
+				transactionMonitor = (TransactionMonitor) monitor;				
 			}
 			this.monitors.add(monitor);			
 		}
