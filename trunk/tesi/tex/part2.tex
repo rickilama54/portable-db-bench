@@ -3,16 +3,30 @@
 \chapter{The Contest}
 \emph{Every database vendor cites benchmark data that "proves" its database is the fastest, and each vendor chooses the benchmark test that presents its product in the most favorable light}\cite{burleson}.
 
-In this chapter we will introduce performance analisys's problems, talking about how it is possible to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
-
-We will analyze the performance of each in-memory database we have previously studied. To achieve this goal it's not enough to read what the vendor says about his IMDB. If we work in this way, every IMDB should be the fastest, with the smallest footprint, very reliable, and so on. Therefore we are going to prepare several test to deeply analyze the performance, especially measuring the following parameters: 
-
-	\section{Measures}
+In this chapter we will introduce database performance analisys' problem, talking about how to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
 	
+	\section{Impartiality Problem}
+The most important problem related to performance analysys, and benchmarking, is the validity, understood as impartiality, of the results. 
+		
+		\subsection{Benchmarking History}
+The firsts benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}.
 	
-	\section{}
-	\subsection{The Axiom}
+		\subsubsection{Benchmark Wars}
+Also when benchmarks were published by third parties, or even by other competitors, the results were always dicredited by loser vendors, who complained for the numbers, starting often a benchmark war. 
+
+A benchmark war started when a loser of an important and visible benchmark reran it using specific enhancements for that particular test, making them get winning numbers. Then the opponent vendor reran the test using better enhancements made by a "one-start" guru. And so on to "five-star" gurus.
+
+		\subsubsection{Benchmarketing}
+Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmarks there was always a benchmark which rated a particular system the best. Therefore the vendors promoted only benchmarks which highlighted the strenths of their product, trying to make them as a standard. This leaded to aploriferation of confuse benchmarks.
+
+Althought this phenomenon was drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, it is still alive.
+	
+		\subsection{The Axiom}
+It is now evident how hard is to understand which database is the fastest. It is so much difficult
 \emph{There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark}\cite{Bernt}.
+	
+		\section{Measures}
+Analyzing 
 	
 	\section{Choosing a Database}
 Non c'è da considerare solo le performance, ma anche... no winner \cite{burleson}.	
@@ -29,7 +43,7 @@ Non c'è da considerare solo le performance, ma anche... no winner \cite{burleson
 			\subsubsection{Write New Account Test}
 			\subsubsection{Manage Call Test}
 	\section{Acid Test Case}
-Citazione tpc pdf pagina 46.
+Citazione tpc pdf pagina 46 \cite{TPC-C}.
 
 \chapter{Database Benchmark Softwares Overview}
 	\section{Benchmark Requirements}
