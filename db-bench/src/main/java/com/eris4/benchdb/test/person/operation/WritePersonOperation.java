@@ -28,7 +28,7 @@ public class WritePersonOperation extends Operation {
 	
 	@Override
 	public void setUp() throws TestDriverException {
-		logger.trace("Setting up WritePersonOperation");
+		logger.trace("Connection to the driver");
 		personDriver.connect();
 		numberOfObject = personDriver.getNumberOfPerson();		
 	}
@@ -50,6 +50,7 @@ public class WritePersonOperation extends Operation {
 
 	@Override
 	public void tearDown() throws TestDriverException {	
+		logger.trace("Disconnection from the driver");
 		personDriver.close();			
 	}
 	

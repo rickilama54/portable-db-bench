@@ -35,7 +35,7 @@ public abstract class Database {
 
 	public abstract String getFileName();
 
-	public abstract void shutdown() throws TestDriverException, FileNotFoundException, SQLException, IOException, URISyntaxException;
+	public abstract void shutdown() throws TestDriverException, FileNotFoundException, SQLException, IOException, URISyntaxException, ClassNotFoundException;
 
 	
 

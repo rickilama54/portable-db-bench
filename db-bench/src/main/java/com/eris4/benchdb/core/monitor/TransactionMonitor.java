@@ -10,7 +10,7 @@ public class TransactionMonitor extends Monitor{
 	private TimeMonitor timeMonitor = new TimeMonitor();
 	private boolean stop;
 	private long[] savedTime = new long[HISTORY_LENGTH];
-	private long PERDIO_CHECK = 100;
+	private long PERIOD_CHECK = 100;
 	private long savedValue;
 	
 
@@ -28,7 +28,7 @@ public class TransactionMonitor extends Monitor{
 		new Thread(){
 			public void run(){
 				while(!stop){
-					ThreadUtils.sleep(PERDIO_CHECK);
+					ThreadUtils.sleep(PERIOD_CHECK);
 					for (int i = 0; i < HISTORY_LENGTH-1; i++) {
 						savedNumberOfTransction[i] = savedNumberOfTransction[i+1];
 						savedTime[i] = savedTime[i+1];
@@ -44,9 +44,9 @@ public class TransactionMonitor extends Monitor{
 	
 	@Override
 	public void end(){
-		savedValue = getValue();
-		stop = true;
 		timeMonitor.stop();
+		savedValue = getValue();
+		stop = true;		
 	}
 
 	@Override
@@ -78,6 +78,10 @@ public class TransactionMonitor extends Monitor{
 		savedNumberOfTransction[0] = numberOfTransaction;
 		savedValue = 0;
 		numberOfTransaction = 0;
+	}
+
+	public void setPeriodCheckTime(int checkTime) {
+		this.PERIOD_CHECK = checkTime;		
 	}
 	
 
