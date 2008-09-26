@@ -22,10 +22,13 @@ Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmar
 Althought this phenomenon was drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, it is still alive.
 	
 		\subsection{The Axiom}
-It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition \ldots. Furthemore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
+It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthemore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
 
-By this reasoning comes out the axiom which will guide the work done in the following chapter
-\emph{"There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark"}\cite{Bernt}.
+By this reasoning comes out the axiom which will guide the following chapters, and the work behind this thesis:
+
+\emph{"There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark"}.
+
+This sentece comes from an article of Bern Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
 	
 		\section{Measures}
 Analyzing 
