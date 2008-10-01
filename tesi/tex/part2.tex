@@ -9,7 +9,7 @@ In this chapter we will introduce database performance analisys' problem, talkin
 The most important problem related to performance analysys, and benchmarking, is the validity, understood as impartiality, of the results. 
 		
 		\subsection{Benchmark History}
-The firsts benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}.
+The first benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}.
 	
 		\subsubsection{Benchmark Wars}
 Also when benchmarks were published by third parties, or even by other competitors, the results were always dicredited by loser vendors, who complained for the numbers, starting often a benchmark war. 
@@ -19,16 +19,25 @@ A benchmark war started when a loser of an important and visible benchmark reran
 		\subsubsection{Benchmarketing}
 Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmarks there was always a benchmark which rated a particular system the best. Therefore the vendors promoted only benchmarks which highlighted the strenths of their product, trying to make them as a standard. This leaded to aploriferation of confuse benchmarks.
 
-Althought this phenomenon was drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, it is still alive.
-	
-		\subsection{The Axiom}
+		\vspace{0.5cm}
+Althought these phenomenons were drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, they are still alive.
+
+		\subsection{Benchmark Differences}
 It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthemore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
 
+All these differences are grouped by three categories:
+\begin{enumerate}
+	\item Test scenario: reads, writes, etc.
+	\item Test implementation: there are different way to implement a specific transaction.
+	\item Execution platform.
+\end{enumerate}
+	
+		\subsection{The Axiom}
 By this reasoning comes out the axiom which will guide the following chapters, and the work behind this thesis:
 
-\emph{"There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark"}.
+\label{axiom} \emph{"There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark"}.
 
-This sentece comes from an article of Bern Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
+This sentece comes from an article of Bernt Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
 	
 		\section{Measures}
 While analyzing databases performance it's not possible to measure which database is the best, but we can measure many other parameters, which then can be interpreted in order to choose the database that fit our needs.
@@ -67,11 +76,11 @@ Other factors to consider are:
 	\item The operating system which will support the database.
 \end{itemize}
 
-In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmars there is \begin{bfseries} no \end{bfseries} absolutely a \begin{bfseries} winner \end{bfseries}.
+In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmars there is absolutely \begin{bfseries} no winner \end{bfseries}.
 
 
 \chapter{Test Suite}	
-
+The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}, expresses clearly the difficulty to analyze databases' performance and how every result obtained in a given benchmark depends on the specific set of criteria used in the benchmark itself. Therefore
 
 	\section{Base Test Case}
 		\subsection{Race Test}
