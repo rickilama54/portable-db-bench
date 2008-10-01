@@ -31,32 +31,48 @@ By this reasoning comes out the axiom which will guide the following chapters, a
 This sentece comes from an article of Bern Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
 	
 		\section{Measures}
-While analyzing databases performance it's not possible to measure which database is better, we can measure many other parameters, which then can be interpreted in order to choose the database that fit our needs.
+While analyzing databases performance it's not possible to measure which database is the best, but we can measure many other parameters, which then can be interpreted in order to choose the database that fit our needs.
 
-In our case we ... the following parameters:
+When choosing a database, the most important features to evaluate and compare are:
 
 \begin{description}
-	\item[Throughput]  aaaaa
-	\item[Latency/responsiveness] è inverso al throughput
+
+	\item[Throughput] is the number of transactions per second a database can sustain. This is the most important feature to consider when evaluating a database system. The most representative application scenario to understand the meaning of the throughput is an on-ine transaction processing system. This kind of application requires the database to sustain a certain number of transactions per second, based on the number of users, and not every database can suite the needs of the application itself. Another example is real time applications: they require even higher throughput. Therefore it is crucial to understand if a certain database is suitable to an application in terms of transactions per second.
 	
-	\item[File size]  per sapere la dimensione del db 
-	\item[RAM usage]  un altro modo per sapere la dimensione del db dato che parliamo di IMDB
+	\item[Latency/responsiveness] is the time the database takes to execute a transaction. It can be measured as the inverse of throughput.
 	
-	\item[CPU load]  aaaaa
-	\item[Disk I/O]  aaaaa
+	\item[File size] of the database image. While traditional DBMS' store objects (tables), indexes and a transaction log file on the file system, in-memory databases, achieving durability, usually store only a journal file containing all the transaction executed on the database. Altought this may seem a small file, it can become very huge, even more than the database image. This measure is interesting whereas each database use different data structures.
 	
-	\item[Startup time]  aaaaa
-	\item[Shutdown time]  aaaaa
-	\item[Total time]  aaaaa
+	\item[RAM usage] is the quantity of RAM a process uses while running. Talking about in-memory database, this can be another way to measure the size of the database image. In addition, this is a critical value to take in mind: IMDBs only works correctly and efficiently under the hypothesis that the RAM is enough to contain the whole database.
+	
+	\item[CPU load] becomes more important with the increasing number of services that live togheter in the same server. CPU is a precious resource shared by all the processes in a particular computer. While database systems can be usually deployed on a dedicated server, embedded databases live togheter at least with the application which use the database itself. And often in-memory databases are executed in embedded mode.
+	
+	\item[Disk I/O] shows the usage of the hard disk, the bottleneck for every traditional databases. Altought pure in-memory databases never access to the disk, when adding durability through a transaction log file, disk I/O is a bottleneck for IMDBs too. Therefore this measure is less important than the others because it is possible to take the hypothesis that every databases have the same disk I/O.
+	
+	\item[Startup time] is the time the database needs to become operational. 
+	
+	\item[Shutdown time] is the time the database takes to shut down and kill the process.
+	
 \end{description}
-
-
-
 	
 	\section{Choosing a Database}
-Non c'è da considerare solo le performance, ma anche... no winner \cite{burleson}.	
+From the previous sections, it's clear how it is difficult to use benchmarks to prove which database is the fastest. Even whit a fair benchmark, which can be very useful to understand the performance of databases, it is still difficult to choose a database: performance is only one factor to consider when evaluating a database \cite{burleson}. 
+
+Other factors to consider are:
+\begin{itemize}
+	\item The availability of trained DBAs.
+	\item The vendor's technical support.
+	\item The cost of ownership.
+	\item The hardware on which the database will be deployed.
+	\item The operating system which will support the database.
+\end{itemize}
+
+In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmars there is \begin{bfseries} no \end{bfseries} absolutely a \begin{bfseries} winner \end{bfseries}.
+
 
 \chapter{Test Suite}	
+
+
 	\section{Base Test Case}
 		\subsection{Race Test}
 	\section{Load Test Case}
