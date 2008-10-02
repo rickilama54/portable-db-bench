@@ -22,13 +22,13 @@ Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmar
 		\vspace{0.5cm}
 Althought these phenomenons were drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, they are still alive.
 
-		\subsection{Benchmark Differences}
+		\subsection{Benchmark Differences} \label{categories}
 It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthemore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
 
 All these differences are grouped by three categories:
 \begin{enumerate}
 	\item Test scenario: reads, writes, etc.
-	\item Test implementation: there are different way to implement a specific transaction.
+	\item Test implementation: there are different way to implement the same transaction.
 	\item Execution platform.
 \end{enumerate}
 	
@@ -76,16 +76,38 @@ Other factors to consider are:
 	\item The operating system which will support the database.
 \end{itemize}
 
-In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmars there is absolutely \begin{bfseries} no winner \end{bfseries}.
+In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmars there is absolutely \emph{no winner}.
 
 
 \chapter{Test Suite}	
-The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}, expresses clearly the difficulty to analyze databases' performance and how every result obtained in a given benchmark depends on the specific set of criteria used in the benchmark itself. Therefore
+In this chapter we will define the tests used to run a benchmark and to analyze performance. The tests are divided into three categories: base test case, load test case and acid test case.
+
+
+	\section{Why Define Test Scenarios}
+The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}, expresses clearly the difficulty to analyze databases' performance and how every result obtained in a given benchmark depends on the specific set of criteria used in the benchmark itself. 
+
+In paragraph \ref{categories} there is also a description of the three major categories in which the criteria fall. The first of these categories is test scenario: different test scenarios may show completely different performance results. It's not possible to avoid this behaviour, but we can define clearly every tests so that we will be aware of the differences between them.
 
 	\section{Base Test Case}
+Base test case is a collection of very simple tests, which are configured mostly as a race. This is exactly what the major part of benchmarks does, particularly Poleposition \cite{poleposition}.
+
+Every test can execute different read/write operations on the database and all these operations are inside a loop. The word \emph{transaction}, used extensively in the following paragraphs, refers to an execution of the loop, and therefore all the operations inside it.
+
+The key features of these kind of test are:
+\begin{itemize}
+	\item A fixed number of transaction before the test stop: so tests are configured as a race where every database must execute a certain number of transaction.
+	\item A fixed amount of time before the test stop: as an alternative to a fixed number of transaction, every test run for a specific amount of time, executing the maximum number of transactions per second. 
+	\item Different kind of object: tests must be able to execute create/retrieve
+	\item single task
+\end{itemize}
+
+
+	
 		\subsection{Race Test}
+		
+		
 	\section{Load Test Case}
-\emph{I don't buy the fastest car in the market. I don't even buy the fastest car I can afford. I buy a car I can afford that fits my needs... e.g. drive to the northern Norway with 2 grown-ups, 3 kids, a kayak, sleeping bags, a large tent, glacier climbing equipment, food, clothes and so on. Can't do that with a Lamborghini}\cite{Bernt}.
+\emph{"I don't buy the fastest car in the market. I don't even buy the fastest car I can afford. I buy a car I can afford that fits my needs... e.g. drive to the northern Norway with 2 grown-ups, 3 kids, a kayak, sleeping bags, a large tent, glacier climbing equipment, food, clothes and so on. Can't do that with a Lamborghini"}\cite{Bernt}.
 
 		\subsection{Real Time Prepaid System}
 			\subsubsection{Domain Object}
@@ -100,11 +122,14 @@ Citazione tpc pdf pagina 46 \cite{TPC-C}.
 Desirable attributes ... list of attributes \cite{tpc/sigmoid}.
 	
 	\section{The Open Source Database Benchmark}
+	
 	\section{Transaction Processing Performance Council}
 \emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors. Therefore, TPC-C should not be used as a substitute for a \bfseries{specific customer application} benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
 	
 	\section{Apache JMeter}
 	\section{Poleposition}
+	Poleposition fa schifo! \cite{poleposition}!!!
+	
 	
 \chapter{The New In-Memory Database Benchmark Application}
 	\section{Functional View}
