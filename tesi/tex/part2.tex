@@ -39,7 +39,7 @@ By this reasoning comes out the axiom which will guide the following chapters, a
 
 This sentence comes from an article of Bernt Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
 	
-		\section{Measures}
+		\section{Measures}\label{measures}
 While analyzing databases performance it's not possible to measure which database is the best, but we can measure many other parameters, which then can be interpreted in order to choose the database that fit our needs.
 
 When choosing a database, the most important features to evaluate and compare are:
@@ -101,24 +101,30 @@ The key features of these kind of test are:
 	\item Single task: to keep these test simple it's better avoid concurrent test, but it is still possible to implement concurrently the different operation executed on the database.
 \end{itemize}
 	
-		\subsection{Race Test}
-We already said base tests are configured inherently as a race. This tests can be used to show the maximum throughput the database can reach doing a particular operation on a specific object. Metaphorically it's like a rocket car in the desert trying to reach its speed limit. In a real application this is rarely useful, but can give us an idea of database's limits. 
+		\subsection{Race Test: Timed}
+We already said base tests are configured inherently as a race. These tests can be used to show the maximum throughput the database can reach doing a particular operation on a specific object. Metaphorically it's like a rocket car in the desert trying to reach its speed limit. In a real application this is rarely useful, but can give us an idea of database's limits. 
 
 In order to create a test scenario we have to define the object/s involved by the test, the operations on which the test loop and when the test should stop. For example:
 \begin{itemize}
 	\item The object represent a person, with only two fields: an id number and a name. This is a simple flat object. 
 	\item The only operation executed by the test is a write operation: every time an object will be added to the database.
+	\item 60 seconds is the stop condition of the test: after 60 seconds of execution of writes (objects person inserted in the database) the test stops.
+\end{itemize}
+Clearly the time is not a significant measure, every test's execution run for the same amount of time: 60 seconds. Instead of the time, a more interesting measure to take is the throughput. This test shows the maximum theoretical value for the throughput, which in a real usage scenario will never be outperformed. 
+
+This test, and its results, are not useful to understand the real performance and potentiality of the database and so to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough to our needs.
+
+		\subsection{Race Test: Transactions}
+This test is really similar to the previous test. The only difference is in the stop condition:
+\begin{itemize}
+	\item The object represent a person, with only two fields: an id number and a name. This is a simple flat object (same as before). 
+	\item The only operation executed by the test is a write operation: every time an object will be added to the database (same as before).
 	\item 1.000.000 of transactions is the stop condition of the test: when 1.000.000 of writes are executed (objects person inserted in the database) the test stops.
 \end{itemize}
-Clearly we can take the time of the test for each database and see who is the fastest (winner of the race), but a better parameter measure it's possible to take is the throughput. This test shows the maximum theoretical value for the throughput, which in a real usage scenario will never be outperformed. 
+While in the previous test the duration was meaningless, this time, like in a race, it shows which database is the fastest (the winner of the race). Despite this, the duration is still of little use. Also for the throughput the same considerations made before are still valid.
 
-This test, and its results, are not useful to understand the real performance and potentiality of the database and so to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests.
+But this new test is useful also to take other interesting measures, such as the file size, whose meaning has already been exaplined in paragraph \ref{measures}. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of transactions. 
 
-
-		\subsection{Base Memory Test}
-		\subsection{Base CPU Test}
-		
-		
 	\section{Load Test Case}
 \emph{"I don't buy the fastest car in the market. I don't even buy the fastest car I can afford. I buy a car I can afford that fits my needs... e.g. drive to the northern Norway with 2 grown-ups, 3 kids, a kayak, sleeping bags, a large tent, glacier climbing equipment, food, clothes and so on. Can't do that with a Lamborghini"}\cite{Bernt}.
 
