@@ -3,27 +3,27 @@
 \chapter{Performance Analisys Introduction}
 \emph{"Every database vendor cites benchmark data that proves its database is the fastest, and each vendor chooses the benchmark test that presents its product in the most favorable light"}\cite{burleson}.
 
-In this chapter we will introduce database performance analisys' problem, talking about how to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
+In this chapter we will introduce database performance analysis' problem, talking about how to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
 	
 	\section{Impartiality Problem}
-The most important problem related to performance analysys, and benchmarking, is the validity, understood as impartiality, of the results. 
+The most important problem related to performance analysis, and benchmarking, is the validity, understood as impartiality, of the results. 
 		
 		\subsection{Benchmark History}
 The first benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}.
 	
 		\subsubsection{Benchmark Wars}
-Also when benchmarks were published by third parties, or even by other competitors, the results were always dicredited by loser vendors, who complained for the numbers, starting often a benchmark war. 
+Also when benchmarks were published by third parties, or even by other competitors, the results were always discredited by loser vendors, who complained for the numbers, starting often a benchmark war. 
 
 A benchmark war started when a loser of an important and visible benchmark reran it using specific enhancements for that particular test, making them get winning numbers. Then the opponent vendor again reran the test using better enhancements made by a "one-star" guru. And so on to "five-star" gurus.
 
 		\subsubsection{Benchmarketing}
-Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmarks there was always a benchmark which rated a particular system the best. Therefore the vendors promoted only benchmarks which highlighted the strenths of their product, trying to make them as a standard. This leaded to aploriferation of confuse benchmarks.
+Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmarks there was always a benchmark which rated a particular system the best. Therefore the vendors promoted only benchmarks which highlighted the strengths of their product, trying to make them as a standard. This leaded to a ploriferation of confuse benchmarks.
 
 		\vspace{0.5cm}
-Althought these phenomenons were drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, they are still alive.
+Although these phenomenons were drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, they are still alive.
 
 		\subsection{Benchmark Differences} \label{categories}
-It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthemore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
+It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthermore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
 
 All these differences are grouped by three categories:
 \begin{enumerate}
@@ -37,7 +37,7 @@ By this reasoning comes out the axiom which will guide the following chapters, a
 
 \label{axiom} \emph{"There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark"}.
 
-This sentece comes from an article of Bernt Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
+This sentence comes from an article of Bernt Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
 	
 		\section{Measures}
 While analyzing databases performance it's not possible to measure which database is the best, but we can measure many other parameters, which then can be interpreted in order to choose the database that fit our needs.
@@ -46,7 +46,7 @@ When choosing a database, the most important features to evaluate and compare ar
 
 \begin{description}
 
-	\item[Throughput] is the number of transactions per second a database can sustain. This is the most important feature to consider when evaluating a database system. The most representative application scenario to understand the meaning of the throughput is an on-ine transaction processing system. This kind of application requires the database to sustain a certain number of transactions per second, based on the number of users, and not every database can suite the needs of the application itself. Another example is real time applications: they require even higher throughput. Therefore it is crucial to understand if a certain database is suitable to an application in terms of transactions per second.
+	\item[Throughput] is the number of transactions per second a database can sustain. This is the most important feature to consider when evaluating a database system. The most representative application scenario to understand the meaning of the throughput is an on-line transaction processing system. This kind of application requires the database to sustain a certain number of transactions per second, based on the number of users, and not every database can suite the needs of the application itself. Another example is real time applications: they require even higher throughput. Therefore it is crucial to understand if a certain database is suitable to an application in terms of transactions per second.
 	
 	\item[Latency/responsiveness] is the time the database takes to execute a transaction. It can be measured as the inverse of throughput.
 	
@@ -76,7 +76,7 @@ Other factors to consider are:
 	\item The operating system which will support the database.
 \end{itemize}
 
-In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmars there is absolutely \emph{no winner}.
+In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmarks there is absolutely \emph{no winner}.
 
 
 \chapter{Test Suite}	
@@ -86,7 +86,7 @@ In this chapter we will define the tests used to run a benchmark and to analyze 
 	\section{Why Define Test Scenarios}
 The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}, expresses clearly the difficulty to analyze databases' performance and how every result obtained in a given benchmark depends on the specific set of criteria used in the benchmark itself. 
 
-In paragraph \ref{categories} there is also a description of the three major categories in which the criteria fall. The first of these categories is test scenario: different test scenarios may show completely different performance results. It's not possible to avoid this behaviour, but we can define clearly every tests so that we will be aware of the differences between them.
+In paragraph \ref{categories} there is also a description of the three major categories in which the criteria fall. The first of these categories is test scenario: different test scenarios may show completely different performance results. It's not possible to avoid this behavior, but we can define clearly every tests so that we will be aware of the differences between them.
 
 	\section{Base Test Case}
 Base test case is a collection of very simple tests, which are configured mostly as a race. This is exactly what the major part of benchmarks does, particularly Poleposition \cite{poleposition}.
@@ -97,13 +97,26 @@ The key features of these kind of test are:
 \begin{itemize}
 	\item A fixed number of transaction before the test stop: so tests are configured as a race where every database must execute a certain number of transaction.
 	\item A fixed amount of time before the test stop: as an alternative to a fixed number of transaction, every test run for a specific amount of time, executing the maximum number of transactions per second. 
-	\item Different kind of object: tests must be able to execute create/retrieve
-	\item single task
+	\item Different kind of object: tests must be able to create/retrieve/update/delete simple flat objects with few fields, or complex flat objects with many fields, or still hierarchical objects, and so on. This feature let us test effectively the performance on the objects used in the domain of our interest.
+	\item Single task: to keep these test simple it's better avoid concurrent test, but it is still possible to implement concurrently the different operation executed on the database.
 \end{itemize}
-
-
 	
 		\subsection{Race Test}
+We already said base tests are configured inherently as a race. This tests can be used to show the maximum throughput the database can reach doing a particular operation on a specific object. Metaphorically it's like a rocket car in the desert trying to reach its speed limit. In a real application this is rarely useful, but can give us an idea of database's limits. 
+
+In order to create a test scenario we have to define the object/s involved by the test, the operations on which the test loop and when the test should stop. For example:
+\begin{itemize}
+	\item The object represent a person, with only two fields: an id number and a name. This is a simple flat object. 
+	\item The only operation executed by the test is a write operation: every time an object will be added to the database.
+	\item 1.000.000 of transactions is the stop condition of the test: when 1.000.000 of writes are executed (objects person inserted in the database) the test stops.
+\end{itemize}
+Clearly we can take the time of the test for each database and see who is the fastest (winner of the race), but a better parameter measure it's possible to take is the throughput. This test shows the maximum theoretical value for the throughput, which in a real usage scenario will never be outperformed. 
+
+This test, and its results, are not useful to understand the real performance and potentiality of the database and so to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests.
+
+
+		\subsection{Base Memory Test}
+		\subsection{Base CPU Test}
 		
 		
 	\section{Load Test Case}
