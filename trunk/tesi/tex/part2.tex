@@ -126,7 +126,23 @@ While in the previous test the duration was meaningless, this time, like in a ra
 But this new test is useful also to take other interesting measures, such as the file size, whose meaning has already been exaplined in paragraph \ref{measures}. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of transactions. 
 
 	\section{Load Test Case}
+Restrictions introduced by base tests are very evident although they can be usefull in certain situation and for simple and fast approximate results. These restrictions are due to the impossibility to simulate real complex application scenario. Substantially the main restrictions are two:
+\begin{enumerate}
+	\item Real application scenario are rarely single thread/task: to stick to the axiom at paragraph \ref{axiom}, the best way to understand which database fits our needs is to make test scnerios most realistic as possible.
+	\item The second restriction result from the first:trying to make test scenarios more realistic, it is necessary to introduce some sort of control for the throughput. When a test stress the database engine to its maximum level, some other mechanisms may not work properly, such as the garbage collector, caching, indexing, etc. In addition, when a test concurrently accesses the database, this restriction is even more evident: if a thread is not limited in its transactions per second, it may lower the performance of other threads.
+\end{enumerate}
+
+Base test case offer very important and useful results, but when the need to test the average load of a real application, of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests, differently by base tests, are:
+\begin{itemize}
+	\item Multi task: there will be not only a combination of read/write/update/delete in one transaction executed synchronizedly, but in more transactions running concurrently against the database.
+	\item A bond on the throughput: for every transaction it is possible to specify the maximum throughput, if the database can reach it, in order to simulate real application usage.
+\end{itemize}
+
+From these features comes the name "load test case", which means the simulation of an average, or specific, load on a certain database. This idea, and the need of this kind of tests,  can simply be exaplined by a Bernt's metaphor, who has been already cited for the axiom at paragraph \ref{axiom}. The metaphor is:
+
 \emph{"I don't buy the fastest car in the market. I don't even buy the fastest car I can afford. I buy a car I can afford that fits my needs... e.g. drive to the northern Norway with 2 grown-ups, 3 kids, a kayak, sleeping bags, a large tent, glacier climbing equipment, food, clothes and so on. Can't do that with a Lamborghini"}\cite{Bernt}.
+
+This metaphor explain exactly the idea that i don't need a database too much 
 
 		\subsection{Real Time Prepaid System}
 			\subsubsection{Domain Object}
