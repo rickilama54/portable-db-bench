@@ -142,13 +142,70 @@ From these features comes the name "load test case", which means the simulation 
 
 \emph{"I don't buy the fastest car in the market. I don't even buy the fastest car I can afford. I buy a car I can afford that fits my needs... e.g. drive to the northern Norway with 2 grown-ups, 3 kids, a kayak, sleeping bags, a large tent, glacier climbing equipment, food, clothes and so on. Can't do that with a Lamborghini"}\cite{Bernt}.
 
-This metaphor explain exactly the idea that i don't need a database too much 
+This metaphor explain exactly the need not for the fastest database, but for a database which can sustain the load of the application without any complexity during its normal functioning, such as a database snapshot freezing all writes operation, or a bug/memory leak making the database crash.
 
 		\subsection{Real Time Prepaid System}
-			\subsubsection{Domain Object}
-			\subsubsection{Check Balance Test}
-			\subsubsection{Write New Account Test}
-			\subsubsection{Manage Call Test}
+Keeping these features in mind, we want to create a load test case to analyze exactly which performance  a database system  offers for a practical use case: a real time prepaid system, such as a telephone company. Basically the test is the concurrent execution of 3 different task, each involving complex transactions: check balance, accounts handling, and manage calls and services. 
+
+We start describing the domain objects used by this test, and the we pass to analyze the three different task involved.
+		
+			\subsubsection{Domain Objects}
+Domain objects involved by this test are typical for a telephone company who handle telephone calls for every person, which is rappresented by an account, and which can access to many service through a web application, offered by the company for its customers. There are four domain objects used byt this test:
+\begin{description}
+	\item[Account]: this object represent a customer in the real time prepaid system. It contains all the typical information needed by a telephone company, such as the balance, the type of subcription, etc. In other words, this is a complex flat object, that is having many private field but no hierarchies. In a real application there are milions of accounts instantiated in the database, one for every customer. This dimesion is also very important to make the simulation as real as possible, in order to get realistic results.
+	\item[Msisdn]: it is the unique number which identify a subscription is a GSM or UMTS mobile network, it is the telephone number. Each msisdn object is linked to an account. Therefore there are also milions of msisdn objects in the database, referring to a real application.
+	\item[Webuser]: this represents the customer logged in the company web site. It contains the username and the password to access to web services. In common with msisdn, it is linked to an account too, and both are simple flat objects: a very simple object with few fields.
+	\item[Session]: when a customer start a call, an object session is created, and it keep all the information about the call which is going on, until the call ends. After the call this object doesn't is deleted. A session contain the start time of the call represented, and the time of the last unit. Each session references to an account, which started the call. But there are not as many sessions as accounts, not everyone will start a call in the same time, except New Year's Day!
+\end{description}
+
+			\subsubsection{Check Balance Task}
+This task simulate a customer checking his residual balance for the prepaid card, a SIM in the case of the telephone company. First, the customer logins in the website or calls the dedicated number, and then read/listen his balance.
+
+Each task, as already explained, corresponds to a transaction composed by different operations. This leads to illustrate how the task work in terms of operations executed:
+\begin{description}
+	\item[Read] randomly the msisdn if the customer makes a call or the webuser if he access to the website.
+	\item[Read] the account referenced by the msisdn or webuser, and then check the residual balance, a simple account's field.
+\end{description}
+So this task executes a total of two read for every transaction.
+
+Another important parameter to make this task a parte of a load test is the amount of transactions per second this task should sustain. The average throughput for check balance task, considering there are milions of accounts in the database, is about ten transactions per second.
+
+			\subsubsection{Accounts Handling Task}
+The account handling task simulates the creation of a new subscription by a customer, and so the creation of the account object, and after the relative msisdn and webuser. 
+
+The operations involved by this task are:
+\begin{description}
+	\item[Write] of a new account: all informations of a customer are inserted in the system by creating a new account object.
+	\item[Write] of a new msisdn, cointaining the telephone number of the new subscription.
+	\item[Write] of a new webuser with username and password for the customer.
+\end{description}
+To sum up, this task executes three write on the database for every transaction.
+
+To simulate a real scenario, the average throughput is about ten transactions per second.
+
+			\subsubsection{Manage Calls and Services Task}
+This task simulates a call started by a customer. After checking the balance, and therefore if the account is allowed to start a call or use a service, a new session is created and updated every 30 seconds, the unit time. When the call ends, about two minutes, the session is deleted.
+
+In terms of operations executed on the database, it can be described as follow:
+\begin{description}
+	\item[Read] 
+	\item[Read] 
+	\item[Write] 
+	\item[Update] 
+	\item[Delete] 
+\end{description}
+
+   1. retrieve 1 msisdn or 1 webuser
+   2. navigate to the acocunt object
+   3. check if the user has the permission for the operation requested
+   4. open a call session, updating the acocunt
+   5. refresh the call session every 30 seconds, updating the account
+   6. end the call session, deleting it 
+
+
+
+			\subsubsection{Considerazioni finali e riepilogo}
+			
 	\section{Acid Test Case}
 Citazione tpc pdf pagina 46 \cite{TPC-C}.
 
