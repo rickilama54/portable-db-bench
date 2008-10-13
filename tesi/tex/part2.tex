@@ -132,7 +132,7 @@ Restrictions introduced by base tests are very evident although they can be usef
 	\item The second restriction result from the first:trying to make test scenarios more realistic, it is necessary to introduce some sort of control for the throughput. When a test stress the database engine to its maximum level, some other mechanisms may not work properly, such as the garbage collector, caching, indexing, etc. In addition, when a test concurrently accesses the database, this restriction is even more evident: if a thread is not limited in its transactions per second, it may lower the performance of other threads.
 \end{enumerate}
 
-Base test case offer very important and useful results, but when the need to test the average load of a real application, of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests, differently by base tests, are:
+Base test case offer very important and useful results, but when the need to test the average load of a real application of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests, differently by base tests, are:
 \begin{itemize}
 	\item Multi task: there will be not only a combination of read/write/update/delete in one transaction executed synchronizedly, but in more transactions running concurrently against the database.
 	\item A bond on the throughput: for every transaction it is possible to specify the maximum throughput, if the database can reach it, in order to simulate real application usage.
@@ -162,52 +162,57 @@ Domain objects involved by this test are typical for a telephone company who han
 This task simulate a customer checking his residual balance for the prepaid card, a SIM in the case of the telephone company. First, the customer logins in the website or calls the dedicated number, and then read/listen his balance.
 
 Each task, as already explained, corresponds to a transaction composed by different operations. This leads to illustrate how the task work in terms of operations executed:
-\begin{description}
-	\item[Read] randomly the msisdn if the customer makes a call or the webuser if he access to the website.
-	\item[Read] the account referenced by the msisdn or webuser, and then check the residual balance, a simple account's field.
-\end{description}
+\begin{enumerate}
+	\item \emph{Read} randomly the msisdn if the customer makes a call or the webuser if he access to the website.
+	\item \emph{Read} the account referenced by the msisdn or webuser, and then check the residual balance, a simple account's field.
+\end{enumerate}
 So this task executes a total of two read for every transaction.
 
-Another important parameter to make this task a parte of a load test is the amount of transactions per second this task should sustain. The average throughput for check balance task, considering there are milions of accounts in the database, is about ten transactions per second.
+Another important parameter to make this task a part of a load test is the amount of transactions per second this task should sustain. The average throughput for check balance task, considering there are milions of accounts in the database, is about ten transactions per second.
 
 			\subsubsection{Accounts Handling Task}
 The account handling task simulates the creation of a new subscription by a customer, and so the creation of the account object, and after the relative msisdn and webuser. 
 
 The operations involved by this task are:
-\begin{description}
-	\item[Write] of a new account: all informations of a customer are inserted in the system by creating a new account object.
-	\item[Write] of a new msisdn, cointaining the telephone number of the new subscription.
-	\item[Write] of a new webuser with username and password for the customer.
-\end{description}
+\begin{enumerate}
+	\item \emph{Write} of a new account: all informations of a customer are inserted in the system by creating a new account object.
+	\item \emph{Write} of a new msisdn, cointaining the telephone number of the new subscription.
+	\item \emph{Write} of a new webuser with username and password for the customer.
+\end{enumerate}
 To sum up, this task executes three write on the database for every transaction.
 
 To simulate a real scenario, the average throughput is about ten transactions per second.
 
 			\subsubsection{Manage Calls and Services Task}
-This task simulates a call started by a customer. After checking the balance, and therefore if the account is allowed to start a call or use a service, a new session is created and updated every 30 seconds, the unit time. When the call ends, about two minutes, the session is deleted.
+This task simulates a call started by a customer. After checking the balance, and therefore if the account is allowed to start a call or use a service, a new session is created and updated every 30 seconds, the unit time. On the average a call lasts about two minutes. After this time the session is deleted.
 
 In terms of operations executed on the database, it can be described as follow:
-\begin{description}
-	\item[Read] 
-	\item[Read] 
-	\item[Write] 
-	\item[Update] 
-	\item[Delete] 
-\end{description}
+\begin{enumerate}
+	\item \emph{Read} the msisdn of the customer starting the call.
+	\item \emph{Read} the account referenced by the msisdn, and its residual balance, and the other parameters, to check the user's permissions for the service requested.
+	\item \emph{Write} a new object session and \emph{update} account's balance.
+	\item \emph{Update} the session every 30 seconds and the account's balance.
+	\item \emph{Delete} the session after the call is ended.
+\end{enumerate}
 
-   1. retrieve 1 msisdn or 1 webuser
-   2. navigate to the acocunt object
-   3. check if the user has the permission for the operation requested
-   4. open a call session, updating the acocunt
-   5. refresh the call session every 30 seconds, updating the account
-   6. end the call session, deleting it 
+This is the most complex and important task, because it represents a very frequent task. No wonder if the average throughput is about 2000 transactions per second.
 
+			\subsubsection{Real Time Prepaid System Summary}
+To sum up this whole load test we have to define the objects used by the test, the task concurrently executed, and when the test stop.
 
+There are four domain objects involved by this test. Three of these are simple flat objects: msisdn, webuser and session. The forth is a complex flat object: account. The number of objects already initialized in the database, before the test start, is on the order of millions.
 
-			\subsubsection{Considerazioni finali e riepilogo}
+Three task are executed concurrenlty. One is the major task, simulating a customer's call, and it runs 2000 times per second. This task is the bottleneck of a real application, and it could be also tested alone in a base test to understand the database's limits in running this task, and therefore to have an idea of the database potentiality. The other two are minor task, in fact the throughput is limited to ten transactions per second.
+
+This test is a load test and therefore we are not interested in stopping it after a certain amount of transactions executed. But what we want is to let the test run for many minutes until to many hours to understand if the database can sustain the load generated by the test. Then the stop condition will be a specific amount of time.
 			
 	\section{Acid Test Case}
-Citazione tpc pdf pagina 46 \cite{TPC-C}.
+Base and load test case are used to analyze databases' performance, but, as already said, a database is not made only by performance: there are many other parameters to take into consideration before judging a database, such as ACID properties. To make these tests an all-round test suite, we could add some tests for verifying databases' ACID properties. The above correspons to the work done by the Transaction Processing Performance Council with their TPC-C benchmark \cite{TPC-C}: performance is not the only benchmark's goal, but ACID properties are tested too.
+
+Especially the durability property is most interesting to analyze when talking about in-memory databases. Pure IMDB have no durability at all, while it can be added in different degree, as already described in paragraph \ref{durability}. Therefore would be very useful to know, except the vendor's words, how strong is the durability solution implemented by the in-memory database.
+
+Nevertheless, testing ACID properties is not a simple goal to achieve. Particularly the durability is the hardest property to be tested. Also the tests developed by TPC are not intended to be an exhaustive quality assurance test.
+%Citazione tpc pdf pagina 46 \cite{TPC-C}
 
 \chapter{Database Benchmark Softwares Overview}
 	\section{Benchmark Requirements}
