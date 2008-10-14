@@ -1,6 +1,6 @@
 \part{Performance Analysis}
 
-\chapter{Performance Analisys Introduction}
+\chapter{Performance Analisys Introduction} \label{analysis-introduction}
 \emph{"Every database vendor cites benchmark data that proves its database is the fastest, and each vendor chooses the benchmark test that presents its product in the most favorable light"}\cite{burleson}.
 
 In this chapter we will introduce database performance analysis' problem, talking about how to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
@@ -80,13 +80,15 @@ In other words, it is very difficult to choose the right database for our needs,
 
 
 \chapter{Test Suite}	
-In this chapter we will define the tests used to run a benchmark and to analyze performance. The tests are divided into three categories: base test case, load test case and acid test case.
+In this chapter we are going to discuss the first of the three big differences, described in paragraph \ref{categories}, which make a database seem faster or slower: the test scenarios used to run a benchmark and to analyze database's performance. Besides a tests' description, a suite of test will be created, allowing us to analyze the databases' features of our interest. 
+
+The tests are divided into three categories: base test case, load test case and acid test case. The first category contains simple tests configured as a race between databases, and it is used to obtain an approximate idea in an early stage. Instead, the second category simulate real application scenario, and it can give us a detailed analysis of the real database's performance. Finally the last category is built to understand if the database is ACID compliant.
 
 
 	\section{Why Define Test Scenarios}
-The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}, expresses clearly the difficulty to analyze databases' performance and how every result obtained in a given benchmark depends on the specific set of criteria used in the benchmark itself. 
+The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}, expresses clearly the difficulty to analyze databases' performance and how every result obtained in a given benchmark depends on the specific set of criteria used in the benchmark itself. In paragraph \ref{categories} there is also a description of the three major categories in which the criteria fall. The first of these categories is test scenarios: different test scenarios may show completely different performance results. It's not possible to avoid this behavior, but we can define clearly every tests so that we will be aware of the differences between them. 
 
-In paragraph \ref{categories} there is also a description of the three major categories in which the criteria fall. The first of these categories is test scenario: different test scenarios may show completely different performance results. It's not possible to avoid this behavior, but we can define clearly every tests so that we will be aware of the differences between them.
+Moreover we can model these tests in a way they simulate real application scenarios, so that real performances will be very close to the results obtained by the tests.
 
 	\section{Base Test Case}
 Base test case is a collection of very simple tests, which are configured mostly as a race. This is exactly what the major part of benchmarks does, particularly Poleposition \cite{poleposition}.
@@ -126,7 +128,7 @@ While in the previous test the duration was meaningless, this time, like in a ra
 But this new test is useful also to take other interesting measures, such as the file size, whose meaning has already been exaplined in paragraph \ref{measures}. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of transactions. 
 
 	\section{Load Test Case}
-Restrictions introduced by base tests are very evident although they can be usefull in certain situation and for simple and fast approximate results. These restrictions are due to the impossibility to simulate real complex application scenario. Substantially the main restrictions are two:
+Restrictions introduced by base tests are very evident although they can be useful in certain situation and for simple and fast approximate results. These restrictions are due to the impossibility to simulate real complex application scenario. Substantially the main restrictions are two:
 \begin{enumerate}
 	\item Real application scenario are rarely single thread/task: to stick to the axiom at paragraph \ref{axiom}, the best way to understand which database fits our needs is to make test scnerios most realistic as possible.
 	\item The second restriction result from the first:trying to make test scenarios more realistic, it is necessary to introduce some sort of control for the throughput. When a test stress the database engine to its maximum level, some other mechanisms may not work properly, such as the garbage collector, caching, indexing, etc. In addition, when a test concurrently accesses the database, this restriction is even more evident: if a thread is not limited in its transactions per second, it may lower the performance of other threads.
@@ -152,8 +154,8 @@ We start describing the domain objects used by this test, and the we pass to ana
 			\subsubsection{Domain Objects}
 Domain objects involved by this test are typical for a telephone company who handle telephone calls for every person, which is rappresented by an account, and which can access to many service through a web application, offered by the company for its customers. There are four domain objects used byt this test:
 \begin{description}
-	\item[Account]: this object represent a customer in the real time prepaid system. It contains all the typical information needed by a telephone company, such as the balance, the type of subcription, etc. In other words, this is a complex flat object, that is having many private field but no hierarchies. In a real application there are milions of accounts instantiated in the database, one for every customer. This dimesion is also very important to make the simulation as real as possible, in order to get realistic results.
-	\item[Msisdn]: it is the unique number which identify a subscription is a GSM or UMTS mobile network, it is the telephone number. Each msisdn object is linked to an account. Therefore there are also milions of msisdn objects in the database, referring to a real application.
+	\item[Account]: this object represent a customer in the real time prepaid system. It contains all the typical information needed by a telephone company, such as the balance, the type of subscription, etc. In other words, this is a complex flat object, that is having many private field but no hierarchies. In a real application there are millions of accounts instantiated in the database, one for every customer. This dimesion is also very important to make the simulation as real as possible, in order to get realistic results.
+	\item[Msisdn]: it is the unique number which identify a subscription is a GSM or UMTS mobile network, it is the telephone number. Each msisdn object is linked to an account. Therefore there are also millions of msisdn objects in the database, referring to a real application.
 	\item[Webuser]: this represents the customer logged in the company web site. It contains the username and the password to access to web services. In common with msisdn, it is linked to an account too, and both are simple flat objects: a very simple object with few fields.
 	\item[Session]: when a customer start a call, an object session is created, and it keep all the information about the call which is going on, until the call ends. After the call this object doesn't is deleted. A session contain the start time of the call represented, and the time of the last unit. Each session references to an account, which started the call. But there are not as many sessions as accounts, not everyone will start a call in the same time, except New Year's Day!
 \end{description}
@@ -168,7 +170,7 @@ Each task, as already explained, corresponds to a transaction composed by differ
 \end{enumerate}
 So this task executes a total of two read for every transaction.
 
-Another important parameter to make this task a part of a load test is the amount of transactions per second this task should sustain. The average throughput for check balance task, considering there are milions of accounts in the database, is about ten transactions per second.
+Another important parameter to make this task a part of a load test is the amount of transactions per second this task should sustain. The average throughput for check balance task, considering there are millions of accounts in the database, is about ten transactions per second.
 
 			\subsubsection{Accounts Handling Task}
 The account handling task simulates the creation of a new subscription by a customer, and so the creation of the account object, and after the relative msisdn and webuser. 
@@ -176,7 +178,7 @@ The account handling task simulates the creation of a new subscription by a cust
 The operations involved by this task are:
 \begin{enumerate}
 	\item \emph{Write} of a new account: all informations of a customer are inserted in the system by creating a new account object.
-	\item \emph{Write} of a new msisdn, cointaining the telephone number of the new subscription.
+	\item \emph{Write} of a new msisdn, containing the telephone number of the new subscription.
 	\item \emph{Write} of a new webuser with username and password for the customer.
 \end{enumerate}
 To sum up, this task executes three write on the database for every transaction.
@@ -202,30 +204,63 @@ To sum up this whole load test we have to define the objects used by the test, t
 
 There are four domain objects involved by this test. Three of these are simple flat objects: msisdn, webuser and session. The forth is a complex flat object: account. The number of objects already initialized in the database, before the test start, is on the order of millions.
 
-Three task are executed concurrenlty. One is the major task, simulating a customer's call, and it runs 2000 times per second. This task is the bottleneck of a real application, and it could be also tested alone in a base test to understand the database's limits in running this task, and therefore to have an idea of the database potentiality. The other two are minor task, in fact the throughput is limited to ten transactions per second.
+Three task are executed concurrently. One is the major task, simulating a customer's call, and it runs 2000 times per second. This task is the bottleneck of a real application, and it could be also tested alone in a base test to understand the database's limits in running this task, and therefore to have an idea of the database potentiality. The other two are minor task, in fact the throughput is limited to ten transactions per second.
 
 This test is a load test and therefore we are not interested in stopping it after a certain amount of transactions executed. But what we want is to let the test run for many minutes until to many hours to understand if the database can sustain the load generated by the test. Then the stop condition will be a specific amount of time.
 			
 	\section{Acid Test Case}
-Base and load test case are used to analyze databases' performance, but, as already said, a database is not made only by performance: there are many other parameters to take into consideration before judging a database, such as ACID properties. To make these tests an all-round test suite, we could add some tests for verifying databases' ACID properties. The above correspons to the work done by the Transaction Processing Performance Council with their TPC-C benchmark \cite{TPC-C}: performance is not the only benchmark's goal, but ACID properties are tested too.
+Base and load test case are used to analyze databases' performance, but, as already said, a database is not made only by performance: there are many other parameters to take into consideration before judging a database, such as ACID properties. To make these tests an all-round test suite, we could add some tests for verifying databases' ACID properties. The above corresponds to the work done by the Transaction Processing Performance Council with their TPC-C benchmark \cite{TPC-C}: performance is not the only benchmark's goal, but ACID properties are tested too.
 
 Especially the durability property is most interesting to analyze when talking about in-memory databases. Pure IMDB have no durability at all, while it can be added in different degree, as already described in paragraph \ref{durability}. Therefore would be very useful to know, except the vendor's words, how strong is the durability solution implemented by the in-memory database.
 
-Nevertheless, testing ACID properties is not a simple goal to achieve. Particularly the durability is the hardest property to be tested. Also the tests developed by TPC are not intended to be an exhaustive quality assurance test.
+Nevertheless, testing ACID properties is not a simple goal to achieve. Particularly the durability is the hardest property to be tested. Also the tests developed by TPC are not intended to be an \emph{exhaustive quality assurance test}.
 %Citazione tpc pdf pagina 46 \cite{TPC-C}
 
 \chapter{Database Benchmark Softwares Overview}
+The difficulty to analyze objectively databases' performance has already been exapalined and understood in chapter \ref{analysis-introduction}. The major problems were found in the differences of test scenarios, implementation and execution platform. In the previous chapter we tried to minimize the first issue by modeling different test scenarios like real application scenarios. This is not a panacea, but in this way results produced by these tests are more valid for the applications they simulate than generic tests. 
+
+The focus is now moved on the second and third issues: the tests' implementation and the execution platform, in other words an application benchmark used to run test scenarios. In this chapter we analyze more or less deeply different open source benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a specific benchmark.
+
 	\section{Benchmark Requirements}
+Before starting the analysis, it's necessary to make clear the requirements a benchmark should have to run our tests. These requirements will give us a set of parameters which can be used to evaluate properly a benchmark. But before the requirements, it's important to point out that \emph{the more general the benchmark, then less useful it is for anythng in particular}. This sentence comes from the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}.
+
+These features we are interested in are:	
+
+\begin{itemize}
+	\item portable
+	\item understable
+	\item flexible
+	\item detailed report
+	\item visual report 
+	\item relational,object and embedded databases
+	\item easy to use
+	\item 
+	%good benchmark
+	\item define the playing field 
+	\item accelerate progress for engineers
+	\item set the perfomance agenda for managers
+\end{itemize}
 Desirable attributes ... list of attributes \cite{tpc/sigmoid}.
+
 	
 	\section{The Open Source Database Benchmark}
+Surfing the web and looking for an open source benchmark, this is the first benchmark it's possible to find...
 	
 	\section{Transaction Processing Performance Council}
 \emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors. Therefore, TPC-C should not be used as a substitute for a \bfseries{specific customer application} benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
 	
 	\section{Apache JMeter}
+	
 	\section{Poleposition}
 	Poleposition fa schifo! \cite{poleposition}!!!
+	
+	\section{Overview's Results}
+Tabella riassuntiva, con le caratteristiche di ogni benchmark che ci hanno convinto
+Nessun benchmark va bene.
+Si potrebbe pensare di prendere alcuni benchmark ed estenderli implementando i casi di nostro interesse.
+Oppure fare una nuova applicazione di benchmark...segue nel prossimo capitolo.
+	
+	
 	
 	
 \chapter{The New In-Memory Database Benchmark Application}
