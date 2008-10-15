@@ -3,27 +3,34 @@
 \chapter{Performance Analisys Introduction} \label{analysis-introduction}
 \emph{"Every database vendor cites benchmark data that proves its database is the fastest, and each vendor chooses the benchmark test that presents its product in the most favorable light"}\cite{burleson}.
 
-In this chapter we will introduce database performance analysis' problem, talking about how to measure the performance, how to understand who is the fastest and how to choose the best database. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
+In this chapter we will introduce the database performance analysis' problem, and so we will discuss about how to measure the performance, how to understand who is the fastest and how to choose the best database depending on your needs. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
 	
 	\section{Impartiality Problem}
-The most important problem related to performance analysis, and benchmarking, is the validity, understood as impartiality, of the results. 
+The most important problem related to performance analysis, and benchmarking, is the validity, understood as impartiality, of the results. It's impossible to develop a benchmark which produces the same results obtained by real applications, and it's very hard to have the results similar to real performance too. Moreover every benchmark may produce valid results only for a small set of applications, and therefore there is the need to use different benchmarks. All these difficulties were emphasized by vendors who, with benchmarks wars and benchmarketing, complained for fake results, and consequently brought to a lack of trust in benchmarks. In this section we discuss about these difficulties, starting from a benchmark's definition until an analysis of the main differences in benchmarks which produce different results.
+
+		\subsection{Benchmark Introduction}
+Before starting all this discussion, it's necessary to explain the benchmark's meaning in computer science. The term benchmark refers to the act of running a program, or a set of programs, against an object in order to evaluate its performance, but it is also mostly used to represent the program or programs themselves. In this work we refer to software benchmarks run against database management systems. The main purpose of a benchmark is to compare the performance of different systems across different platforms. With the advance of computer architecture, it is become more difficult to evaluate system's performance only by reading its specifications. Therefore a suite of tests is developed to compare different architecture. This suite of tests, intended as validation suite, is also used to verify the correctness, the properties of a software. 
+
+In particular benchmarks mimics specific workload giving a good measure of real world performance. But ideally a benchmark should substitute the application simulated only if it is unavailable, because only the real application can show real performance. Moreover when performance is critical, the only benchmark that matters is the inteded workload.
+
+The benchmark's world is full of challenges starting from a benchmark development, to the interpretetion of the results. Famous benchmark tend to become useless after some time, because the vendors tune their products specifically for that benchmark. In addition most benchmarks focus only on the speed which is expressed in term of throughput, and forget many other important features. Moreover many server architectures degrade drastically near 100\% level of usage, and this is a problem which is not always taken into consideration. Some vendor may publish benchmarks at continuous at about 80\% usage, and, on the other hand, some other benchmark doesn't take this problem into account, and execute only tests at 100\% usage.
 		
 		\subsection{Benchmark History}
-The first benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}.
+As already highlighted in the previous paragraph, with the advance of computer architecture the performance analisys became more difficult: it's not possible to evaluate a system only by reading its specifications. A computer program, a benchmark, simulating a specific workload, became a solution to this problem.
+
+The first benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}. This problem was not solved by a benchmark pubblication by a third party, which usually brought to a benchmark war.
 	
 		\subsubsection{Benchmark Wars}
-Also when benchmarks were published by third parties, or even by other competitors, the results were always discredited by loser vendors, who complained for the numbers, starting often a benchmark war. 
-
-A benchmark war started when a loser of an important and visible benchmark reran it using specific enhancements for that particular test, making them get winning numbers. Then the opponent vendor again reran the test using better enhancements made by a "one-star" guru. And so on to "five-star" gurus.
+Also when benchmarks were published by third parties, or even by other competitors, the results were always discredited by losing vendors, who complained for the numbers, starting often a benchmark war. A benchmark war started when a loser of an important and visible benchmark reran it using specific enhancements for that particular test, making them get winning numbers. Then the opponent vendor again reran the test using better enhancements made by a "one-star" guru. And so on to "five-star" gurus. Every result so obtained by a benchmark could not be considered a valid result, firstly because the vendors themselves don't give any credit to the result, secondly because the result, with its relative numbers, changes too much frequently. 
 
 		\subsubsection{Benchmarketing}
-Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmarks there was always a benchmark which rated a particular system the best. Therefore the vendors promoted only benchmarks which highlighted the strengths of their product, trying to make them as a standard. This leaded to a ploriferation of confuse benchmarks.
+Benchmarketing is a variation of benchmark wars. Due to domain-specific benchmarks there was always a benchmark which rated a particular system the best. Such benchmarks may perform only a specific operation promoting one database instead than others. For example a test may execute only one type of transaction, or more reads than writes and therefore promote an in-memory database over a traditional DBMS. To summarize, a benchmark may simulate different scenarios favouring a particular database. Therefore each vendor promotes only the benchmarks which highlight the strengths of their product, trying to impose them as a standard. This leaded to a ploriferation of confuse benchmarks and didn't bring any benefit to the benchmark's reputation.
 
 		\vspace{0.5cm}
-Although these phenomenons were drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, they are still alive.
+Although these phenomenons were drastically reduced by the foundation of the Transaction Processing Performance Council (TPC) in 1988, they are still alive nowday.
 
 		\subsection{Benchmark Differences} \label{categories}
-It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Beyond, every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthermore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
+It is now evident how hard is to understand which database is the fastest. Benchmarks cannot be properly used to analyze the performance of several databases and choose simply the best. Every benchmark has a bias, testing some particular aspect of database systems, such as writes, reads, transactions and so on. Moreover every benchmark operation can be implemented in different ways by the same database: creating a connection for every operation or using a connection pool; use different transaction isolation level; load the whole database in RAM or split it in different hard disk partition; etc. Furthermore the same benchmark, with the same implemention for every database, can show dissimilar results when it runs on different platforms (hardware and software).
 
 All these differences are grouped by three categories:
 \begin{enumerate}
@@ -37,46 +44,48 @@ By this reasoning comes out the axiom which will guide the following chapters, a
 
 \label{axiom} \emph{"There is not a slower or a faster database: databases are only slower or faster given a specific set of criteria in a given benchmark"}.
 
-This sentence comes from an article of Bernt Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
+This sentence comes from an article by Bernt Johnsen \cite{Bernt}, who, in response to a benchmark comparing HSQL and Derby, stated that it's easy to make a benchmark, but it is always hard to communicate the meaning of the results. The interpretation depends on too many criteria, so that it's not easy to say which database is the fastest, unless specifying the set of criteria used in the benchmark.
 	
 		\section{Measures}\label{measures}
-While analyzing databases performance it's not possible to measure which database is the best, but we can measure many other parameters, which then can be interpreted in order to choose the database that fit our needs.
+Even if we cannot state which database is the best by analyzing their performances on standard benchmarks, we can still measure other parameters that can be later interpreted to choose the database system which best fit our needs.
 
 When choosing a database, the most important features to evaluate and compare are:
 
 \begin{description}
 
-	\item[Throughput] is the number of transactions per second a database can sustain. This is the most important feature to consider when evaluating a database system. The most representative application scenario to understand the meaning of the throughput is an on-line transaction processing system. This kind of application requires the database to sustain a certain number of transactions per second, based on the number of users, and not every database can suite the needs of the application itself. Another example is real time applications: they require even higher throughput. Therefore it is crucial to understand if a certain database is suitable to an application in terms of transactions per second.
+	\item[Throughput]: is the number of transactions per second a database can sustain. This is the most important feature to consider when evaluating a database system. The most representative application scenario to understand the meaning of the throughput is an on-line transaction processing system. This kind of application requires the database to sustain a certain number of transactions per second, based on the number of users, and not every database can suite the needs of the application itself. Another example is real time applications: they require even higher throughput as well as very low latencies. Therefore it is crucial to understand if a certain database is suitable for an application in terms of transactions per second.
 	
-	\item[Latency/responsiveness] is the time the database takes to execute a transaction. It can be measured as the inverse of throughput.
+	\item[Latency/responsiveness]: is the time the database takes to execute a single transaction. This is the most important parameter in real application where the response time is a vital feature. In some case, where transactions are executed synchronizedly by a single user, latency can be measured as the inverse of throughput.
 	
-	\item[File size] of the database image. While traditional DBMS' store objects (tables), indexes and a transaction log file on the file system, in-memory databases, achieving durability, usually store only a journal file containing all the transaction executed on the database. Altought this may seem a small file, it can become very huge, even more than the database image. This measure is interesting whereas each database use different data structures.
+	\item[CPU load]: is the average percentage of the CPU processing time used by the database. It becomes an even more important parameter when the database is not the only service running on a server. CPU is a precious and limited resource, shared by all processes in a particular machine, and although database systems are usually deployed on dedicated servers, embedded databases live collated with the application that uses them. Many in-memory database 	don't even have a "stand aone" version and are mainly used as embedded db.
 	
-	\item[RAM usage] is the quantity of RAM a process uses while running. Talking about in-memory database, this can be another way to measure the size of the database image. In addition, this is a critical value to take in mind: IMDBs only works correctly and efficiently under the hypothesis that the RAM is enough to contain the whole database.
+	\item[Disk I/O]: is the measure of the amount of data transferred to and from the disk. It is often a bottleneck for every traditional databases. Altought pure in-memory databases never access to the disk, when adding durability through a transaction log file, disk I/O is a bottleneck for IMDBs too. This parameter could be considered less important since all databases will incure in the same performance bottleneck, but it is possible that different DB coudl use the disk in different ways and suffer more or less impacts from it.
 	
-	\item[CPU load] becomes more important with the increasing number of services that live togheter in the same server. CPU is a precious resource shared by all the processes in a particular computer. While database systems can be usually deployed on a dedicated server, embedded databases live togheter at least with the application which use the database itself. And often in-memory databases are executed in embedded mode.
+	\item[File size]: is the size of the database image on the hard disk. While traditional DBMS' store objects (tables), indexes and a transaction log file on the file system, in-memory databases usually store only a journal file containing all the transaction executed on the database. Altought this may seem a small file, it can become very huge, even more than the database image. This measure is interesting whereas each database use different data structures.
 	
-	\item[Disk I/O] shows the usage of the hard disk, the bottleneck for every traditional databases. Altought pure in-memory databases never access to the disk, when adding durability through a transaction log file, disk I/O is a bottleneck for IMDBs too. Therefore this measure is less important than the others because it is possible to take the hypothesis that every databases have the same disk I/O.
-	
-	\item[Startup time] is the time the database needs to become operational. 
+	\item[RAM usage]: is the quantity of RAM a process uses while running. Talking about in-memory database, this can be another way to measure the size of the database image. In addition, this is a critical value to take in mind: IMDBs only works correctly and efficiently under the hypothesis that the RAM is enough to contain the whole database. Therefore this can be an important parameter to take into consideration when deciding if a DBMS fits your requirements.
+		
+	\item[Startup time] is the time the database needs to become operational. This is a very important parameters for applications which need high availability, and in this case the startup time plays a crucial role to respect the maximum time the application can be off-line or not completely operative. 
 	
 	\item[Shutdown time] is the time the database takes to shut down and kill the process.
 	
 \end{description}
 	
 	\section{Choosing a Database}
-From the previous sections, it's clear how it is difficult to use benchmarks to prove which database is the fastest. Even whit a fair benchmark, which can be very useful to understand the performance of databases, it is still difficult to choose a database: performance is only one factor to consider when evaluating a database \cite{burleson}. 
+From the previous sections, it's now clear how difficult it is to use benchmarks to prove which database is the fastest. Even with a fair benchmark, which can be very useful to understand the performance of databases, it is still difficult to choose a database: performance is only one factor to consider when evaluating a database \cite{burleson}. 
 
 Other factors to consider are:
 \begin{itemize}
-	\item The availability of trained DBAs.
-	\item The vendor's technical support.
 	\item The cost of ownership.
+	\item The availability of trained DBAs.
+	\item The vendor's technical support.	
 	\item The hardware on which the database will be deployed.
 	\item The operating system which will support the database.
 \end{itemize}
 
 In other words, it is very difficult to choose the right database for our needs, and, of course, while evaluating databases and benchmarks there is absolutely \emph{no winner}.
+
+For this reason, what we will introduce in the next chapter is a suite of tests which has been developed with these concepts in mind. What we tries to achieve is a way for people to judge, analyze, verify and evaluate any DBMS (especially in-memory databases) with a chance of developing their own set of test and run the test suite on any hardware and under (virtaully) any operating system. The application is Java-based and so it ansures the widest coverage of both hardware and operating systems.
 
 
 \chapter{Test Suite}	
