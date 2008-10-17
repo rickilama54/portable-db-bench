@@ -231,10 +231,16 @@ The difficulty to analyze objectively databases' performance has already been ex
 The focus is now moved on the second and third issues: the tests' implementation and the execution platform, in other words an application benchmark used to run test scenarios. In this chapter we analyze more or less deeply different open source benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a specific benchmark.
 
 	\section{Benchmark Requirements}
-Before starting the analysis, it's necessary to make clear the requirements a benchmark should have to run our tests. These requirements will give us a set of parameters which can be used to evaluate properly a benchmark. But before the requirements, it's important to point out that \emph{the more general the benchmark, then less useful it is for anythng in particular}. This sentence comes from the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}.
+Before starting the analysis, it's necessary to make clear the requirements a benchmark should have to run our tests. These requirements will give us a set of parameters which can be used to evaluate properly a benchmark. But before stating all the requirements, it's important to point out some general characteristics a benchmark should have:
+\begin{itemize}
+	\item Not only a single metric: a benchmark should show the results with different metrics in order to provide a better awareness of the results themselves.
+	\item \emph{The more general the benchmark, then less useful it is for anythng in particular}: it's impossible to make a benchmark for everything, it's better if it has some limitations but works better in some specific tasks.
+	\item Based on a workload: only the essential attributes of a workload should be used to create a benchmark.
+\end{itemize}
+  
+These general characteristics and some of the following requirements are taken by the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}, a bit old work, but this council is still active and of course they know how to make a benchmark.
 
-These features we are interested in are:	
-
+The following requirements we are going to analyze are:
 \begin{itemize}
 	\item portable
 	\item understable
@@ -243,14 +249,35 @@ These features we are interested in are:
 	\item visual report 
 	\item relational,object and embedded databases
 	\item easy to use
-	\item 
 	%good benchmark
 	\item define the playing field 
 	\item accelerate progress for engineers
 	\item set the perfomance agenda for managers
 \end{itemize}
-Desirable attributes ... list of attributes \cite{tpc/sigmoid}.
 
+
+
+		\subsection{Portability}
+A benchmark is a set of tests runned against a system, a database in this case, to analyze the performance with the main purpose to compare them. The comparison is usually between different systems when you are choosing the best in term of performance for your needs. But when you already have choosen the system it is also very useful to compare the benchmark's results on the same database between different platform. In order to make this possible, both the system to be tested and the benchmark must be able to run on several platforms. While databases usually run on different operating sytems, it's not the same for benchmarks. When the benchmark runs on a client's network, and therefore it is for client-server databases, it can be considered portable, because the execution platform doesn't matter. But when we are using embedded databases, the benchmark itself must live togheter with the database system, and therefore able to run on different OS, which means it is portable.
+
+Thus, when testing embedded databases too, it is very helpful a portable benchmark, which can help us not only in the decision of the best database system given a certain platform, but also in choosing a suitable platform for our database.
+
+		\subsection{Understandability}
+This feature may seem obvious, but it is not when we are reading thousands of incomprehensible words or graph with many lines and no legends or captions on the axis. It's absolutly important 
+
+
+
+		\subsection{Flexibility}
+		\subsection{Detailed Report}
+		\subsection{Visual Report}
+		\subsection{Both Relational and Object Database}
+		\subsection{Easy to Use}
+		
+		\subsection{Good Benchmark Requirements}
+define the playing field 
+accelerate progress for engineers
+set the perfomance agenda for managers
+		
 	
 	\section{The Open Source Database Benchmark}
 Surfing the web and looking for an open source benchmark, this is the first benchmark it's possible to find...
