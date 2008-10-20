@@ -15,7 +15,7 @@ In particular benchmarks mimics specific workload giving a good measure of real 
 
 The benchmark's world is full of challenges starting from a benchmark development, to the interpretetion of the results. Famous benchmark tend to become useless after some time, because the vendors tune their products specifically for that benchmark. In addition most benchmarks focus only on the speed which is expressed in term of throughput, and forget many other important features. Moreover many server architectures degrade drastically near 100\% level of usage, and this is a problem which is not always taken into consideration. Some vendor may publish benchmarks at continuous at about 80\% usage, and, on the other hand, some other benchmark doesn't take this problem into account, and execute only tests at 100\% usage.
 		
-		\subsection{Benchmark History}
+		\subsection{Benchmark History} \label{bench-history}
 As already highlighted in the previous paragraph, with the advance of computer architecture the performance analisys became more difficult: it's not possible to evaluate a system only by reading its specifications. A computer program, a benchmark, simulating a specific workload, became a solution to this problem.
 
 The first benchmarks were developed internally by each vendor to compare their database's performance against the competitors. But when these results were published, they weren't considered reliable, because there was an evident conflict of interest between the vendor and its database \cite{gray}. This problem was not solved by a benchmark pubblication by a third party, which usually brought to a benchmark war.
@@ -88,7 +88,7 @@ In other words, it is very difficult to choose the right database for our needs,
 For this reason, what we will introduce in the next chapter is a suite of tests which has been developed with these concepts in mind. What we tries to achieve is a way for people to judge, analyze, verify and evaluate any DBMS (especially in-memory databases) with a chance of developing their own set of test and run the test suite on any hardware and under (virtaully) any operating system. The application is Java-based and so it ansures the widest coverage of both hardware and operating systems.
 
 
-\chapter{Test Suite}	
+\chapter{Test Suite} \label{test-suite}	
 In this chapter we are going to discuss the first of the three big differences, described in paragraph \ref{categories}, which make a database seem faster or slower: the test scenarios used to run a benchmark and to analyze database's performance. Besides a tests' description, a suite of test will be created, allowing us to analyze the databases' features of our interest. 
 
 The tests are divided into three categories: base test case, load test case and acid test case. The first category contains simple tests configured as a race between databases, and it is used to obtain an approximate idea in an early stage. Instead, the second category simulate real application scenario, and it can give us a detailed analysis of the real database's performance. Finally the last category is built to understand if the database is ACID compliant.
@@ -240,40 +240,44 @@ Before starting the analysis, it's necessary to make clear the requirements a be
   
 These general characteristics and some of the following requirements are taken by the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}, a bit old work, but this council is still active and of course they know how to make a benchmark.
 
-The following requirements we are going to analyze are:
-\begin{itemize}
-	\item portable
-	\item understable
-	\item flexible
-	\item detailed report
-	\item visual report 
-	\item relational,object and embedded databases
-	\item easy to use
-	%good benchmark
-	\item define the playing field 
-	\item accelerate progress for engineers
-	\item set the perfomance agenda for managers
-\end{itemize}
-
-
+The requirements we are going to analyze are: portability, understandability, flexibility, detailed report, visual report, both for relational and object databases and easy to use. In addition we will illustrate some benefits a benchmark should bring. 
 
 		\subsection{Portability}
 A benchmark is a set of tests runned against a system, a database in this case, to analyze the performance with the main purpose to compare them. The comparison is usually between different systems when you are choosing the best in term of performance for your needs. But when you already have choosen the system it is also very useful to compare the benchmark's results on the same database between different platform. In order to make this possible, both the system to be tested and the benchmark must be able to run on several platforms. While databases usually run on different operating sytems, it's not the same for benchmarks. When the benchmark runs on a client's network, and therefore it is for client-server databases, it can be considered portable, because the execution platform doesn't matter. But when we are using embedded databases, the benchmark itself must live togheter with the database system, and therefore able to run on different OS, which means it is portable.
 
-Thus, when testing embedded databases too, it is very helpful a portable benchmark, which can help us not only in the decision of the best database system given a certain platform, but also in choosing a suitable platform for our database.
+Thus, when testing embedded databases too, a portable benchmark can help us not only in the decision of the best database system given a certain platform, but also in choosing a suitable platform for our database.
 
 		\subsection{Understandability}
-This feature may seem obvious, but it is not when we are reading thousands of incomprehensible words or graph with many lines and no legends or captions on the axis. It's absolutly important 
+This feature may seem obvious, but it is not when we are reading thousands of incomprehensible words or graphs with many lines and no legends or captions on the axis. The capability of being understood is essential to make the benchmark useful. Understandability is inteded as clear results and their easy interpretation:  as already explained in paragraph \ref{bench-history} benchmarks' results are easy to be tricked and cheated, and therefore they must be clear to avoid any religion's war and the consequently distortion of the results. 
 
-
+Moreover, it's important to take in mind there are different stakeholders interested in benchmarks' results: engineers working at the database engine, managers selling the system and cutomers interested in buying a database. Thus a good benchmark must be able to be easily understood by many people and provide a clear view or views of the results.
 
 		\subsection{Flexibility}
-		\subsection{Detailed Report}
-		\subsection{Visual Report}
-		\subsection{Both Relational and Object Database}
-		\subsection{Easy to Use}
+This is not a requirements for every benchmark, but it is for our purpose. We want a benchmark which can run the test suite described in chapter \ref{test-suite}. That is the collection of test we gathered and we want to run against a database system to understand its performance. Therefore we need a benchmark which with few programming can execute our tests. 
+
+Furthermore, recalling the axiom in paragraph \ref{axiom}, benchmarks' results may depend on too many criteria, and therefore a good benchmark must be flexible in order to simulate the real application scenarios we are interested in, scenarios which we may add in the future. Although we said in this paragraph's introduction a benchmark should not be general because it becomes less useful, it is also true that a good benchmark must be based on a workload, the workload of the application which will use the database system we are going to choose. Therefore flexibility is a key feature for a benchmark when comes the need to run a own test suite based on the workload of our application.
 		
-		\subsection{Good Benchmark Requirements}
+		\subsection{Detailed Report}
+Recalling the first general feature for a benchmark in the introduction of this paragraph ("not only a single metric"), results must provide different measures allowing a better understanding of databases' performance. it's not by chance we are talking about understandability. These two characteristics are strictly connected. Of course many measures for every test will make the result harder to understand but will provide more informations to interpret the databases' behaviour. On the other hand only one measure is easier to understand but may hide the database behaviour and the reasons behind that. Therefore a compromise is needed: in each test we are not interested in all the measures it's possible to take, but only a subset of those can be taken for every test. The reference measures have been already introduced in paragraph \ref{measures} and they represent a subset of all possible measure for a database.
+
+In addition more measures the benchmark's application takes, more it alters the database performance, and therefore a compromise in the number of measures is always a good choiche, but keeping in mind that only one measure will not tell much about databases performance.
+
+		\subsection{Visual Report}
+In order to make the results even more understable, and to make the detailed measures more readable, visual reports will play an essential role. Graphs are able to express thousands numbers in one or few colored lines. Graphs are perfect not only to show the final result of a test, but also the whole trend, from the beginning to the end. Therefore any oscillation in the measures can become evident and easy to read. It will not be hide by an average value reported at the test's end. Of course graph can also be almost useless if they report only the final value. It depends by the implementation. For example graphs such as those from Poleposition benchmark, which will be analyzed in paragraph \ref{poleposition} may be very hard to understand and they simply may describe an average value.
+
+Furthermore visual reports are usually used with the main purpose to compare system between them, and this is another task they play perfectly. Of course there are many parameters to understand before being able to read properly a graph, but then in a simple graph every line can represents a different database system, allowing an easy comparison between them. This is really appreciated by non technical people, such as managers or customers. For this purpose graphs are a must, and therefore this is a feature we want from a benchmark application.
+
+		\subsection{Both Relational and Object Database}
+The benchmark we are looking for must be able to work with both relational and object databases. Relational databases are usually able to run as standalone server and accessed via SQL. Instead object databases are used mainly as embedded databases and accessed via a native interface for a specific programming language. Anyway in-memory databases are used mainly as embedded databases and therefore we need a benchmark which can use embedded databases accessed by both SQL (eg: JDBC) and native interface. Although in-memory databases are not a new technology, they became widely used in the last few years, therefore many benchmarks do not provide any support for embedded databases.
+
+When testing both relational and object databases another problem comes out: the benchmark application can test the databse systems in different ways, using a relational point of view or an object oriented point of view, or both.This may produce different results in the performance analysis. The knowledge of this feature is important during the results' analysis.
+
+		\subsection{Easy to Use}
+
+
+
+		
+		\subsection{Benefits}
 define the playing field 
 accelerate progress for engineers
 set the perfomance agenda for managers
@@ -287,7 +291,7 @@ Surfing the web and looking for an open source benchmark, this is the first benc
 	
 	\section{Apache JMeter}
 	
-	\section{Poleposition}
+	\section{Poleposition} \label{poleposition}
 	Poleposition fa schifo! \cite{poleposition}!!!
 	
 	\section{Overview's Results}
