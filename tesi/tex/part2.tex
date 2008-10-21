@@ -252,7 +252,7 @@ This feature may seem obvious, but it is not when we are reading thousands of in
 
 Moreover, it's important to take in mind there are different stakeholders interested in benchmarks' results: engineers working at the database engine, managers selling the system and cutomers interested in buying a database. Thus a good benchmark must be able to be easily understood by many people and provide a clear view or views of the results.
 
-		\subsection{Flexibility}
+		\subsection{Flexibility} \label{flexibility}
 This is not a requirements for every benchmark, but it is for our purpose. We want a benchmark which can run the test suite described in chapter \ref{test-suite}. That is the collection of test we gathered and we want to run against a database system to understand its performance. Therefore we need a benchmark which with few programming can execute our tests. 
 
 Furthermore, recalling the axiom in paragraph \ref{axiom}, benchmarks' results may depend on too many criteria, and therefore a good benchmark must be flexible in order to simulate the real application scenarios we are interested in, scenarios which we may add in the future. Although we said in this paragraph's introduction a benchmark should not be general because it becomes less useful, it is also true that a good benchmark must be based on a workload, the workload of the application which will use the database system we are going to choose. Therefore flexibility is a key feature for a benchmark when comes the need to run a own test suite based on the workload of our application.
@@ -273,18 +273,41 @@ The benchmark we are looking for must be able to work with both relational and o
 When testing both relational and object databases another problem comes out: the benchmark application can test the databse systems in different ways, using a relational point of view or an object oriented point of view, or both.This may produce different results in the performance analysis. The knowledge of this feature is important during the results' analysis.
 
 		\subsection{Easy to Use}
+This is a commonplace for every application, nobody wants something impossibile to use. As for other requirements, a compromise is always needed, especially for this feature. The ease of use, in this case, means the possibility to modify several test's parameters, such as the parameters already explained in chapter \ref{test-suite}, and also to be able to bring some little variation to the workload simulated, in order to improve the test when the needs change. This ease of use should be granted without any modification in the application's line of code, but for example in an xml file, or other cinfiguration files, or with some input parameters.
 
+Of course this may seem similar to the flexibility requirement, that we discussed in paragraph \ref{flexibility}, but while flexibility intends the capability for engineers to implement completely new test scenarios, ease of use is the capability to execute the workloads implemented with few varations, such as the initial database's state, the exact operations' order, etc. This requirements is aimed at all the non technical people who want to analyze the database performance.
 
-
-		
 		\subsection{Benefits}
-define the playing field 
-accelerate progress for engineers
-set the perfomance agenda for managers
-		
+Discussing about requirements, it's important to note also the benefits a benchmark should bring, the aims it is built around. Referring again to the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}, the benefits a good benchmark should bring are:
+\begin{itemize}
+	\item Definition of the playing field: a benchmark should clearly point out the database performance and the hypothesis behind these performance.
+	\item Progress's acceleration: a benchmark allow to measure the database's performance and therefore engineers are able to do a great job once an objective is measurable and repeatable.
+	\item Schedule of the performance agenda: this is something also managers and customers can understand. Every release can have clearly declared its goals, such as X increment in the throughput, and it is easy to measure realese to realese progress.
+\end{itemize}
+
+The TPC work illustrate also how good benchmarks have a lifetime, because they firstly drive industry and technology forward, but when all reasonable advances have been made, benchmarks can become counter productive, encouraging artificial optimizations. But this reasoning fall down when the workload, on which the benchmark is based, changes. And the modification of the workload, from little modification to completely new implementation, is a requirement for the benchmark we are looking for.
 	
 	\section{The Open Source Database Benchmark}
-Surfing the web and looking for an open source benchmark, this is the first benchmark it's possible to find...
+We start now the analysis of several database benchmark trying to understand if it is suited for our needs, or to take some idea for a future developement. Discussing about these benchmarks we will illustrate advantages and disadvantages. Surfing the web and looking for databases benchmark "The Open Source Database Benchmark" is the first who comes to light. 
+
+		\subsection{Advantages}
+First of all this database is open source. All the benchmarks we will analyze are open source, therefore it sounds a bit strange to point out open source as an advantage. But this database benchmark has so few advantages that it's good to list them all.
+
+Instead a good feature to point out is the test suite used by this benchmark application: it is based on AS3AP, the ANSI SQL Scalable and Portable Benchmark. This is a relational query benchmark 
+
+		\subsection{Disadvantages}
+This project started in the beginning of 2001 and its last release is 0.21 dated at january 2006. Both the release number and the last release date are bad number: this software is outdated and it is in alpha release.
+
+c
+
+there is no comparison between different databases 
+
+sql only
+
+		\subsection{Conclusion}
+Questo si butta via. abbiamo imparato solo AS3AP.
+
+
 	
 	\section{Transaction Processing Performance Council}
 \emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors. Therefore, TPC-C should not be used as a substitute for a \bfseries{specific customer application} benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
