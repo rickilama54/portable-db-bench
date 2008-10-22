@@ -293,24 +293,61 @@ We start now the analysis of several database benchmark trying to understand if 
 		\subsection{Advantages}
 First of all this database is open source. All the benchmarks we will analyze are open source, therefore it sounds a bit strange to point out open source as an advantage. But this database benchmark has so few advantages that it's good to list them all.
 
-Instead a good feature to point out is the test suite used by this benchmark application: it is based on AS3AP, the ANSI SQL Scalable and Portable Benchmark. This is a relational query benchmark 
+Instead a good feature to point out is the test suite used by this benchmark application: it is based on AS3AP, the ANSI SQL Standard Scalable and Portable Benchmark. This is a relational query benchmark divided in two section: single-user tests and multi-user tests. Therefore this is a collection of SQL script which can be used against a database with a minimum effort in benchmark's programming. 
 
 		\subsection{Disadvantages}
-This project started in the beginning of 2001 and its last release is 0.21 dated at january 2006. Both the release number and the last release date are bad number: this software is outdated and it is in alpha release.
+On the other hand there are several disadvantages. This project started in the beginning of 2001 and its last release is 0.21 dated at january 2006. Therefore both the release number and the last release date are bad number: this software is outdated and it is still in alpha release. Also the AS3AP benchmark is outdated and very few information are available on the web.
 
-c
+From a relational point of view, this benchmark is portable, because it runs on a network client, but it is written in C language, and it is not portable from an emebedded database point of view. When porting a program written in C from a platform to another, there is almost always some code's line which need to be changed, especially when using socket or other system calls.
 
-there is no comparison between different databases 
+In addition this benchmark is able to run only SQL script against relational database server, thus it needs a lot of programming for the procedures' implementation to test embedded/object databases. What's more we want primarily test embedded/in-memoery databases and not relational database server.
 
-sql only
+At last, another disadvantage is the lack of detailed visual reports. This benchmark works only by the command line interface and no graphs are produced. Moreover there is no direct comparison between different databases sytems: in order to compare two database, manually the benchmark must be runned against them and then compare the throughput reported. There is also no comparison in the throughput's trend during the executoin of the test.
 
 		\subsection{Conclusion}
-Questo si butta via. abbiamo imparato solo AS3AP.
+In conclusion it is clear how this database benchmark doesn't fit to our needs. Not even one requirement is completely satisfied and some of them are taken in no consideration. The reports are neither detailed or visual, and embedded in-memory databases are not supported. With a lot of programming this benchmark can also become a good one, but it's more conveniente develop a completely new benchmark than extend the open source database benchmark to fit our requirements.
 
-
+What we have learned form this application is very few: only the AS3AP is a nice discovery. It is an old standard SQL test suite, which can be used to understand and to learn some new kind of test, new interesting workload. But AS3AP is very old and outdated and therefore useless.
 	
 	\section{Transaction Processing Performance Council}
-\emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors. Therefore, TPC-C should not be used as a substitute for a \bfseries{specific customer application} benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
+Without a standards body to supervise the testing and publishing, vendors begin to publish extraordinary marketing claims running specific benchmarks. The Transaction Processing Perfomance Council, TPC, is a non-profit corporation founded in 1988 by eight leading software and hardware companies in response to benchmarketing and benchmark wars. The TPC currently has 20 full members: AMD, BEA, Bull, Dell, EnterpriseDB, Fujitsu, Fujitsu Siemens, HP, Hitachi, IBM, INGRES, Intel, Microsoft, NEC, Netezza, Oracle, Sun Microsystems, Sybase, Teradata and Unisys.
+
+The main aim of TPC was the provision of uniform benchmark tests. Therefore they, recnognizing that different types of applications have different workload, created several benchmarks. Besides the outdated benchmark which are TPC-A, B, D, R and W, there are the followings: 
+\begin{itemize}
+	\item TPC-App: an application server and web services benchmark. It simulates the activities of a business-to-business transactional application server operating in a 24x7 environment.
+	\item TPC-C: an on-line transaction processing (OLTP) benchmark created in 1992; a complete computing environment where a population of users executes transactions against a database.
+	\item TPC-E: a new on-line transaction processing workload which simulates a brokerage firm.
+	\item TPC-H: a decision support benchmark. It consists of a suite of business oriented ad-hoc queries and concurrent data modifications.
+\end{itemize}
+
+		\subsection{Advantages}
+Experience
+
+no single metric
+
+Standard
+
+TPC-C is well-known
+
+ACID test
+
+
+		\subsection{Disadvantages}
+
+No implementation available
+
+SQL
+
+
+		\subsection{Conclusion}
+
+
+
+
+
+\emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors.} 
+
+\emph{Therefore, TPC-C should not be used as a substitute for a specific customer application benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
 	
 	\section{Apache JMeter}
 	
