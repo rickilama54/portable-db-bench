@@ -291,7 +291,7 @@ The TPC work illustrate also how good benchmarks have a lifetime, because they f
 We start now the analysis of several database benchmark trying to understand if it is suited for our needs, or to take some idea for a future developement. Discussing about these benchmarks we will illustrate advantages and disadvantages. Surfing the web and looking for databases benchmark "The Open Source Database Benchmark" is the first who comes to light. 
 
 		\subsection{Advantages}
-First of all this database is open source. All the benchmarks we will analyze are open source, therefore it sounds a bit strange to point out open source as an advantage. But this database benchmark has so few advantages that it's good to list them all.
+First of all this database benchmark is open source. All the benchmarks we will analyze are open source, therefore it sounds a bit strange to point out open source as an advantage. But this database benchmark has so few advantages that it's good to list them all.
 
 Instead a good feature to point out is the test suite used by this benchmark application: it is based on AS3AP, the ANSI SQL Standard Scalable and Portable Benchmark. This is a relational query benchmark divided in two section: single-user tests and multi-user tests. Therefore this is a collection of SQL script which can be used against a database with a minimum effort in benchmark's programming. 
 
@@ -310,7 +310,7 @@ In conclusion it is clear how this database benchmark doesn't fit to our needs. 
 What we have learned form this application is very few: only the AS3AP is a nice discovery. It is an old standard SQL test suite, which can be used to understand and to learn some new kind of test, new interesting workload. But AS3AP is very old and outdated and therefore useless.
 	
 	\section{Transaction Processing Performance Council}
-Without a standards body to supervise the testing and publishing, vendors begin to publish extraordinary marketing claims running specific benchmarks. The Transaction Processing Perfomance Council, TPC, is a non-profit corporation founded in 1988 by eight leading software and hardware companies in response to benchmarketing and benchmark wars. The TPC currently has 20 full members: AMD, BEA, Bull, Dell, EnterpriseDB, Fujitsu, Fujitsu Siemens, HP, Hitachi, IBM, INGRES, Intel, Microsoft, NEC, Netezza, Oracle, Sun Microsystems, Sybase, Teradata and Unisys.
+In the past years, without a standards body to supervise the testing and publishing, vendors begin to publish extraordinary marketing claims running specific benchmarks. The Transaction Processing Perfomance Council, TPC, is a non-profit corporation founded in 1988 by eight leading software and hardware companies in response to benchmarketing and benchmark wars. The TPC currently has 20 full members: AMD, BEA, Bull, Dell, EnterpriseDB, Fujitsu, Fujitsu Siemens, HP, Hitachi, IBM, INGRES, Intel, Microsoft, NEC, Netezza, Oracle, Sun Microsystems, Sybase, Teradata and Unisys.
 
 The main aim of TPC was the provision of uniform benchmark tests. Therefore they, recnognizing that different types of applications have different workload, created several benchmarks. Besides the outdated benchmark which are TPC-A, B, D, R and W, there are the followings: 
 \begin{itemize}
@@ -321,33 +321,39 @@ The main aim of TPC was the provision of uniform benchmark tests. Therefore they
 \end{itemize}
 
 		\subsection{Advantages}
-Experience
+Of course there are many advantages when discussing about TPC benchmarks, and above all there is the experience this consortium has accumulated in the last twenty years. Since 1988 TPC is working on benchmarks expressing how benchmark results depend on the application's workload, on the system design and implementation, including the execution platform, and on the application requirements, such as high availability or strict durability. This experience, and the big names of the members, contributed to impose TPC benchmarks as a standard, especially for OLTP performance.
 
-no single metric
+Talking about standards, the most famouse TPC benchmark is TPC-C, the on-line transaction processing benchmark. The scenario simulated by TPC-C is very common real application scenario, and therefore all its succes. This is a moderatly complex OLTP modeling a wholesale supplier managing orders, whose workload consists of five transaction types:
+\begin{enumerate}
+	\item New order: enter a new order  from a customer.
+	\item Payment: update customer balance to reflect a payment.
+	\item Delivery: deliver orders (done as a batch transaction).
+	\item Order status: retrieve status of customer's most recent order.
+	\item Strock level: monitor warehouse inventory.
+\end{enumerate}
+The benchmark take a measure of the throughput, that in TPC terms is a measure of maximum sustained system performance. It is based on the number of "new order" transactions per minute while the system is executing all the other transactions types. In addition, while running the benchmark, 90\% of each type of transaction must have a user response time less than 5 seconds, except "stock level" which is 20 seconds.
 
-Standard
+But throughput is not the only metric used by TPC, there is also a price/performance metric. The price is simply divided by the throughput and tell you how much is the cost for a transaction. It's important to note that this price is not the cost of the hardware, or another component. It include all cost dimension of the system environment: terminals, backup storage, servers, software, and three year maintenance.
 
-TPC-C is well-known
+TPC-C requires also transactions to be ACID (atomicity, consistency, isolation and durability) and therefore TPC included different tests to demonstrate that the ACID properties are supported and enabled during the execution of the benchmark. These tests are not intended to be exhaustive quality assurance tests. Therefore these test are a necessary condition, but not a sufficient, to demonstrate the ACID properties. In the TPC-C specification document \cite{TPC-C} there is the description of different kind of scenarios which can be used to test the acidity of the database system.
 
-ACID test
-
+Lastly TPC doesn't work only for creating good benchmarks, but also a good process for reviewing and monitoring those benchmarks. A nice metaphor written by Kim Shanley in 1998, chief operating officer at TPC, says good benchmarks are like good laws: as Aristotele said, if the laws are not obeyed, do not constitute good governement. And this is the meaning for the process reviewing and monitoring. Although this last concept about process monitoring is really important, this is not an interesting feature for the benchmark application we are looking for, simply because it doesn't regards the application itself.
 
 		\subsection{Disadvantages}
+The transaction processing performance council offer many advantages, but its benchmarks are not exempt from disadavantages. First of all TPC benchmarks are only specification and there is no implementation available: each vendor must implement its own benchmark and then the council will review and monitor the process to check if the specification are kept. Although it is possible to find some free TPC-C implementation in internet, they are all unofficial benchmarks.
 
-No implementation available
+In addition all the available implementations, as for the official private implementations, are for relation database only and run SQL script. Not by chance all the TPC-C specification are expressed in terms of relational data model with conventional locking scheme. But in the introdution of TPC-C specification \cite{TPC-C} it is clearly stated that it's possible to use any commercial database management system, server or file system that provides a functionally equivalent implementation. The relation terms, such as "table", "row" or "column", are used only as an example of a logical data strucuteres.
 
-SQL
-
+Moreover all these benchmarks have been used for high end system and for vendors who produce both hardware and database management system. Although it's possible to use a proper implementation of these benchmarks for every kind of DBMS the comparison between the official results will be almost always of few interest: because the official results regards only high end systems and because the results obtained by the proper implementation will not get any credit by the TPC consortium.
 
 		\subsection{Conclusion}
+To sum up the whole discussion about TPC benchmarks, especially TPC-C, it's evident how this is not suitable for our needs, but instead all this work can be used as an inspiration. There are different reasons why this doesn't fit the requirements previously exaplined. The council itself wrote in the TPC-C specification \cite{TPC-C} a sentence that clearly state why this is not what we are looking for:
 
+\emph{"Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors. Therefore, TPC-C should not be used as a substitute for a specific customer application benchmarking when critical capacity planning and/or product evaluation decisions are contemplated"}.
 
+This is an emblematic sentence and it can be considered as an extension of the axiom enunciated in paragraph \ref{axiom} where we said that performance depend on a huge number of criteria. The meaning of this sentence is that TPC-C is a good benchmark used to compare different systems for a generic purpose OLTP, without critical performance requirements. In this case, you need a benchmark which simulates the workload of your application, or the application itself. While TPC benchmarks are not flexible, they can't be used to run our test scenarios. In fact TPC-C benchmark is simply a complex application scenario, a benchmark specification, and not an application benchmark, which we could eventually extend to run our test suite.
 
-
-
-\emph{Benchmark results are highly dependent upon workload, specific application requirements, and systems design and implementation. Relative system performance will vary as a result of these and other factors.} 
-
-\emph{Therefore, TPC-C should not be used as a substitute for a specific customer application benchmarking when critical capacity planning and/or product evaluation decisions are contemplated}\cite{TPC-C}.
+But this benchmark and this analysis is not useless. This is a source of inspiration for an extension of our test suite: from the implementation of a new load test case similar to TPC-C (it is a standard de facto for generic OLTP); to the implementation of some, not strict, ACID test. Moreover the TPC work faced many problems in the last year in benchmark's definition, accumulating a lot of experience, and this is a part of our work.
 	
 	\section{Apache JMeter}
 	
@@ -369,3 +375,4 @@ Oppure fare una nuova applicazione di benchmark...segue nel prossimo capitolo.
 	\section{Plug-In Architecture}
 
 \chapter{Results' Analysis}
+	\section{Why Pico4 is faster}
