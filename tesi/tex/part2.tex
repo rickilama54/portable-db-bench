@@ -136,7 +136,7 @@ While in the previous test the duration was meaningless, this time, like in a ra
 
 But this new test is useful also to take other interesting measures, such as the file size, whose meaning has already been exaplined in paragraph \ref{measures}. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of transactions. 
 
-	\section{Load Test Case}
+	\section{Load Test Case} \label{load-test-case}
 Restrictions introduced by base tests are very evident although they can be useful in certain situation and for simple and fast approximate results. These restrictions are due to the impossibility to simulate real complex application scenario. Substantially the main restrictions are two:
 \begin{enumerate}
 	\item Real application scenario are rarely single thread/task: to stick to the axiom at paragraph \ref{axiom}, the best way to understand which database fits our needs is to make test scnerios most realistic as possible.
@@ -356,6 +356,51 @@ This is an emblematic sentence and it can be considered as an extension of the a
 But this benchmark and this analysis is not useless. This is a source of inspiration for an extension of our test suite: from the implementation of a new load test case similar to TPC-C (it is a standard de facto for generic OLTP); to the implementation of some, not strict, ACID test. Moreover the TPC work faced many problems in the last year in benchmark's definition, accumulating a lot of experience, and this is a part of our work.
 	
 	\section{Apache JMeter}
+Apache JMeter is an Apache Jackarta project, a set of open source Java solutions and part of the Apache Software Foundation, which encourages a collaborative, consensus-based development process under an open software license. Apache Jmeter is designed to load test functional behavior and measure performance. Originally developed with the main purpose to test web applications, it has expanded to other resources, both static or dynamic: files, servlets, perl script, java objects, databases, FTP servers and more.
+
+		\subsection{Advantages}
+Apache JMeter is a 100\% pure Java desktop application, and therefore allowing complete portability. In addition JMeter doesn't need any installation, it's possible to download the binaries and simply execute them. This is perfectly suited for our need to test in-memory database on different platforms. Also most of the database systems we will test are written in Java e mainly for Java.
+
+A key feature of JMeter is the capability to load test: there are not only the classic stress tests but load test too, which can simulate a group of user and different load types. Tests in JMeter are represented by a test plan that is a collection of user's behavior. Each user usually executes different actions, such as a SQL query or a HTTP request, simulating therefore a certain behavior. For each user is also possible to specify several parameters in order to simulate a particular load. Figure \ref{JMeter} is an example of a JMeter configuration test for a database via JDBC. It shows some of the features previously described such as the thread group, which is a set of users with identical behavior. 
+
+\begin{figure}[htp!]
+ 
+	\begin{center}
+		\includegraphics[width=13cm]{img/JMeterSQL.jpg}
+	
+	\end{center}
+	\caption{JMeter GUI}
+
+	\label{JMeter}	
+\end{figure}
+
+Moreover these load tests can also be executed concurrently by JMeter and in two different ways:
+\begin{itemize}
+	\item Each thread group can simulate a collection of users with the same behavior. Each user is a thread, and the amount of thread is a parameter of the thread group. Therefore it's possible to simulate different users with the same behavior.
+	\item It is also possible to implement different thread groups and so different behavior.
+\end{itemize}
+The ability to execute load test and concurrent test give us all the flexibility we need to run our test suite, particularly load test case such as the real time prepaid system explained at paragraph \ref{load-test-case}.
+
+Another database
+
+It allows you to make graphical analysis of the result of your tests
+
+It is highly extensible - plugin architecture
+
+		\subsection{Disadvantages}
+Wanting to test embedded databases we should write a plugin for every database
+
+And at the same time this will not be an easy and high configurable way to test embedded databases
+
+The only benefit we could is the visual representation of the result (that isn't so great!) 
+
+
+
+		\subsection{Conclusion}
+perchè si? perchè no?
+
+
+
 	
 	\section{Poleposition} \label{poleposition}
 	Poleposition fa schifo! \cite{poleposition}!!!
