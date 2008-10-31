@@ -380,15 +380,15 @@ The ability to execute load test and concurrent test give us all the flexibility
 
 Another important feature in favour of JMeter is the capability to load test also databases via JDBC. As already said the figure \ref{JMeter} is an example of a JMeter configuration test for a database via JDBC. It shows how to simulate a group of user with the same behaviour: they firstly execute a select and then an insert. The whole database configuration is setted up by the JDBC Connection Configuration where we need simply to specify the driver to be used and the usual connection parameters, such as the database URL, username and password. 
 
-In figure \ref{JMeter} there is another element which we have not still explained: the Graph Result. JMeter is also capable to represent the results in a graphical form. In figure \ref{JMeterGraph} there is an example of a very simple graph obtained during a database load test (this image is taken from the Apache JMeter tutorial). This Graph Result is only a specific Listener which is possible to configure in the test plan, but there are many other listeners such as Table Result or Monitor Result and so on. It is also possible to execute JMeter from the command line interface, saving precious resources while running the test, logging all the results in a file, and then use a specific application to represent them in better ways.
-
-\begin{figure}[htp!] 
+\begin{figure}[!htp] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/JMeterGraph.jpg}	
 	\end{center}
 	\caption{JMeter Graph}
 	\label{JMeterGraph}	
 \end{figure}
+
+In figure \ref{JMeter} there is another element which we have not still explained: the Graph Result. JMeter is also capable to represent the results in a graphical form. In figure \ref{JMeterGraph} there is an example of a very simple graph obtained during a database load test (this image is taken from the Apache JMeter tutorial). This Graph Result is only a specific Listener which is possible to configure in the test plan, but there are many other listeners such as Table Result or Monitor Result and so on. It is also possible to execute JMeter from the command line interface, saving precious resources while running the test, logging all the results in a file, and then use a specific application to represent them in better ways.
 
 Last but not least, JMeter is based on a plugin architecture and therefore it is highly extensible. Every element can be extended. For example a new Listener with a particular graph can be added, and also new Timers. This feature makes JMeter really flexible, and so another requirement is accomplished.
 
@@ -397,20 +397,84 @@ To make this analysis complete, we have also to evaluate the disadvantages of JM
 
 Moreover JMeter doesn't compare different systems between them, but instead it measures the performance of one system at time. Therefore there is no direct comparison, while the comparison is our main purpose. In fact JMeter was originally designed to test web applications in order to find the best tuning for the web server and the relative application. This means that JMeter is not used to find the best web server with the same application, which in other words it can be said that it is not used to find the best database for our application scenario. Nonetheless it can be also used to compare different systems, but not with much ease of use.
 
-Also the visual representation of the result, the Graph Reult, is not that great, and pf course JMeter is not famouse for graph results. It is not very fluid, and it has some bugs, such as when the test time is too much the graph goes in overflow.
+Also the visual representation of the result, the Graph Reult, is not that great, and of course JMeter is not famouse for graph results. It is not very fluid, and it has some bugs, such as when the test time is too much the graph goes in overflow.
 
 		\subsection{Conclusion}
-Now that we have analyzed both advantages and disadvantages...
+Now, after the analysis of advantages and disadvantages, we can conclude this investigation about Apache JMeter. It seems a very interesting application benchmark with a lot of features which meet most of our requirements such as:
+\begin{itemize}
+	\item portability, because it is written in Java and it is a desktop application;
+	\item flexibility, which comes from the plugin architecture;
+	\item ease of use, tanks to the GUI;
+	\item visual and detailed report.
+\end{itemize}
 
-the graphs are limited
+Although all these advantages, there is still something which is not perfect. Firstly JMeter can't test both object and relational databses, and this is an important limitation considering our main purpose is to test in-memory databases. Nonetheless JMeter can test java objects, and therefore it can work with java native interaface, and however it is possible to write a new plugin to add the functionalities we need. But this solution will also add a considerable amount of work in programming the new plugin, losing partially or completely the usefullness of an already existing application benchmark.
 
-we must implement everything
+Secondly also the graph listeners alredy implemented in the application are not very usefull. They can only be used for a fast and approximate analysis. In order to create a good graph with the resulting data stored in a file, there are two possiblities: implement a new graph listener or use another application to represent the result. In both cases there is again the necessity to write new code's lines.
 
+In addition JMeter doesn't allow an easy comparison between different results, and therefore, with the purpose to compare several database performance, there is no more ease of use.
 
-
+Finally, JMeter is a great application and the extension with new plugins and other elements is very attractive, especially considering this is an open source application widely used. But not only the amount of code to write may be equal or more than the code needed to write a specific application for our needs; in this way we are also forced to move in a more complex application, although JMeter is easily extensible. However, taking in mind JMeter is not the best application to compare different performance, this is not a proper way to work. Nevertheless the extension of JMeter is still very interesting.
 	
 	\section{Poleposition} \label{poleposition}
-	Poleposition fa schifo! \cite{poleposition}!!!
+Poleposition is an open source database benchmark, developed to compare database engines and object-relational mapping technology. Poleposition is built to be a framework to help developers in evaluating databases performance, through a simple implementation with only few lines of code. In fact the impetus behind Poleposition came from the observation that developers evaluating candidate databases for future applications often resorted to constructing ad hoc benchmarks rather than using "canned" benchmark tests (or relying on vendor-provided data). This is entirely understandable: to properly evaluate a database for a specific project, you would want to exercise that database in ways that correspond to the application's use of it \cite{poleposition}. This is the same concept we have already explained in paragraph \ref{categories} and paragraph \ref{axiom}.
+
+Poleposition use the metaphor of a race, how it is clear by its name, to help the developers in understanding the framework structure.
+
+		\subsection{Advantages}
+This is another really interesting database benchmark, full of advantages. Above all, again, it is a Java desktop application, without the need of any installation, except for eventual database servers. Therefore the portability specified as first of our requirements is granted, allowing the test of database systems on different platforms.
+
+In addition also the flexibility is provided by Poleposition: in fact it is a framework, for database benchmarking, allowing the implementation of new tests and of new database systems. The framework is also simplified by the metaphor used to describe the whole application,and which is evident by the name itself. This application benhmark is configured like a championship car racing, where:
+\begin{itemize}
+	\item A \emph{circuit} is a set of timed test cases that work against the same data.
+	\item A \emph{lap} is a single (timed) test.
+	\item A \emph{team} is a specific database category or engine that requires specific source code.
+	\item A \emph{car} is a specialized implementation of a team, and therefore every database system can use several implementations.
+	\item A \emph{driver} is an implementation of a circuit for a team .
+\end{itemize}
+
+In favour of Poleposition there is also the use of a nice 
+
+grafici
+
+un bel pdf con i risultati
+
+
+
+both relational and object databasaes
+
+they also state there is no best product
+
+
+		\subsection{Disadvantages}
+
+only a race: the metaphor is a limit
+
+compara e basta ma non misura performance
+
+grafici poco leggibili e solo basati sul tempo sulle y con logaritmo inverso! No detailed report!
+
+i risultati sono cmq troppo riassuntivi, non viene visualizzato alcun andamento.
+
+nessun test concorrente.
+
+2005
+
+
+		\subsection{Conclusion}
+
+molte cose sono interessanti e da imitare come il pdf con i grafici
+
+ma non è adatto per noi: troppo codice da scrivere, e da rifattorizzare, e cmq scritto male (scaricato da svn). sebbene l'autore autorizzi ciò.
+
+
+
+Poleposition fa schifo! \cite{poleposition}!!!
+
+
+
+
+
 	
 	\section{Overview's Results}
 Tabella riassuntiva, con le caratteristiche di ogni benchmark che ci hanno convinto
