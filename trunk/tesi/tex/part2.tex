@@ -433,33 +433,64 @@ In addition also the flexibility is provided by Poleposition: in fact it is a fr
 	\item A \emph{driver} is an implementation of a circuit for a team .
 \end{itemize}
 
-In favour of Poleposition there is also the use of a nice 
+In favour of Poleposition there is also the reporting tool: results are available both in HTML format and in a PDF file, providing a fast and clear idea of the results obtained. The PDF file and the HTML result are a collection of circuits, which actually are:
+\begin{itemize}
+	\item Melbourne: writes, reads and deletes unstructured flat objects of one kind in bulk mode.
+	\item Sepang: writes, reads and then deletes an object tree.
+	\item Bahrain: write, query, update and delete simple flat objects individually
+	\item Imola: retrieves objects by native id.
+	\item Barcelona: writes, reads, queries and deletes objects with a 5 level inheritance structure.
+\end{itemize}
+These circuits are a collection of laps: a write, a read, a delete etc. And each lap show the numeric results with both a table (table \ref{poleposition-table}) and a graph (figure \ref{poleposition-time-graph}).
 
-grafici
+\begin{table}[htp!]
+	\centering \footnotesize
+	\begin{tabular}{| r || c | c | c | c |} \hline
+	t [time in ms] & objects:3000 & objects:10000 & objects:30000 & objects:100000 \\ \hline \hline
+	db4o/6.4.14.8058 &	379 & 7365 & 1398 & 4820 \\ \hline
+	Hibernate/hsqldb & 716 & 799 & 2617 &	14916 \\ \hline
+	Hibernate/mysql & 1442 & 2948 & 9437 & 35853 \\ \hline
+	JDBC/MySQL & 2881 & 1872 & 5470 & 18422 \\ \hline
+	JDBC/Mckoi & 1202 & 2842 & 9371 & 33530 \\ \hline
+	JDBC/JavaDB & 970 & 907 & 5454 & 8676 \\ \hline
+	JDBC/HSQLDB & 276 & 57 & 199 & 931 \\ \hline
+	JDBC/SQLite & 20381 & 46545 & 138990 & 483594 \\ \hline
+	\end{tabular}
+	\caption{Poleposition time table: melborune circuit and write lap}
+	\label{poleposition-table}
+\end{table}
 
-un bel pdf con i risultati
+The table \ref{poleposition-table} shows the time the "write" lap takes during the melbourne circuit. For each car/team is shown the time in milliseconds they take to execute a certain number of writes: 3000, 10000, 30000 and 100000. Therefore it's easy to compare them and understand who is the fastet, the winner of the race. The same result is also represented by a graph, figure \ref{poleposition-time-graph}, which clearly shows which database is above the others. To note how on the y axis the time is in a logarithmic scale and therefore higher is the value and faster is the database system. On the HTML result there is also another kind of chart, which measures the memory consumption, but on the PDF file this is not present.
 
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/melbourne-write-time.jpg}	
+	\end{center}
+	\caption{Poleposition time graph: melborune circuit and write lap}
+	\label{poleposition-time-graph}	
+\end{figure}
 
+Poleposition can also be used to test both object and relational database systems. This is possible because it was developed with the aim to compare database engines and object-relational mapping technology. Hence this makes poleposition a really interesting database benchmark for our needs.
 
-both relational and object databasaes
-
-they also state there is no best product
-
+Finally, as last advantage, there is something that is not properly a feature of the application, instead it is an idea the programmers took in mind during the development of the application, and therefore it reflected on the quality of the application. The idea we are talking about is the following:
+\emph{Objectivity must be the most important goal of the benchmark tests. The results show very clearly that there can not be one single "best product". Depending on your application, some circuit results may be very important for you and some may be completely irrelevant. If you consider basing your choice of database on this benchmark, bring along lots of time to look at what every test does. You will not be able to judge the results without looking at the source code that produces them.} 
+This statement perfectly accords to the axiom described in paragraph \ref{axiom}, and on which is based our work.
 
 		\subsection{Disadvantages}
+The metaphor may help to understand the initial problem of the benchmark, but on the other hand, it becomes a trap, a limit for the benchmark itself: if they continue with the car race they will soon run out of gas \cite{poleposition}. Any further extension will be forced to follow the rail imposed by the metaphor. Moreover this metaphor makes the benchmark a simple race, and there is no load testing.
 
-only a race: the metaphor is a limit
+Although poleposition's output is very catchy, it is not easily readable and it lacks of detail: time and memory are the only measures taken in the HTML result and in the PDF file only the time is represented. In addition every test and graph/table lack of an explanation of what it is testing and representing, making the comprehension both of the test and the result very opaque. 
 
-compara e basta ma non misura performance
+Moreover the results are always too much summarizing. For example in figure \ref{poleposition-time-graph} 
 
-grafici poco leggibili e solo basati sul tempo sulle y con logaritmo inverso! No detailed report!
 
 i risultati sono cmq troppo riassuntivi, non viene visualizzato alcun andamento.
 
-nessun test concorrente.
+oltretutto compara e basta ma non misura performance
 
-2005
+nessun test concorrente. (anche se vorrebbero)
 
+2005 (molto recente,e poi abbandonato)
 
 		\subsection{Conclusion}
 
