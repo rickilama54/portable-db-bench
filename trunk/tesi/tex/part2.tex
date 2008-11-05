@@ -323,7 +323,7 @@ The main aim of TPC was the provision of uniform benchmark tests. Therefore they
 		\subsection{Advantages}
 Of course there are many advantages when discussing about TPC benchmarks, and above all there is the experience this consortium has accumulated in the last twenty years. Since 1988 TPC is working on benchmarks expressing how benchmark results depend on the application's workload, on the system design and implementation, including the execution platform, and on the application requirements, such as high availability or strict durability. This experience, and the big names of the members, contributed to impose TPC benchmarks as a standard, especially for OLTP performance.
 
-Talking about standards, the most famouse TPC benchmark is TPC-C, the on-line transaction processing benchmark. The scenario simulated by TPC-C is very common real application scenario, and therefore all its succes. This is a moderatly complex OLTP modeling a wholesale supplier managing orders, whose workload consists of five transaction types:
+Talking about standards, the most famous TPC benchmark is TPC-C, the on-line transaction processing benchmark. The scenario simulated by TPC-C is very common real application scenario, and therefore all its succes. This is a moderatly complex OLTP modeling a wholesale supplier managing orders, whose workload consists of five transaction types:
 \begin{enumerate}
 	\item New order: enter a new order  from a customer.
 	\item Payment: update customer balance to reflect a payment.
@@ -506,48 +506,57 @@ It could be possible to extend this framework with the features we need and the 
 
 However this application is very catchy and it is a great source of inspiration for a future development. Very interesting features, although they are not perfect, are the report in a PDF file, the graphs, and the idea to make a database benchmark framework.
 	
-	\section{Overview's Results}
+	\section{Benchmark Overview Summary}
+Coming to a conclusion we sum up the pros and cons of the several database benchmark applicaiton analyzed.
+
+facciamo un breve riepilogo nella tabella \ref{benchmark-summarizing-table}
+
 
 \begin{table}[htp!]
 	\centering \footnotesize
-	\begin{tabular}{| r || c | c |} \hline
+	\begin{tabular}{| p{2.5cm} || p{5cm} | p{5cm} |} \hline
 	
 	Benchmark & Pro & Con \\ \hline \hline
 	
-	The open source database benchmark 
-	& 
-	asdasdasd
+	\multirow{4}{2.5cm}{The open source database benchmark} &  & SQL only \\
+	& Open source & C language \\
+	& AS3AP & No comparison \\
+	&  & No visual reports \\
+	&  & Latest release: 0.21 (2006) \\
+	\hline
 	
-	adadasdasd
+	\multirow{4}{2.5cm}{TPC-C benchmark} & Standard &  \\
+	& Simulate OLTP systems & For high end vendor \\
+	& Price/performance metric & No implementation available \\
+	& Acidity testing &  \\
+	& For every DBMS &  \\
+	\hline
 	
-	asdasdasdas	
-	& 
-	57 
-	\\ \hline
+	\multirow{4}{2.5cm}{Apache JMeter} & Java desktop application & No plug-in for IMDB \\
+	& Load testing & No comparison \\
+	& Plug-in architecture & Bad graphs \\
+	& JDBC plug-in &  \\
+	\hline
 	
-	Transaction Performance Processing Council (TPC-C benchmark) & 20381 & 46545 \\ \hline
-	
-	Apache JMeter & 20381 & 46545 \\ \hline
-	
-	Poleposition & 20381 & 46545 \\ \hline
-	
+	\multirow{4}{2.5cm}{Poleposition} & Java desktop application & The metaphor is a trap \\
+	& Database benchmark framework & Lack of detail in results \\
+	& Both relational and object DB & Only single-user testing \\
+	& Results comparison & Quite recent \\
+	& Catchy report &  \\
+	\hline
+		
 	\end{tabular}
 	\caption{Benchmark summarizing table}
 	\label{benchmark-summarizing-table}
 \end{table}
 
 
-
-
-
-Tabella riassuntiva, con le caratteristiche di ogni benchmark che ci hanno convinto
-
 Si potrebbe pensare di prendere alcuni benchmark ed estenderli implementando i casi di nostro interesse.
-ma Nessun benchmark va bene.
+ma Nessun benchmark va bene. oppure fare una nuova applicazione.
 
-Oppure fare una nuova applicazione di benchmark...segue nel prossimo capitolo.
+appunto in quest'ottica, elenchiamo cosa ci sembra veramente interessante.
 
-questa analisi è stata cmq molto utile
+questa analisi è stata quindi molto utile per poter fare una applicazione di benchmark... che vedremo nel prossimo capitolo.
 	
 	
 	
