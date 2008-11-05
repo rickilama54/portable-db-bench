@@ -473,7 +473,7 @@ The table \ref{poleposition-table} shows the time the "write" lap takes during t
 Poleposition can also be used to test both object and relational database systems. This is possible because it was developed with the aim to compare database engines and object-relational mapping technology. Hence this makes poleposition a really interesting database benchmark for our needs.
 
 Finally, as last advantage, there is something that is not properly a feature of the application, instead it is an idea the programmers took in mind during the development of the application, and therefore it reflected on the quality of the application. The idea we are talking about is the following:
-\emph{Objectivity must be the most important goal of the benchmark tests. The results show very clearly that there can not be one single "best product". Depending on your application, some circuit results may be very important for you and some may be completely irrelevant. If you consider basing your choice of database on this benchmark, bring along lots of time to look at what every test does. You will not be able to judge the results without looking at the source code that produces them.} 
+\emph{"Objectivity must be the most important goal of the benchmark tests. The results show very clearly that there can not be one single best product. Depending on your application, some circuit results may be very important for you and some may be completely irrelevant."} 
 This statement perfectly accords to the axiom described in paragraph \ref{axiom}, and on which is based our work.
 
 		\subsection{Disadvantages}
@@ -481,37 +481,73 @@ The metaphor may help to understand the initial problem of the benchmark, but on
 
 Although poleposition's output is very catchy, it is not easily readable and it lacks of detail: time and memory are the only measures taken in the HTML result and in the PDF file only the time is represented. In addition every test and graph/table lack of an explanation of what it is testing and representing, making the comprehension both of the test and the result very opaque. 
 
-Moreover the results are always too much summarizing. For example in figure \ref{poleposition-time-graph} 
+Moreover the results are always too much summarizing. For example in figure \ref{poleposition-time-graph}, and thus also in table \ref{poleposition-table}, only the total time of the test is represented, and so we can calculate the throughput dividing the number of objects inserted with the total time. But it's not possible to know if this throughput was costant or growing or oscillating too, there is no representation of the throughput's trend during the execution of the test. This contributes to make the test even less clear, hiding the real database systems' behaviour. For example, looking at figure \ref{poleposition-time-graph}, we can't understand why HSQLDB and Db4o are so much oscillating. Of course it can be the real database performance, but it could also be a misstake in the test implementation or in the database configuration. Certainly a more detailed report of the result could be helpful.
 
+Furthermore this framework only allow single-user testing, because, as the authors said in \cite{poleposition}, \emph{"some sort of multi-threaded test to simulate multiple user would be exceedingly difficult without extensive modifications to the framework. But if that could be done, PolePosition could provide enterprise-level testing"}. Nevertheless they hope in the future to introduce this new functionality, but at the moment it is still not working.
 
-i risultati sono cmq troppo riassuntivi, non viene visualizzato alcun andamento.
+Finally this database benchmark is quite recent: it started in 2005 and actually there is still only one release available for download, posted in June 2005. Looking through the SVN repository on sourceforge, it's possible to notice some new changes and activity in the last years, but there is still no new release available for download. In addition the code of poleposition is not tha clear and objcet oriented as they said in \cite{poleposition}.
 
-oltretutto compara e basta ma non misura performance
-
-nessun test concorrente. (anche se vorrebbero)
-
-2005 (molto recente,e poi abbandonato)
-
+%oltretutto compara e basta ma non misura performance
 		\subsection{Conclusion}
+As first impact Poleposition seems to be exaclty what we are looking for:
+\begin{itemize}
+	\item the portability is granted by the Java language;
+	\item new test can be implemented allowing flexibility;
+	\item there are very catchy graph report;
+	\item and it can wotks both with relational and object databses.
+\end{itemize}
+But a deep analysis of this feature showed that it is not suited for our needs. Particularly the results are very poor, and the graphs don't show any database behaviour during the execution of the test: in fact these graphs shouldn't be line charts, but it would be better if they were bar charts, because they don't show any trend.
 
-molte cose sono interessanti e da imitare come il pdf con i grafici
+But a very important disadvantage, which exclude Poleposition from our choiche, is the lack of load testing, also due to the incapability to execute concurrent tests. This is a major disadvantages, especially when we want to simulate real application scenarios, which is a consequence of the axiom on which is based our work. 
 
-ma non è adatto per noi: troppo codice da scrivere, e da rifattorizzare, e cmq scritto male (scaricato da svn). sebbene l'autore autorizzi ciò.
+In addition this benchmark is not easy to use, although it may seem easy. It's impossible to understand the meaning of the results without looking at the code: \emph{"if you consider basing your choice of database on this benchmark, bring along lots of time to look at what every test does. You will not be able to judge the results without looking at the source code that produces them."} And therefore this benchmark is not for non technical people who don't know Java language, but also for engineers is not so easy, because they need a lot of time to understand properly the benchmark results, looking through the code's lines.
 
+It could be possible to extend this framework with the features we need and the authors themselves exhort this possibility. On top of that there is a substantial amount of code to write and the framework code is not simple and easily extensible: for example there are methods with hundreds of line of code and with many many nested conditional istructions, which is not object oriented programming, losing all the maintanability such a programming paradigm offers.
 
-
-Poleposition fa schifo! \cite{poleposition}!!!
-
-
-
-
-
+However this application is very catchy and it is a great source of inspiration for a future development. Very interesting features, although they are not perfect, are the report in a PDF file, the graphs, and the idea to make a database benchmark framework.
 	
 	\section{Overview's Results}
+
+\begin{table}[htp!]
+	\centering \footnotesize
+	\begin{tabular}{| r || c | c |} \hline
+	
+	Benchmark & Pro & Con \\ \hline \hline
+	
+	The open source database benchmark 
+	& 
+	asdasdasd
+	
+	adadasdasd
+	
+	asdasdasdas	
+	& 
+	57 
+	\\ \hline
+	
+	Transaction Performance Processing Council (TPC-C benchmark) & 20381 & 46545 \\ \hline
+	
+	Apache JMeter & 20381 & 46545 \\ \hline
+	
+	Poleposition & 20381 & 46545 \\ \hline
+	
+	\end{tabular}
+	\caption{Benchmark summarizing table}
+	\label{benchmark-summarizing-table}
+\end{table}
+
+
+
+
+
 Tabella riassuntiva, con le caratteristiche di ogni benchmark che ci hanno convinto
-Nessun benchmark va bene.
+
 Si potrebbe pensare di prendere alcuni benchmark ed estenderli implementando i casi di nostro interesse.
+ma Nessun benchmark va bene.
+
 Oppure fare una nuova applicazione di benchmark...segue nel prossimo capitolo.
+
+questa analisi è stata cmq molto utile
 	
 	
 	
