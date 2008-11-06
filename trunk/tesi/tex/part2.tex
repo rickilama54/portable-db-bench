@@ -228,13 +228,13 @@ Nevertheless, testing ACID properties is not a simple goal to achieve. Particula
 \chapter{Database Benchmark Softwares Overview}
 The difficulty to analyze objectively databases' performance has already been exapalined and understood in chapter \ref{analysis-introduction}. The major problems were found in the differences of test scenarios, implementation and execution platform. In the previous chapter we tried to minimize the first issue by modeling different test scenarios like real application scenarios. This is not a panacea, but in this way results produced by these tests are more valid for the applications they simulate than generic tests. 
 
-The focus is now moved on the second and third issues: the tests' implementation and the execution platform, in other words an application benchmark used to run test scenarios. In this chapter we analyze more or less deeply different open source benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a specific benchmark.
+The focus is now moved on the second and third issues: the tests' implementation and the execution platform, in other words an application benchmark used to run test scenarios. In this chapter we analyze more or less deeply different open source benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a new benchmark application.
 
-	\section{Benchmark Requirements}
-Before starting the analysis, it's necessary to make clear the requirements a benchmark should have to run our tests. These requirements will give us a set of parameters which can be used to evaluate properly a benchmark. But before stating all the requirements, it's important to point out some general characteristics a benchmark should have:
+	\section{Benchmark Requirements} \label{requirements}
+Before starting the analysis, it's necessary to make clear the requirements a benchmark should have to run our tests. These requirements will give us a set of parameters which can be used to evaluate properly a benchmark. But before stating all the requirements, it's important to point out some general characteristics for a benchmark:
 \begin{itemize}
 	\item Not only a single metric: a benchmark should show the results with different metrics in order to provide a better awareness of the results themselves.
-	\item \emph{The more general the benchmark, then less useful it is for anythng in particular}: it's impossible to make a benchmark for everything, it's better if it has some limitations but works better in some specific tasks.
+	\item \emph{The more general the benchmark, then less useful it is for anything in particular}: it's impossible to make a benchmark for everything, it's better to put some limitations and produce proper results for a specific task.
 	\item Based on a workload: only the essential attributes of a workload should be used to create a benchmark.
 \end{itemize}
   
@@ -243,14 +243,14 @@ These general characteristics and some of the following requirements are taken b
 The requirements we are going to analyze are: portability, understandability, flexibility, detailed report, visual report, both for relational and object databases and easy to use. In addition we will illustrate some benefits a benchmark should bring. 
 
 		\subsection{Portability}
-A benchmark is a set of tests runned against a system, a database in this case, to analyze the performance with the main purpose to compare them. The comparison is usually between different systems when you are choosing the best in term of performance for your needs. But when you already have choosen the system it is also very useful to compare the benchmark's results on the same database between different platform. In order to make this possible, both the system to be tested and the benchmark must be able to run on several platforms. While databases usually run on different operating sytems, it's not the same for benchmarks. When the benchmark runs on a client's network, and therefore it is for client-server databases, it can be considered portable, because the execution platform doesn't matter. But when we are using embedded databases, the benchmark itself must live togheter with the database system, and therefore able to run on different OS, which means it is portable.
+A benchmark is a set of tests runned against a system, a database in this case, to analyze the performance with the main purpose to compare them. The comparison is usually between different systems when you are choosing the best in term of performance for your needs. But when you already have chosen the system it is also very useful to compare the benchmark's results on the same database between different platform. In order to make this possible, both the system to be tested and the benchmark must be able to run on several platforms. While databases usually run on different operating systems, it's not the same for benchmarks. When the benchmark runs on a client's network, and therefore it is for client-server databases, it can be considered portable, because the execution platform doesn't matter. But when we are using embedded databases, the benchmark itself must live togheter with the database system, and therefore able to run on different OS, which means it is portable.
 
 Thus, when testing embedded databases too, a portable benchmark can help us not only in the decision of the best database system given a certain platform, but also in choosing a suitable platform for our database.
 
 		\subsection{Understandability}
-This feature may seem obvious, but it is not when we are reading thousands of incomprehensible words or graphs with many lines and no legends or captions on the axis. The capability of being understood is essential to make the benchmark useful. Understandability is inteded as clear results and their easy interpretation:  as already explained in paragraph \ref{bench-history} benchmarks' results are easy to be tricked and cheated, and therefore they must be clear to avoid any religion's war and the consequently distortion of the results. 
+This feature may seem obvious, but it is not when we are reading thousands of incomprehensible words or graphs with many lines and no legends or captions on the axis. The capability of being understood is essential to make the benchmark useful. Understandability is intended as clear results and their easy interpretation:  as already explained in paragraph \ref{bench-history} benchmarks' results are easy to be tricked and cheated, and therefore they must be clear to avoid any religion's war and the consequently distortion of the results. 
 
-Moreover, it's important to take in mind there are different stakeholders interested in benchmarks' results: engineers working at the database engine, managers selling the system and cutomers interested in buying a database. Thus a good benchmark must be able to be easily understood by many people and provide a clear view or views of the results.
+Moreover, it's important to take in mind there are different stakeholders interested in benchmarks' results: engineers working at the database engine, managers selling the system and customers interested in buying a database. Thus a good benchmark must be able to be easily understood by many people and provide a clear view or views of the results.
 
 		\subsection{Flexibility} \label{flexibility}
 This is not a requirements for every benchmark, but it is for our purpose. We want a benchmark which can run the test suite described in chapter \ref{test-suite}. That is the collection of test we gathered and we want to run against a database system to understand its performance. Therefore we need a benchmark which with few programming can execute our tests. 
@@ -258,9 +258,9 @@ This is not a requirements for every benchmark, but it is for our purpose. We wa
 Furthermore, recalling the axiom in paragraph \ref{axiom}, benchmarks' results may depend on too many criteria, and therefore a good benchmark must be flexible in order to simulate the real application scenarios we are interested in, scenarios which we may add in the future. Although we said in this paragraph's introduction a benchmark should not be general because it becomes less useful, it is also true that a good benchmark must be based on a workload, the workload of the application which will use the database system we are going to choose. Therefore flexibility is a key feature for a benchmark when comes the need to run a own test suite based on the workload of our application.
 		
 		\subsection{Detailed Report}
-Recalling the first general feature for a benchmark in the introduction of this paragraph ("not only a single metric"), results must provide different measures allowing a better understanding of databases' performance. it's not by chance we are talking about understandability. These two characteristics are strictly connected. Of course many measures for every test will make the result harder to understand but will provide more informations to interpret the databases' behaviour. On the other hand only one measure is easier to understand but may hide the database behaviour and the reasons behind that. Therefore a compromise is needed: in each test we are not interested in all the measures it's possible to take, but only a subset of those can be taken for every test. The reference measures have been already introduced in paragraph \ref{measures} and they represent a subset of all possible measure for a database.
+Recalling the first general feature for a benchmark in the introduction of this paragraph ("not only a single metric"), results must provide different measures allowing a better understanding of databases' performance. it's not by chance we are talking about understandability. These two characteristics are strictly connected. Of course many measures for every test will make the result harder to understand but will provide more informations to interpret the databases' behavior. On the other hand only one measure is easier to understand but may hide the database behavior and the reasons behind that. Therefore a compromise is needed: in each test we are not interested in all the measures it's possible to take, but only a subset of those can be taken for every test. The reference measures have been already introduced in paragraph \ref{measures} and they represent a subset of all possible measure for a database.
 
-In addition more measures the benchmark's application takes, more it alters the database performance, and therefore a compromise in the number of measures is always a good choiche, but keeping in mind that only one measure will not tell much about databases performance.
+In addition more measures the benchmark's application takes, more it alters the database performance, and therefore a compromise in the number of measures is always a good choice, but keeping in mind that only one measure will not tell much about databases performance.
 
 		\subsection{Visual Report}
 In order to make the results even more understable, and to make the detailed measures more readable, visual reports will play an essential role. Graphs are able to express thousands numbers in one or few colored lines. Graphs are perfect not only to show the final result of a test, but also the whole trend, from the beginning to the end. Therefore any oscillation in the measures can become evident and easy to read. It will not be hide by an average value reported at the test's end. Of course graph can also be almost useless if they report only the final value. It depends by the implementation. For example graphs such as those from Poleposition benchmark, which will be analyzed in paragraph \ref{poleposition} may be very hard to understand and they simply may describe an average value.
@@ -270,12 +270,12 @@ Furthermore visual reports are usually used with the main purpose to compare sys
 		\subsection{Both Relational and Object Database}
 The benchmark we are looking for must be able to work with both relational and object databases. Relational databases are usually able to run as standalone server and accessed via SQL. Instead object databases are used mainly as embedded databases and accessed via a native interface for a specific programming language. Anyway in-memory databases are used mainly as embedded databases and therefore we need a benchmark which can use embedded databases accessed by both SQL (eg: JDBC) and native interface. Although in-memory databases are not a new technology, they became widely used in the last few years, therefore many benchmarks do not provide any support for embedded databases.
 
-When testing both relational and object databases another problem comes out: the benchmark application can test the databse systems in different ways, using a relational point of view or an object oriented point of view, or both.This may produce different results in the performance analysis. The knowledge of this feature is important during the results' analysis.
+When testing both relational and object databases another problem comes out: the benchmark application can test the database systems in different ways, using a relational point of view or an object oriented point of view, or both.This may produce different results in the performance analysis. The knowledge of this feature is important during the results' analysis.
 
 		\subsection{Easy to Use}
-This is a commonplace for every application, nobody wants something impossibile to use. As for other requirements, a compromise is always needed, especially for this feature. The ease of use, in this case, means the possibility to modify several test's parameters, such as the parameters already explained in chapter \ref{test-suite}, and also to be able to bring some little variation to the workload simulated, in order to improve the test when the needs change. This ease of use should be granted without any modification in the application's line of code, but for example in an xml file, or other cinfiguration files, or with some input parameters.
+This is a commonplace for every application, nobody wants something impossible to use. As for other requirements, a compromise is always needed, especially for this feature. The ease of use, in this case, means the possibility to modify several test's parameters, such as the parameters already explained in chapter \ref{test-suite}, and also to be able to bring some little variation to the workload simulated, in order to improve the test when the needs change. This ease of use should be granted without any modification in the application's line of code, but for example in an xml file, or other configuration files, or with some input parameters.
 
-Of course this may seem similar to the flexibility requirement, that we discussed in paragraph \ref{flexibility}, but while flexibility intends the capability for engineers to implement completely new test scenarios, ease of use is the capability to execute the workloads implemented with few varations, such as the initial database's state, the exact operations' order, etc. This requirements is aimed at all the non technical people who want to analyze the database performance.
+Of course this may seem similar to the flexibility requirement, that we discussed in paragraph \ref{flexibility}, but while flexibility intends the capability for engineers to implement completely new test scenarios, ease of use is the capability to execute the workloads implemented with few variations, such as the initial database's state, the exact operations' order, etc. This requirements is aimed at all the non technical people who want to analyze the database performance.
 
 		\subsection{Benefits}
 Discussing about requirements, it's important to note also the benefits a benchmark should bring, the aims it is built around. Referring again to the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}, the benefits a good benchmark should bring are:
@@ -288,7 +288,7 @@ Discussing about requirements, it's important to note also the benefits a benchm
 The TPC work illustrate also how good benchmarks have a lifetime, because they firstly drive industry and technology forward, but when all reasonable advances have been made, benchmarks can become counter productive, encouraging artificial optimizations. But this reasoning fall down when the workload, on which the benchmark is based, changes. And the modification of the workload, from little modification to completely new implementation, is a requirement for the benchmark we are looking for.
 	
 	\section{The Open Source Database Benchmark}
-We start now the analysis of several database benchmark trying to understand if it is suited for our needs, or to take some idea for a future developement. Discussing about these benchmarks we will illustrate advantages and disadvantages. Surfing the web and looking for databases benchmark "The Open Source Database Benchmark" is the first who comes to light. 
+We start now the analysis of several database benchmark trying to understand if it is suited for our needs, or to take some idea for a future development. Discussing about these benchmarks we will illustrate advantages and disadvantages. Surfing the web and looking for databases benchmark "The Open Source Database Benchmark" is the first who comes to light. 
 
 		\subsection{Advantages}
 First of all this database benchmark is open source. All the benchmarks we will analyze are open source, therefore it sounds a bit strange to point out open source as an advantage. But this database benchmark has so few advantages that it's good to list them all.
@@ -298,19 +298,19 @@ Instead a good feature to point out is the test suite used by this benchmark app
 		\subsection{Disadvantages}
 On the other hand there are several disadvantages. This project started in the beginning of 2001 and its last release is 0.21 dated at january 2006. Therefore both the release number and the last release date are bad number: this software is outdated and it is still in alpha release. Also the AS3AP benchmark is outdated and very few information are available on the web.
 
-From a relational point of view, this benchmark is portable, because it runs on a network client, but it is written in C language, and it is not portable from an emebedded database point of view. When porting a program written in C from a platform to another, there is almost always some code's line which need to be changed, especially when using socket or other system calls.
+From a relational point of view, this benchmark is portable, because it runs on a network client, but it is written in C language, and it is not portable from an embedded database point of view. When porting a program written in C from a platform to another, there is almost always some code's line which need to be changed, especially when using socket or other system calls.
 
-In addition this benchmark is able to run only SQL script against relational database server, thus it needs a lot of programming for the procedures' implementation to test embedded/object databases. What's more we want primarily test embedded/in-memoery databases and not relational database server.
+In addition this benchmark is able to run only SQL script against relational database server, thus it needs a lot of programming for the procedures' implementation to test embedded/object databases. What's more we want primarily test embedded/in-memory databases and not relational database server.
 
-At last, another disadvantage is the lack of detailed visual reports. This benchmark works only by the command line interface and no graphs are produced. Moreover there is no direct comparison between different databases sytems: in order to compare two database, manually the benchmark must be runned against them and then compare the throughput reported. There is also no comparison in the throughput's trend during the executoin of the test.
+At last, another disadvantage is the lack of detailed visual reports. This benchmark works only by the command line interface and no graphs are produced. Moreover there is no direct comparison between different databases systems: in order to compare two database, manually the benchmark must be runned against them and then compare the throughput reported. There is also no comparison in the throughput's trend during the execution of the test.
 
 		\subsection{Conclusion}
-In conclusion it is clear how this database benchmark doesn't fit to our needs. Not even one requirement is completely satisfied and some of them are taken in no consideration. The reports are neither detailed or visual, and embedded in-memory databases are not supported. With a lot of programming this benchmark can also become a good one, but it's more conveniente develop a completely new benchmark than extend the open source database benchmark to fit our requirements.
+In conclusion it is clear how this database benchmark doesn't fit to our needs. Not even one requirement is completely satisfied and some of them are taken in no consideration. The reports are neither detailed or visual, and embedded in-memory databases are not supported. With a lot of programming this benchmark can also become a good one, but it's more convenient develop a completely new benchmark than extend the open source database benchmark to fit our requirements.
 
 What we have learned form this application is very few: only the AS3AP is a nice discovery. It is an old standard SQL test suite, which can be used to understand and to learn some new kind of test, new interesting workload. But AS3AP is very old and outdated and therefore useless.
 	
 	\section{Transaction Processing Performance Council}
-In the past years, without a standards body to supervise the testing and publishing, vendors begin to publish extraordinary marketing claims running specific benchmarks. The Transaction Processing Perfomance Council, TPC, is a non-profit corporation founded in 1988 by eight leading software and hardware companies in response to benchmarketing and benchmark wars. The TPC currently has 20 full members: AMD, BEA, Bull, Dell, EnterpriseDB, Fujitsu, Fujitsu Siemens, HP, Hitachi, IBM, INGRES, Intel, Microsoft, NEC, Netezza, Oracle, Sun Microsystems, Sybase, Teradata and Unisys.
+In the past years, without a standards body to supervise the testing and publishing, vendors begin to publish extraordinary marketing claims running specific benchmarks. The Transaction Processing Performance Council, TPC, is a non-profit corporation founded in 1988 by eight leading software and hardware companies in response to benchmarketing and benchmark wars. The TPC currently has 20 full members: AMD, BEA, Bull, Dell, EnterpriseDB, Fujitsu, Fujitsu Siemens, HP, Hitachi, IBM, INGRES, Intel, Microsoft, NEC, Netezza, Oracle, Sun Microsystems, Sybase, Teradata and Unisys.
 
 The main aim of TPC was the provision of uniform benchmark tests. Therefore they, recnognizing that different types of applications have different workload, created several benchmarks. Besides the outdated benchmark which are TPC-A, B, D, R and W, there are the followings: 
 \begin{itemize}
@@ -323,7 +323,7 @@ The main aim of TPC was the provision of uniform benchmark tests. Therefore they
 		\subsection{Advantages}
 Of course there are many advantages when discussing about TPC benchmarks, and above all there is the experience this consortium has accumulated in the last twenty years. Since 1988 TPC is working on benchmarks expressing how benchmark results depend on the application's workload, on the system design and implementation, including the execution platform, and on the application requirements, such as high availability or strict durability. This experience, and the big names of the members, contributed to impose TPC benchmarks as a standard, especially for OLTP performance.
 
-Talking about standards, the most famous TPC benchmark is TPC-C, the on-line transaction processing benchmark. The scenario simulated by TPC-C is very common real application scenario, and therefore all its succes. This is a moderatly complex OLTP modeling a wholesale supplier managing orders, whose workload consists of five transaction types:
+Talking about standards, the most famous TPC benchmark is TPC-C, the on-line transaction processing benchmark. The scenario simulated by TPC-C is very common real application scenario, and therefore all its success. This is a moderately complex OLTP modeling a wholesale supplier managing orders, whose workload consists of five transaction types:
 \begin{enumerate}
 	\item New order: enter a new order  from a customer.
 	\item Payment: update customer balance to reflect a payment.
@@ -337,12 +337,12 @@ But throughput is not the only metric used by TPC, there is also a price/perform
 
 TPC-C requires also transactions to be ACID (atomicity, consistency, isolation and durability) and therefore TPC included different tests to demonstrate that the ACID properties are supported and enabled during the execution of the benchmark. These tests are not intended to be exhaustive quality assurance tests. Therefore these test are a necessary condition, but not a sufficient, to demonstrate the ACID properties. In the TPC-C specification document \cite{TPC-C} there is the description of different kind of scenarios which can be used to test the acidity of the database system.
 
-Lastly TPC doesn't work only for creating good benchmarks, but also a good process for reviewing and monitoring those benchmarks. A nice metaphor written by Kim Shanley in 1998, chief operating officer at TPC, says good benchmarks are like good laws: as Aristotele said, if the laws are not obeyed, do not constitute good governement. And this is the meaning for the process reviewing and monitoring. Although this last concept about process monitoring is really important, this is not an interesting feature for the benchmark application we are looking for, simply because it doesn't regards the application itself.
+Lastly TPC doesn't work only for creating good benchmarks, but also a good process for reviewing and monitoring those benchmarks. A nice metaphor written by Kim Shanley in 1998, chief operating officer at TPC, says good benchmarks are like good laws: as Aristotle said, if the laws are not obeyed, do not constitute good government. And this is the meaning for the process reviewing and monitoring. Although this last concept about process monitoring is really important, this is not an interesting feature for the benchmark application we are looking for, simply because it doesn't regards the application itself.
 
 		\subsection{Disadvantages}
-The transaction processing performance council offer many advantages, but its benchmarks are not exempt from disadavantages. First of all TPC benchmarks are only specification and there is no implementation available: each vendor must implement its own benchmark and then the council will review and monitor the process to check if the specification are kept. Although it is possible to find some free TPC-C implementation in internet, they are all unofficial benchmarks.
+The transaction processing performance council offer many advantages, but its benchmarks are not exempt from disadvantages. First of all TPC benchmarks are only specification and there is no implementation available: each vendor must implement its own benchmark and then the council will review and monitor the process to check if the specification are kept. Although it is possible to find some free TPC-C implementation in internet, they are all unofficial benchmarks.
 
-In addition all the available implementations, as for the official private implementations, are for relation database only and run SQL script. Not by chance all the TPC-C specification are expressed in terms of relational data model with conventional locking scheme. But in the introdution of TPC-C specification \cite{TPC-C} it is clearly stated that it's possible to use any commercial database management system, server or file system that provides a functionally equivalent implementation. The relation terms, such as "table", "row" or "column", are used only as an example of a logical data strucuteres.
+In addition all the available implementations, as for the official private implementations, are for relation database only and run SQL script. Not by chance all the TPC-C specification are expressed in terms of relational data model with conventional locking scheme. But in the introduction of TPC-C specification \cite{TPC-C} it is clearly stated that it's possible to use any commercial database management system, server or file system that provides a functionally equivalent implementation. The relation terms, such as "table", "row" or "column", are used only as an example of a logical data strucuteres.
 
 Moreover all these benchmarks have been used for high end system and for vendors who produce both hardware and database management system. Although it's possible to use a proper implementation of these benchmarks for every kind of DBMS the comparison between the official results will be almost always of few interest: because the official results regards only high end systems and because the results obtained by the proper implementation will not get any credit by the TPC consortium.
 
@@ -356,7 +356,7 @@ This is an emblematic sentence and it can be considered as an extension of the a
 But this benchmark and this analysis is not useless. This is a source of inspiration for an extension of our test suite: from the implementation of a new load test case similar to TPC-C (it is a standard de facto for generic OLTP); to the implementation of some, not strict, ACID test. Moreover the TPC work faced many problems in the last year in benchmark's definition, accumulating a lot of experience, and this is a part of our work.
 	
 	\section{Apache JMeter}
-Apache JMeter is an Apache Jackarta project, a set of open source Java solutions and part of the Apache Software Foundation, which encourages a collaborative, consensus-based development process under an open software license. Apache Jmeter is designed to load test functional behavior and measure performance. Originally developed with the main purpose to test web applications, it has expanded to other resources, both static or dynamic: files, servlets, perl script, java objects, databases, FTP servers and more.
+Apache JMeter is an Apache Jakarta project, a set of open source Java solutions and part of the Apache Software Foundation, which encourages a collaborative, consensus-based development process under an open software license. Apache Jmeter is designed to load test functional behavior and measure performance. Originally developed with the main purpose to test web applications, it has expanded to other resources, both static or dynamic: files, servlets, perl script, java objects, databases, FTP servers and more.
 
 		\subsection{Advantages}
 Apache JMeter is a 100\% pure Java desktop application, and therefore allowing complete portability. In addition JMeter doesn't need any installation, it's possible to download the binaries and simply execute them. This is perfectly suited for our need to test in-memory database on different platforms. Also most of the database systems we will test are written in Java e mainly for Java. In addition JMeter offers a powerful GUI which let you set your test in an easy way, and therefore ease of use is accomplished.
@@ -378,7 +378,7 @@ Moreover these load tests can also be executed concurrently by JMeter and in two
 \end{itemize}
 The ability to execute load test and concurrent test give us all the flexibility we need to run our test suite, particularly load test case such as the real time prepaid system explained at paragraph \ref{load-test-case}.
 
-Another important feature in favour of JMeter is the capability to load test also databases via JDBC. As already said the figure \ref{JMeter} is an example of a JMeter configuration test for a database via JDBC. It shows how to simulate a group of user with the same behaviour: they firstly execute a select and then an insert. The whole database configuration is setted up by the JDBC Connection Configuration where we need simply to specify the driver to be used and the usual connection parameters, such as the database URL, username and password. 
+Another important feature in favor of JMeter is the capability to load test also databases via JDBC. As already said the figure \ref{JMeter} is an example of a JMeter configuration test for a database via JDBC. It shows how to simulate a group of user with the same behavior: they firstly execute a select and then an insert. The whole database configuration is setted up by the JDBC Connection Configuration where we need simply to specify the driver to be used and the usual connection parameters, such as the database URL, username and password. 
 
 \begin{figure}[!htp] 
 	\begin{center}
@@ -397,7 +397,7 @@ To make this analysis complete, we have also to evaluate the disadvantages of JM
 
 Moreover JMeter doesn't compare different systems between them, but instead it measures the performance of one system at time. Therefore there is no direct comparison, while the comparison is our main purpose. In fact JMeter was originally designed to test web applications in order to find the best tuning for the web server and the relative application. This means that JMeter is not used to find the best web server with the same application, which in other words it can be said that it is not used to find the best database for our application scenario. Nonetheless it can be also used to compare different systems, but not with much ease of use.
 
-Also the visual representation of the result, the Graph Reult, is not that great, and of course JMeter is not famouse for graph results. It is not very fluid, and it has some bugs, such as when the test time is too much the graph goes in overflow.
+Also the visual representation of the result, the Graph Result, is not that great, and of course JMeter is not famous for graph results. It is not very fluid, and it has some bugs, such as when the test time is too much the graph goes in overflow.
 
 		\subsection{Conclusion}
 Now, after the analysis of advantages and disadvantages, we can conclude this investigation about Apache JMeter. It seems a very interesting application benchmark with a lot of features which meet most of our requirements such as:
@@ -408,9 +408,9 @@ Now, after the analysis of advantages and disadvantages, we can conclude this in
 	\item visual and detailed report.
 \end{itemize}
 
-Although all these advantages, there is still something which is not perfect. Firstly JMeter can't test both object and relational databses, and this is an important limitation considering our main purpose is to test in-memory databases. Nonetheless JMeter can test java objects, and therefore it can work with java native interaface, and however it is possible to write a new plugin to add the functionalities we need. But this solution will also add a considerable amount of work in programming the new plugin, losing partially or completely the usefullness of an already existing application benchmark.
+Although all these advantages, there is still something which is not perfect. Firstly JMeter can't test both object and relational databases, and this is an important limitation considering our main purpose is to test in-memory databases. Nonetheless JMeter can test java objects, and therefore it can work with java native interface, and however it is possible to write a new plugin to add the functionalities we need. But this solution will also add a considerable amount of work in programming the new plugin, losing partially or completely the usefulness of an already existing application benchmark.
 
-Secondly also the graph listeners alredy implemented in the application are not very usefull. They can only be used for a fast and approximate analysis. In order to create a good graph with the resulting data stored in a file, there are two possiblities: implement a new graph listener or use another application to represent the result. In both cases there is again the necessity to write new code's lines.
+Secondly also the graph listeners already implemented in the application are not very useful. They can only be used for a fast and approximate analysis. In order to create a good graph with the resulting data stored in a file, there are two possibilities: implement a new graph listener or use another application to represent the result. In both cases there is again the necessity to write new code's lines.
 
 In addition JMeter doesn't allow an easy comparison between different results, and therefore, with the purpose to compare several database performance, there is no more ease of use.
 
@@ -424,7 +424,7 @@ Poleposition use the metaphor of a race, how it is clear by its name, to help th
 		\subsection{Advantages}
 This is another really interesting database benchmark, full of advantages. Above all, again, it is a Java desktop application, without the need of any installation, except for eventual database servers. Therefore the portability specified as first of our requirements is granted, allowing the test of database systems on different platforms.
 
-In addition also the flexibility is provided by Poleposition: in fact it is a framework, for database benchmarking, allowing the implementation of new tests and of new database systems. The framework is also simplified by the metaphor used to describe the whole application,and which is evident by the name itself. This application benhmark is configured like a championship car racing, where:
+In addition also the flexibility is provided by Poleposition: in fact it is a framework, for database benchmarking, allowing the implementation of new tests and of new database systems. The framework is also simplified by the metaphor used to describe the whole application,and which is evident by the name itself. This application benchmark is configured like a championship car racing, where:
 \begin{itemize}
 	\item A \emph{circuit} is a set of timed test cases that work against the same data.
 	\item A \emph{lap} is a single (timed) test.
@@ -433,7 +433,7 @@ In addition also the flexibility is provided by Poleposition: in fact it is a fr
 	\item A \emph{driver} is an implementation of a circuit for a team .
 \end{itemize}
 
-In favour of Poleposition there is also the reporting tool: results are available both in HTML format and in a PDF file, providing a fast and clear idea of the results obtained. The PDF file and the HTML result are a collection of circuits, which actually are:
+In favor of Poleposition there is also the reporting tool: results are available both in HTML format and in a PDF file, providing a fast and clear idea of the results obtained. The PDF file and the HTML result are a collection of circuits, which actually are:
 \begin{itemize}
 	\item Melbourne: writes, reads and deletes unstructured flat objects of one kind in bulk mode.
 	\item Sepang: writes, reads and then deletes an object tree.
@@ -460,7 +460,7 @@ These circuits are a collection of laps: a write, a read, a delete etc. And each
 	\label{poleposition-table}
 \end{table}
 
-The table \ref{poleposition-table} shows the time the "write" lap takes during the melbourne circuit. For each car/team is shown the time in milliseconds they take to execute a certain number of writes: 3000, 10000, 30000 and 100000. Therefore it's easy to compare them and understand who is the fastet, the winner of the race. The same result is also represented by a graph, figure \ref{poleposition-time-graph}, which clearly shows which database is above the others. To note how on the y axis the time is in a logarithmic scale and therefore higher is the value and faster is the database system. On the HTML result there is also another kind of chart, which measures the memory consumption, but on the PDF file this is not present.
+The table \ref{poleposition-table} shows the time the "write" lap takes during the melbourne circuit. For each car/team is shown the time in milliseconds they take to execute a certain number of writes: 3000, 10000, 30000 and 100000. Therefore it's easy to compare them and understand who is the fastest, the winner of the race. The same result is also represented by a graph, figure \ref{poleposition-time-graph}, which clearly shows which database is above the others. To note how on the y axis the time is in a logarithmic scale and therefore higher is the value and faster is the database system. On the HTML result there is also another kind of chart, which measures the memory consumption, but on the PDF file this is not present.
 
 \begin{figure}[htp!] 
 	\begin{center}
@@ -481,36 +481,33 @@ The metaphor may help to understand the initial problem of the benchmark, but on
 
 Although poleposition's output is very catchy, it is not easily readable and it lacks of detail: time and memory are the only measures taken in the HTML result and in the PDF file only the time is represented. In addition every test and graph/table lack of an explanation of what it is testing and representing, making the comprehension both of the test and the result very opaque. 
 
-Moreover the results are always too much summarizing. For example in figure \ref{poleposition-time-graph}, and thus also in table \ref{poleposition-table}, only the total time of the test is represented, and so we can calculate the throughput dividing the number of objects inserted with the total time. But it's not possible to know if this throughput was costant or growing or oscillating too, there is no representation of the throughput's trend during the execution of the test. This contributes to make the test even less clear, hiding the real database systems' behaviour. For example, looking at figure \ref{poleposition-time-graph}, we can't understand why HSQLDB and Db4o are so much oscillating. Of course it can be the real database performance, but it could also be a misstake in the test implementation or in the database configuration. Certainly a more detailed report of the result could be helpful.
+Moreover the results are always too much summarizing. For example in figure \ref{poleposition-time-graph}, and thus also in table \ref{poleposition-table}, only the total time of the test is represented, and so we can calculate the throughput dividing the number of objects inserted with the total time. But it's not possible to know if this throughput was constant or growing or oscillating too, there is no representation of the throughput's trend during the execution of the test. This contributes to make the test even less clear, hiding the real database systems' behavior. For example, looking at figure \ref{poleposition-time-graph}, we can't understand why HSQLDB and Db4o are so much oscillating. Of course it can be the real database performance, but it could also be a mistake in the test implementation or in the database configuration. Certainly a more detailed report of the result could be helpful.
 
 Furthermore this framework only allow single-user testing, because, as the authors said in \cite{poleposition}, \emph{"some sort of multi-threaded test to simulate multiple user would be exceedingly difficult without extensive modifications to the framework. But if that could be done, PolePosition could provide enterprise-level testing"}. Nevertheless they hope in the future to introduce this new functionality, but at the moment it is still not working.
 
-Finally this database benchmark is quite recent: it started in 2005 and actually there is still only one release available for download, posted in June 2005. Looking through the SVN repository on sourceforge, it's possible to notice some new changes and activity in the last years, but there is still no new release available for download. In addition the code of poleposition is not tha clear and objcet oriented as they said in \cite{poleposition}.
+Finally this database benchmark is quite recent: it started in 2005 and actually there is still only one release available for download, posted in June 2005. Looking through the SVN repository on sourceforge, it's possible to notice some new changes and activity in the last years, but there is still no new release available for download. In addition the code of poleposition is not that clear and object oriented as they said in \cite{poleposition}.
 
 %oltretutto compara e basta ma non misura performance
 		\subsection{Conclusion}
-As first impact Poleposition seems to be exaclty what we are looking for:
+As first impact Poleposition seems to be exactly what we are looking for:
 \begin{itemize}
 	\item the portability is granted by the Java language;
 	\item new test can be implemented allowing flexibility;
 	\item there are very catchy graph report;
-	\item and it can wotks both with relational and object databses.
+	\item and it can works both with relational and object databases.
 \end{itemize}
-But a deep analysis of this feature showed that it is not suited for our needs. Particularly the results are very poor, and the graphs don't show any database behaviour during the execution of the test: in fact these graphs shouldn't be line charts, but it would be better if they were bar charts, because they don't show any trend.
+But a deep analysis of this feature showed that it is not suited for our needs. Particularly the results are very poor, and the graphs don't show any database behavior during the execution of the test: in fact these graphs shouldn't be line charts, but it would be better if they were bar charts, because they don't show any trend.
 
-But a very important disadvantage, which exclude Poleposition from our choiche, is the lack of load testing, also due to the incapability to execute concurrent tests. This is a major disadvantages, especially when we want to simulate real application scenarios, which is a consequence of the axiom on which is based our work. 
+But a very important disadvantage, which exclude Poleposition from our choice, is the lack of load testing, also due to the incapability to execute concurrent tests. This is a major disadvantages, especially when we want to simulate real application scenarios, which is a consequence of the axiom on which is based our work. 
 
 In addition this benchmark is not easy to use, although it may seem easy. It's impossible to understand the meaning of the results without looking at the code: \emph{"if you consider basing your choice of database on this benchmark, bring along lots of time to look at what every test does. You will not be able to judge the results without looking at the source code that produces them."} And therefore this benchmark is not for non technical people who don't know Java language, but also for engineers is not so easy, because they need a lot of time to understand properly the benchmark results, looking through the code's lines.
 
-It could be possible to extend this framework with the features we need and the authors themselves exhort this possibility. On top of that there is a substantial amount of code to write and the framework code is not simple and easily extensible: for example there are methods with hundreds of line of code and with many many nested conditional istructions, which is not object oriented programming, losing all the maintanability such a programming paradigm offers.
+It could be possible to extend this framework with the features we need and the authors themselves exhort this possibility. On top of that there is a substantial amount of code to write and the framework code is not simple and easily extensible: for example there are methods with hundreds of line of code and with many many nested conditional instructions, which is not object oriented programming, losing all the maintainability such a programming paradigm offers.
 
 However this application is very catchy and it is a great source of inspiration for a future development. Very interesting features, although they are not perfect, are the report in a PDF file, the graphs, and the idea to make a database benchmark framework.
 	
 	\section{Benchmark Overview Summary}
-Coming to a conclusion we sum up the pros and cons of the several database benchmark applicaiton analyzed.
-
-facciamo un breve riepilogo nella tabella \ref{benchmark-summarizing-table}
-
+Coming to a conclusion we sum up the pros and cons of the database benchmark applications analyzed in the table \ref{benchmark-summarizing-table}. It shows only the most interesting negative and positive features we found in these benchmarks, in order to understand what we need and take inspiration for a future development of a new benchmark application.
 
 \begin{table}[htp!]
 	\centering \footnotesize
@@ -550,16 +547,21 @@ facciamo un breve riepilogo nella tabella \ref{benchmark-summarizing-table}
 	\label{benchmark-summarizing-table}
 \end{table}
 
+The starting idea was to find an application with the requirements explained in paragraph \ref{requirements}, so that we could be able to run our test suite. But the final result is that there is no benchmark which perfectly fits our needs. This means there are only two possibilities to execute our test suite:
+\begin{itemize}
+	\item choose one of the benchmarks previously analyzed and then extend it, in order to add the functionalities we are looking for;
+	\item develop a new benchmark starting from our requirements.
+\end{itemize}
 
-Si potrebbe pensare di prendere alcuni benchmark ed estenderli implementando i casi di nostro interesse.
-ma Nessun benchmark va bene. oppure fare una nuova applicazione.
+The first idea was already taken into consideration during the benchmark analysis and rejected in the conclusion paragraphs. In summary:
+\begin{itemize}
+	\item The first benchmark, the open source database benchmark, was completely unsuitable. Not even one requirement was satisfied. The only positive aspect was the use of AS3AP, the ansi SQL standard scalable and portable benchmark (portable only for relational database server), which can be helpful to the creation of new test case.
+	\item The transaction processing performance council, with their TPC-C, is very interesting because it is a standard and it can simulate a generic OLTP system. But there is no implementation available, and anyhow this will not help us to execute are test suite. Instead this can be a good source for inspiration, both for a new load test case and for some ACID test case. So it is a nonsense talking about extension.
+	\item Apache JMeter is a very good general purpose benchmark application and offers a plug-in for testing relational database server through JDBC. Therefore to use this tool for our aim we need to write a new plug-in, which may not worth the effort, especially considering that JMeter allows an efficient measurement of the performance, but not an easy comparison between different system, and moreover the graphs are quite poor, although extensible.
+	\item Poleposition, on the other hand, is suited for both relational and object database systems, but its testing capability are quite poor. The lack of concurrent testing, and therefore of load testing, prevent us to execute our test suite. A possible extension of this application is not the best solution, especially looking at the source code which is not well organized.
+\end{itemize}
 
-appunto in quest'ottica, elenchiamo cosa ci sembra veramente interessante.
-
-questa analisi è stata quindi molto utile per poter fare una applicazione di benchmark... che vedremo nel prossimo capitolo.
-	
-	
-	
+Therefore the best solution is to develop a new benchmark application. Although this decision, this analysis is not useless, in fact we understood which features can be used from other benchmarks,and how to develop them, and what should be avoided. But this will be explored in the next chapter.
 	
 \chapter{The New In-Memory Database Benchmark Application}
 	\section{Functional View}
