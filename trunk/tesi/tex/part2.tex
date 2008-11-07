@@ -89,7 +89,7 @@ For this reason, what we will introduce in the next chapter is a suite of tests 
 
 
 \chapter{Test Suite} \label{test-suite}	
-In this chapter we are going to discuss the first of the three big differences, described in paragraph \ref{categories}, which make a database seem faster or slower: the test scenarios used to run a benchmark and to analyze database's performance. Besides a tests' description, a suite of test will be created, allowing us to analyze the databases' features of our interest. 
+In this chapter we are going to discuss the first of the three big differences, described in paragraph \ref{categories}, which make a database faster or slower: the test scenarios used to run a benchmark and to analyze database's performance. These test scenarios will be used to build test cases, a collection of different scenarios, one or more, executed concurrently. All these test cases will compose the test suite we are going to use for database benchmarking. Therefore in this chapter besides a tests' description, a suite of test will be created, allowing us to analyze the databases' features of our interest. 
 
 The tests are divided into three categories: base test case, load test case and acid test case. The first category contains simple tests configured as a race between databases, and it is used to obtain an approximate idea in an early stage. Instead, the second category simulate real application scenario, and it can give us a detailed analysis of the real database's performance. Finally the last category is built to understand if the database is ACID compliant.
 
@@ -100,53 +100,53 @@ The axiom, previously described in paragraph \ref{axiom} at page \pageref{axiom}
 Moreover we can model these tests in a way they simulate real application scenarios, so that real performances will be very close to the results obtained by the tests.
 
 	\section{Base Test Case}
-Base test case is a collection of very simple tests, which are configured mostly as a race. This is exactly what the major part of benchmarks does, particularly Poleposition \cite{poleposition}.
+Base test case is a collection of very simple tests, which are configured mostly as a race. This is exactly what the majority of benchmarks does, particularly Poleposition \cite{poleposition}.
 
-Every test can execute different read/write operations on the database and all these operations are inside a loop. The word \emph{transaction}, used extensively in the following paragraphs, refers to an execution of the loop, and therefore all the operations inside it.
+Every test can execute different read/write operations on the database, such operations are grouped into \emph{tasks}. The word \emph{task}, used extensively in the following paragraphs, refers to a collection of operations. Each task is then repeated, and since all the operations in a task are synchronized and executed consecutively, the number of \emph{task per second} is the same of the \emph{transaction per second} of each operation involved by the same task. Therefore \emph{task, or task per second} and \emph{transaction, or transaction per second} can be used in this contest without any distinction, and they all refer to the operations' \emph{iteration}.
 
 The key features of these kind of test are:
 \begin{itemize}
-	\item A fixed number of transaction before the test stop: so tests are configured as a race where every database must execute a certain number of transaction.
-	\item A fixed amount of time before the test stop: as an alternative to a fixed number of transaction, every test run for a specific amount of time, executing the maximum number of transactions per second. 
-	\item Different kind of object: tests must be able to create/retrieve/update/delete simple flat objects with few fields, or complex flat objects with many fields, or still hierarchical objects, and so on. This feature let us test effectively the performance on the objects used in the domain of our interest.
-	\item Single task: to keep these test simple it's better avoid concurrent test, but it is still possible to implement concurrently the different operation executed on the database.
+	\item A fixed number of tasks' iteration before the test stops: so tests are configured as a race where every database must execute a certain number of transaction.
+	\item A fixed amount of time before the test stop: as an alternative to a fixed number of transaction, every test run for a specific amount of time, executing the maximum number of iteration. 
+	\item Different kinds of objects: tests must be able to create/retrieve/update/delete simple flat objects with few fields, or complex flat objects with many fields, or still hierarchical objects, and so on. This feature let us test effectively the performance on the objects used in the domain of our interest.
+	\item Single task: to keep these test simple it's better to avoid concurrent tests, but it is still possible to implement concurrently the different operation executed on the database.%dubbio sulla concorrenza
 \end{itemize}
 	
 		\subsection{Race Test: Timed}
-We already said base tests are configured inherently as a race. These tests can be used to show the maximum throughput the database can reach doing a particular operation on a specific object. Metaphorically it's like a rocket car in the desert trying to reach its speed limit. In a real application this is rarely useful, but can give us an idea of database's limits. 
+We already said base tests are configured inherently as a race. These tests can be used to show the maximum throughput the database can reach doing a particular operation on a specific object. Metaphorically it's like a rocket car in the desert trying to reach its speed limit. In a real application this is rarely useful, but can give us an idea of the database's limits. 
 
-In order to create a test scenario we have to define the object/s involved by the test, the operations on which the test loop and when the test should stop. For example:
+In order to create a test scenario we have to define the domain object/s involved in the test, the operations on which the test loop and when the test should stop. For example:
 \begin{itemize}
 	\item The object represent a person, with only two fields: an id number and a name. This is a simple flat object. 
 	\item The only operation executed by the test is a write operation: every time an object will be added to the database.
-	\item 60 seconds is the stop condition of the test: after 60 seconds of execution of writes (objects person inserted in the database) the test stops.
+	\item 60 seconds is the stop condition of the test: after 60 seconds of iteration of writes (objects person inserted in the database) the test stops.
 \end{itemize}
 Clearly the time is not a significant measure, every test's execution run for the same amount of time: 60 seconds. Instead of the time, a more interesting measure to take is the throughput. This test shows the maximum theoretical value for the throughput, which in a real usage scenario will never be outperformed. 
 
-This test, and its results, are not useful to understand the real performance and potentiality of the database and so to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough to our needs.
+This test, and its results, are not useful to understand the real performance and potentiality of the database and so they are not useful to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough for our needs.
 
 		\subsection{Race Test: Transactions}
 This test is really similar to the previous test. The only difference is in the stop condition:
 \begin{itemize}
 	\item The object represent a person, with only two fields: an id number and a name. This is a simple flat object (same as before). 
 	\item The only operation executed by the test is a write operation: every time an object will be added to the database (same as before).
-	\item 1.000.000 of transactions is the stop condition of the test: when 1.000.000 of writes are executed (objects person inserted in the database) the test stops.
+	\item 1.000.000 of iteration is the stop condition of the test: when 1.000.000 of writes are executed (objects person inserted in the database) the test stops.
 \end{itemize}
 While in the previous test the duration was meaningless, this time, like in a race, it shows which database is the fastest (the winner of the race). Despite this, the duration is still of little use. Also for the throughput the same considerations made before are still valid.
 
-But this new test is useful also to take other interesting measures, such as the file size, whose meaning has already been exaplined in paragraph \ref{measures}. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of transactions. 
+But this new test is useful also to take other interesting measures, such as the file size, which, as explained in par. \ref{measures}, can become very huge, even more than the database image, and therefore it is a critical measure. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of iteration. 
 
 	\section{Load Test Case} \label{load-test-case}
-Restrictions introduced by base tests are very evident although they can be useful in certain situation and for simple and fast approximate results. These restrictions are due to the impossibility to simulate real complex application scenario. Substantially the main restrictions are two:
+Restrictions introduced by base tests are very simple to read and they can be useful for a first look and for fast and approximate results. These restrictions are due to the impossibility to simulate real complex application scenarios. Substantially the main restrictions are:
 \begin{enumerate}
-	\item Real application scenario are rarely single thread/task: to stick to the axiom at paragraph \ref{axiom}, the best way to understand which database fits our needs is to make test scnerios most realistic as possible.
-	\item The second restriction result from the first:trying to make test scenarios more realistic, it is necessary to introduce some sort of control for the throughput. When a test stress the database engine to its maximum level, some other mechanisms may not work properly, such as the garbage collector, caching, indexing, etc. In addition, when a test concurrently accesses the database, this restriction is even more evident: if a thread is not limited in its transactions per second, it may lower the performance of other threads.
+	\item Real application scenario are rarely single thread/task: to stick to the axiom at paragraph \ref{axiom}, the best way to understand which database fits our needs is to make test scenarios as much realistic as possible.
+	\item The second restriction is a direct result of the first: trying to make test scenarios more realistic, it is necessary to introduce some sort of control for the throughput. When a test stress the database engine to its maximum level, some other mechanisms may not work properly, such as the garbage collector, caching, indexing, etc. In addition, when a test concurrently accesses the database, this restriction is even more evident: if a thread is not limited in its transactions per second, it will impact the performances of other threads, not to mention the locking that will occur on the DB.
 \end{enumerate}
 
-Base test case offer very important and useful results, but when the need to test the average load of a real application of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests, differently by base tests, are:
+Base test case o	ffer very important and useful results, but when it comes to test the average load of a real application of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests are:
 \begin{itemize}
-	\item Multi task: there will be not only a combination of read/write/update/delete in one transaction executed synchronizedly, but in more transactions running concurrently against the database.
-	\item A bond on the throughput: for every transaction it is possible to specify the maximum throughput, if the database can reach it, in order to simulate real application usage.
+	\item Multi-tasking: different task, and therefore different sets of operations, can be executed concurrently against the database.
+	\item A bond on the throughput: in order to simulate real application usage, for every task it is possible to specify the maximum throughput in terms of iteration per second, if the database can reach it.
 \end{itemize}
 
 From these features comes the name "load test case", which means the simulation of an average, or specific, load on a certain database. This idea, and the need of this kind of tests,  can simply be exaplined by a Bernt's metaphor, who has been already cited for the axiom at paragraph \ref{axiom}. The metaphor is:
@@ -156,51 +156,51 @@ From these features comes the name "load test case", which means the simulation 
 This metaphor explain exactly the need not for the fastest database, but for a database which can sustain the load of the application without any complexity during its normal functioning, such as a database snapshot freezing all writes operation, or a bug/memory leak making the database crash.
 
 		\subsection{Real Time Prepaid System}
-Keeping these features in mind, we want to create a load test case to analyze exactly which performance  a database system  offers for a practical use case: a real time prepaid system, such as a telephone company. Basically the test is the concurrent execution of 3 different task, each involving complex transactions: check balance, accounts handling, and manage calls and services. 
+Keeping these features in mind, we want to create a load test case to analyze exactly which performance  a database system  offers for a practical use case: a real time prepaid system, such as a telephone company. Basically the test is the concurrent execution of 3 different task, each simulating complex scenarios: services authorization and management, balance checks and accounts management.
 
-We start describing the domain objects used by this test, and the we pass to analyze the three different task involved.
+We start describing the domain objects used by this test, and then we move on to the analysis of the different tasks involved.
 		
 			\subsubsection{Domain Objects}
 Domain objects involved by this test are typical for a telephone company who handle telephone calls for every person, which is rappresented by an account, and which can access to many service through a web application, offered by the company for its customers. There are four domain objects used byt this test:
 \begin{description}
-	\item[Account]: this object represent a customer in the real time prepaid system. It contains all the typical information needed by a telephone company, such as the balance, the type of subscription, etc. In other words, this is a complex flat object, that is having many private field but no hierarchies. In a real application there are millions of accounts instantiated in the database, one for every customer. This dimesion is also very important to make the simulation as real as possible, in order to get realistic results.
-	\item[Msisdn]: it is the unique number which identify a subscription is a GSM or UMTS mobile network, it is the telephone number. Each msisdn object is linked to an account. Therefore there are also millions of msisdn objects in the database, referring to a real application.
-	\item[Webuser]: this represents the customer logged in the company web site. It contains the username and the password to access to web services. In common with msisdn, it is linked to an account too, and both are simple flat objects: a very simple object with few fields.
-	\item[Session]: when a customer start a call, an object session is created, and it keep all the information about the call which is going on, until the call ends. After the call this object doesn't is deleted. A session contain the start time of the call represented, and the time of the last unit. Each session references to an account, which started the call. But there are not as many sessions as accounts, not everyone will start a call in the same time, except New Year's Day!
+	\item[Account]: this object represent a customer in the real time prepaid system. It contains all the typical information needed by a telephone company, such as the balance, the type of subscription, etc. In other words, this is a complex flat object, that has many private fields but no hierarchies. In a real application there are millions of accounts instantiated in the database, one for every customer. This dimension is also very important to make the simulation as real as possible, in order to get realistic results.
+	\item[MSISDN]: it is the unique number which identify a subscriber in a GSM or UMTS mobile network, it is the telephone number. Each msisdn object is linked to an account. Therefore there are also millions of MSISDN objects in the database, referring to a real application.
+	\item[Webuser]: this represents the customer logged in the company web site. It contains the username and the password to access to web services. In common with MSISDN, it is linked to an account too, and both are simple flat objects: a very simple object with few fields.
+	\item[Session]: when a customer start a call, an object session is created, and it keep all the information about the call which is going on, until the call ends. After the call this object is deleted. A session contains the start time of the call, the time of the last unit and all the relevant information for the authorization process to take place. Each session references to an account, the one who started the call. But there are not as many sessions as accounts, not everyone will start a call at the same time, except New Year's Day! A reasonable size for the session objects is the number of hundreds of thousands concurrently going on.
 \end{description}
 
-			\subsubsection{Check Balance Task}
-This task simulate a customer checking his residual balance for the prepaid card, a SIM in the case of the telephone company. First, the customer logins in the website or calls the dedicated number, and then read/listen his balance.
+			\subsubsection{Balance Check Task}
+This task simulate a customer checking his residual balance for the prepaid card, a SIM in the case of the telephone company. First, the customer logins in the website or calls the dedicated number, and then receives all the details on his balance.
 
-Each task, as already explained, corresponds to a transaction composed by different operations. This leads to illustrate how the task work in terms of operations executed:
+Each task, as already explained, corresponds to a transaction composed of different operations. This leads to illustrate how the task work in terms of operations executed:
 \begin{enumerate}
-	\item \emph{Read} randomly the msisdn if the customer makes a call or the webuser if he access to the website.
-	\item \emph{Read} the account referenced by the msisdn or webuser, and then check the residual balance, a simple account's field.
+	\item \emph{Read} randomly the MSISDN if the customer makes a call or the webuser if he access to the website.
+	\item \emph{Read} the account referenced by the MSISDN or webuser, and then check the residual balance, a simple account's field.
 \end{enumerate}
-So this task executes a total of two read for every transaction.
+So this task executes a total of two read for every iteration.
 
 Another important parameter to make this task a part of a load test is the amount of transactions per second this task should sustain. The average throughput for check balance task, considering there are millions of accounts in the database, is about ten transactions per second.
 
-			\subsubsection{Accounts Handling Task}
-The account handling task simulates the creation of a new subscription by a customer, and so the creation of the account object, and after the relative msisdn and webuser. 
+			\subsubsection{Accounts Management Task}
+The account management task simulates the subscription of new customers and consists pf the creation of an account object and the relative MSISDN and webuser.
 
 The operations involved by this task are:
 \begin{enumerate}
 	\item \emph{Write} of a new account: all informations of a customer are inserted in the system by creating a new account object.
-	\item \emph{Write} of a new msisdn, containing the telephone number of the new subscription.
+	\item \emph{Write} of a new MSISDN, containing the telephone number of the new subscriber.
 	\item \emph{Write} of a new webuser with username and password for the customer.
 \end{enumerate}
-To sum up, this task executes three write on the database for every transaction.
+To sum up, this task executes three writes on the database for every iteration.
 
 To simulate a real scenario, the average throughput is about ten transactions per second.
 
-			\subsubsection{Manage Calls and Services Task}
-This task simulates a call started by a customer. After checking the balance, and therefore if the account is allowed to start a call or use a service, a new session is created and updated every 30 seconds, the unit time. On the average a call lasts about two minutes. After this time the session is deleted.
+			\subsubsection{Services Authorization and Management Task}
+This task simulates a call started by a customer. After checking the balance, and therefore if the account is allowed to start a call or use a service, a new session is created and updated every 30 seconds, the unit time. On the average a call lasts about two minutes. When a call ends the session is deleted.
 
 In terms of operations executed on the database, it can be described as follow:
 \begin{enumerate}
-	\item \emph{Read} the msisdn of the customer starting the call.
-	\item \emph{Read} the account referenced by the msisdn, and its residual balance, and the other parameters, to check the user's permissions for the service requested.
+	\item \emph{Read} the MSISDN of the customer starting the call.
+	\item \emph{Read} the account referenced by the MSISDN, and its residual balance, and the other parameters, to check the user's permissions for the service requested.
 	\item \emph{Write} a new object session and \emph{update} account's balance.
 	\item \emph{Update} the session every 30 seconds and the account's balance.
 	\item \emph{Delete} the session after the call is ended.
@@ -211,16 +211,16 @@ This is the most complex and important task, because it represents a very freque
 			\subsubsection{Real Time Prepaid System Summary}
 To sum up this whole load test we have to define the objects used by the test, the task concurrently executed, and when the test stop.
 
-There are four domain objects involved by this test. Three of these are simple flat objects: msisdn, webuser and session. The forth is a complex flat object: account. The number of objects already initialized in the database, before the test start, is on the order of millions.
+There are four domain objects involved by this test. Three of these are simple flat objects (objects with few private fields): MSISDN, webuser and session. The forth is a complex flat object (objects with many private fields): account. To test the system in its normal operational scenario we will have the system preloaded by some millions of objects before starting the actual test.
 
-Three task are executed concurrently. One is the major task, simulating a customer's call, and it runs 2000 times per second. This task is the bottleneck of a real application, and it could be also tested alone in a base test to understand the database's limits in running this task, and therefore to have an idea of the database potentiality. The other two are minor task, in fact the throughput is limited to ten transactions per second.
+Three task are executed concurrently. One is the major task, simulating a customer's call, and it runs 2000 times per second. This task is the bottleneck of a real application, and it could be also tested alone in a base test to understand the database's limits in running this task, and therefore to have an idea of the database potentiality. The other two are secondary tasks, in fact the throughput is limited to ten transactions per second.
 
-This test is a load test and therefore we are not interested in stopping it after a certain amount of transactions executed. But what we want is to let the test run for many minutes until to many hours to understand if the database can sustain the load generated by the test. Then the stop condition will be a specific amount of time.
+This test is a load test and therefore we are not interested in stopping it after a certain amount of transactions executed. But what we want is to let the test run for many minutes until to many hours to understand if the database can sustain the load generated by the test.
 			
 	\section{Acid Test Case}
-Base and load test case are used to analyze databases' performance, but, as already said, a database is not made only by performance: there are many other parameters to take into consideration before judging a database, such as ACID properties. To make these tests an all-round test suite, we could add some tests for verifying databases' ACID properties. The above corresponds to the work done by the Transaction Processing Performance Council with their TPC-C benchmark \cite{TPC-C}: performance is not the only benchmark's goal, but ACID properties are tested too.
+Base and load test case are used to analyze databases' performance, but, as already said, a database is not made only by performance: there are many other parameters to take into consideration before judging a database, such as ACID properties. To make these tests an all-round test suite, we could add some tests for verifying databases' ACID properties. The above corresponds to the work done by the Transaction Processing Performance Council with their TPC-C benchmark \cite{TPC-C}: \emph{performance is not the only benchmark's goal, but ACID properties are tested too}.
 
-Especially the durability property is most interesting to analyze when talking about in-memory databases. Pure IMDB have no durability at all, while it can be added in different degree, as already described in paragraph \ref{durability}. Therefore would be very useful to know, except the vendor's words, how strong is the durability solution implemented by the in-memory database.
+Especially the durability property is most interesting to analyze when talking about in-memory databases. Pure IMDB have no durability at all, while it can be added in different degree, as already described in paragraph \ref{durability}. Therefore would be very useful to know how strong is the durability solution implemented by the in-memory database, although listening to vendors' words their database management systems should offer always strong durability.
 
 Nevertheless, testing ACID properties is not a simple goal to achieve. Particularly the durability is the hardest property to be tested. Also the tests developed by TPC are not intended to be an \emph{exhaustive quality assurance test}.
 %Citazione tpc pdf pagina 46 \cite{TPC-C}
