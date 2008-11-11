@@ -143,7 +143,7 @@ Restrictions introduced by base tests are very simple to read and they can be us
 	\item The second restriction is a direct result of the first: trying to make test scenarios more realistic, it is necessary to introduce some sort of control for the throughput. When a test stress the database engine to its maximum level, some other mechanisms may not work properly, such as the garbage collector, caching, indexing, etc. In addition, when a test concurrently accesses the database, this restriction is even more evident: if a thread is not limited in its transactions per second, it will impact the performances of other threads, not to mention the locking that will occur on the DB.
 \end{enumerate}
 
-Base test case o	ffer very important and useful results, but when it comes to test the average load of a real application of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests are:
+Base test case offer very important and useful results, but when it comes to test the average load of a real application of our interest, they are not enough. These restrictions are solved by load test case, which allow a better simulation of the application scenario. The key features of these tests are:
 \begin{itemize}
 	\item Multi-tasking: different task, and therefore different sets of operations, can be executed concurrently against the database.
 	\item A bond on the throughput: in order to simulate real application usage, for every task it is possible to specify the maximum throughput in terms of iteration per second, if the database can reach it.
@@ -515,14 +515,14 @@ Coming to a conclusion we sum up the pros and cons of the database benchmark app
 	
 	Benchmark & Pro & Con \\ \hline \hline
 	
-	\multirow{4}{2.5cm}{The open source database benchmark} &  & SQL only \\
+	\multirow{5}{2.5cm}{The open source database benchmark} &  & SQL only \\
 	& Open source & C language \\
 	& AS3AP & No comparison \\
 	&  & No visual reports \\
 	&  & Latest release: 0.21 (2006) \\
 	\hline
 	
-	\multirow{4}{2.5cm}{TPC-C benchmark} & Standard &  \\
+	\multirow{5}{2.5cm}{TPC-C benchmark} & Standard &  \\
 	& Simulate OLTP systems & For high end vendor \\
 	& Price/performance metric & No implementation available \\
 	& Acidity testing &  \\
@@ -535,7 +535,7 @@ Coming to a conclusion we sum up the pros and cons of the database benchmark app
 	& JDBC plug-in &  \\
 	\hline
 	
-	\multirow{4}{2.5cm}{Poleposition} & Java desktop application & The metaphor is a trap \\
+	\multirow{5}{2.5cm}{Poleposition} & Java desktop application & The metaphor is a trap \\
 	& Database benchmark framework & Lack of detail in results \\
 	& Both relational and object DB & Only single-user testing \\
 	& Results comparison & Quite recent \\
@@ -563,10 +563,81 @@ The first idea was already taken into consideration during the benchmark analysi
 
 Therefore the best solution is to develop a new benchmark application. Although this decision, the analysis done is not useless, in fact we understood which features can be used from other benchmarks, and how to develop them, and what should be avoided. But this will be explored in the next chapter.
 	
-\chapter{The New In-Memory Database Benchmark Application}
-	\section{Functional View}
-	\section{Development View}
-	\section{Plug-In Architecture}
+\chapter{The New Database Benchmark Application}
+The previous chapter is dedicated to the research of a suitable benchmark application for our needs which is able to execute our test suite. The analysis didn't bring to any available benchmark neither to a benchmark easily extensible in order to implement the features we want. Therefore the conclusion was to develop a new benchmark application, starting from our requirements and treasuring the knowledge acquired during the analysis.
+
+In this chapter we describe the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently we will discuss also about the application usage, from the application's configuration to the extension and the implementation of new plugs-in.
+
+	\section{Analysis and Design}
+This section is dedicated to the analysis and design of the benchmark application developed.
+	
+	
+		\subsection{Specification}
+		una specifica è un requisito ben definito. di conseguenza, dall'analisi fatta al capitolo precedente 
+		possiamo comprendere ora chiaramente le specifiche.
+		
+\begin{table}[htp!]
+	\centering
+	\begin{tabular}{| p{6cm} | p{6cm} |} \hline
+	
+	\bfseries{Requirements} & \bfseries{Specifications} \\ \hline \hline
+	
+	Portability & Java \\ 
+	\hline
+	
+	Understandability & PDF file with graphs \\
+	\hline
+	
+	Flexibility & extensible framework  \\
+	\hline
+	
+	Detailed Report & several measures \\
+	\hline
+	
+	Visual Report & graphs with trend \\
+	\hline
+		
+	Both Relational and Object Databases & plug-in architecture \\
+	\hline
+	
+	Ease of Use & xml both for test and report configuration\\
+	\hline
+	
+	%\multirow{4}{5cm}{Portability} & Java \\
+	\hline
+	
+	\end{tabular}
+	\caption{Benchmark specifications}
+	\label{benchmark-specifications-table}
+\end{table}
+		
+		-portability -> Java
+		-understandability -> grafici, pdf unico
+		-flexibility -> framework
+		-detailed report -> tanti tipi di misure
+		-visual report -> grafici, selezionati dall'utente, trend
+		-both for relational and object databases -> driver a plugin stile poleposition
+		-easy to use -> xml configurabile
+		
+		tabella?
+		
+		\subsection{Functional View}
+		
+		\subsection{Information View}
+		
+		\subsection{Concurrency View}
+		
+		\subsection{Development View}
+	
+	\section{Application Usage}
+		\subsection{Configure the XML}
+			\subsubsection{Bench-properties.xml}
+			\subsubsection{Simple Test}
+			\subsubsection{Real Time Prepaid System}
+			
+		\subsection{Implementation of New Tests}
+		\subsection{Implementation of New Databases}
+
 
 \chapter{Results' Analysis}
 	\section{Why Pico4 is faster}
