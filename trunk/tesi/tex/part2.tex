@@ -225,7 +225,7 @@ Especially the durability property is most interesting to analyze when talking a
 Nevertheless, testing ACID properties is not a simple goal to achieve. Particularly the durability is the hardest property to be tested. Also the tests developed by TPC are not intended to be an \emph{exhaustive quality assurance test}.
 %Citazione tpc pdf pagina 46 \cite{TPC-C}
 
-\chapter{Database Benchmark Softwares Overview}
+\chapter{Database Benchmark Softwares Overview} \label{overview}
 The difficulty to analyze objectively databases' performance has already been exapalined and understood in chapter \ref{analysis-introduction}. The major problems were found in the differences of test scenarios, implementation and execution platform. In the previous chapter we tried to minimize the first issue by modeling different test scenarios like real application scenarios. This is not a panacea, but in this way results produced by these tests are more valid for the applications they simulate than generic tests. 
 
 The focus is now moved on the second and third issues: the tests' implementation and the execution platform, in other words an application benchmark used to run test scenarios. In this chapter we analyze more or less deeply different open source benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a new benchmark application.
@@ -566,16 +566,17 @@ Therefore the best solution is to develop a new benchmark application. Although 
 \chapter{The New Database Benchmark Application}
 The previous chapter is dedicated to the research of a suitable benchmark application for our needs which is able to execute our test suite. The analysis didn't bring to any available benchmark neither to a benchmark easily extensible in order to implement the features we want. Therefore the conclusion was to develop a new benchmark application, starting from our requirements and treasuring the knowledge acquired during the analysis.
 
-In this chapter we describe the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently we will discuss also about the application usage, from the application's configuration to the extension and the implementation of new plugs-in.
+In this chapter we describe the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently we will discuss also about the application usage, from the application's configuration to the extension and the implementation of new databases and tests.
 
 	\section{Analysis and Design}
-This section is dedicated to the analysis and design of the benchmark application developed.
+This section is dedicated to the analysis and design of the benchmark application developed during this thesis. We start from the analysis and therefore from the specifications' definition, which come from the requirements described in paragraph \ref{requirements}. Then the focus is moved on the design, describing and representing the application by different point of view: functional, information, concurrency and development.
 	
 	
-		\subsection{Specification}
-		una specifica è un requisito ben definito. di conseguenza, dall'analisi fatta al capitolo precedente 
-		possiamo comprendere ora chiaramente le specifiche.
-		
+		\subsection{Requirements Specification} %Requirements Specification
+In order to define the specifications from the requirements on which the benchmark application is based, it's primarly important to understand what is a specification in relation to requirements. A requirement is a singular documented need of what a particular product or service should be or do. On the other hand a specification is an explicit set of requirements, or in other words it is a well-formed requirement, a formal requirement, an implementable requirement. 
+
+Now it is clear how the discussion done in chapter \ref{overview} is not useless. Through that analysis we obtained a better understanding of the requirements, and a way to implement them. This will help us in the process of requirements specification. The table \ref{benchmark-specifications-table} summarize the specifications obtained from each requirements. 
+
 \begin{table}[htp!]
 	\centering
 	\begin{tabular}{| p{6cm} | p{6cm} |} \hline
@@ -585,7 +586,7 @@ This section is dedicated to the analysis and design of the benchmark applicatio
 	Portability & Java \\ 
 	\hline
 	
-	Understandability & PDF file with graphs \\
+	Understandability & clear PDF file with graphs \\
 	\hline
 	
 	Flexibility & extensible framework  \\
@@ -601,25 +602,50 @@ This section is dedicated to the analysis and design of the benchmark applicatio
 	\hline
 	
 	Ease of Use & xml both for test and report configuration\\
-	\hline
-	
-	%\multirow{4}{5cm}{Portability} & Java \\
-	\hline
+	\hline		
 	
 	\end{tabular}
 	\caption{Benchmark specifications}
 	\label{benchmark-specifications-table}
 \end{table}
+
+			\subsubsection{Portability}
+We already recognized the value of portability as a requirement when testing embedded databases, because it allows us also to chose the best platform for the database we are testing and to study the difference in the performance with a platform's change. From the experience gained with the benchmarks' analysis we know that both JMeter and Poleposition grant the portability we need. And this is granted thanks to the Java language. In fact they are both Java desktop application who are able to be executed on several platform because the Java Virtual Machine allows Java to run everywhere (\emph{"write once, run everywhere"}).
+
+Therefore this requirement brings to a simple specification: when you want to grant portability to an application, the Java language is a good solution. 
 		
-		-portability -> Java
-		-understandability -> grafici, pdf unico
-		-flexibility -> framework
-		-detailed report -> tanti tipi di misure
-		-visual report -> grafici, selezionati dall'utente, trend
-		-both for relational and object databases -> driver a plugin stile poleposition
-		-easy to use -> xml configurabile
-		
-		tabella?
+			\subsubsection{Understandability}
+When a benchmark is not easily understandable, it is useless. Benchmarks are too easily tricked and cheated, and thus they are meant for different stakeholders. Looking at JMeter and Poleposition we understand how a graph can help to explain the numeric results and to compare several systems. Particularly Poleposition offers a very catchy PDF result, containing all the tests with all the results expressed both in tabular and graphic results. But in this PDF what the test does is not very clear. Then the need of clear results which explain also the test's operations. For this purpose JMeter is a bit better, because with a tree structure it shows exactly the task and all the operation involved by the test.
+
+Therefore what we need to grant this requirement is a PDF result, containing all the information about the tests: 
+\begin{itemize}
+	\item what the test does, in terms of operations involved on the database;
+	\item graph result which catch the attention of the reader and quickly express the meaning of the numeric result.
+\end{itemize}
+This is the specification implicated by understandability.
+			 
+			\subsubsection{Flexibility}
+Benchmark always suffers the limitation introduced by the workload simulated. The performances measured by the benchmark are highly dependant on the workload, and therefore for an application, whose workload is not similar to the benchmark's one, the results are nearly useless. To overcome this limitation, flexibility is a key feature. In this contest flexibility is meant as the capability of the benchmark application to run complete new tests, and so to simulate new workloads. Furthermore flexibility is also intended as the capability execute t
+
+A solution to this 
+
+
+
+
+			 -> framework
+			 
+			\subsubsection{Detailed Report} 
+			-> tanti tipi di misure
+			
+			\subsubsection{Visual Report}
+			 -> grafici, selezionati dall'utente, trend
+			 
+			\subsubsection{Both for Relational and Object Databases}
+			 -> driver a plugin stile poleposition
+			 
+			\subsubsection{Ease of use}
+			 -> xml configurabile
+				
 		
 		\subsection{Functional View}
 		
@@ -629,14 +655,27 @@ This section is dedicated to the analysis and design of the benchmark applicatio
 		
 		\subsection{Development View}
 	
+	\section{Development}
+	
+		maven
+		
+		svn
+		
+		itext (per il pdf)
+		
+		jfreechart
+		
+		pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
+		composite (per le operation), facade, proxy, monitor
+	
 	\section{Application Usage}
 		\subsection{Configure the XML}
 			\subsubsection{Bench-properties.xml}
 			\subsubsection{Simple Test}
 			\subsubsection{Real Time Prepaid System}
 			
-		\subsection{Implementation of New Tests}
-		\subsection{Implementation of New Databases}
+		\subsection{Implementation of New Tests}%extension
+		\subsection{Implementation of New Databases}%extension
 
 
 \chapter{Results' Analysis}
