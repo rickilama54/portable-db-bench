@@ -625,19 +625,32 @@ Therefore what we need to grant this requirement is a PDF result, containing all
 This is the specification implicated by understandability.
 			 
 			\subsubsection{Flexibility}
-Benchmark always suffers the limitation introduced by the workload simulated. The performances measured by the benchmark are highly dependant on the workload, and therefore for an application, whose workload is not similar to the benchmark's one, the results are nearly useless. To overcome this limitation, flexibility is a key feature. In this contest flexibility is meant as the capability of the benchmark application to run complete new tests, and so to simulate new workloads. Furthermore flexibility is also intended as the capability execute t
+Benchmark always suffers the limitation introduced by the workload simulated. The performances measured by the benchmark are highly dependant on the workload, and therefore for an application, whose workload is not similar to the benchmark's one, the results are nearly useless. To overcome this limitation, flexibility is a key feature. In this contest flexibility is meant as the capability of the benchmark application to run complete new tests, and so to simulate new workloads. Furthermore it is also intended as the capability to run the benchmark against new database systems. Also this time JMeter and Poleposition show a possible solution to this problem, but they are not equals.
 
-A solution to this 
+As regards Poleposition, it works like a framework, in fact the main idea behind this application is to make a framework for databases benchmarking. Therefore Poleposition allow an easy implementation for both new tests and database systems, although it is not so easy and flexible as a framework should be, especially for new tests. In both cases the solution involves the programming of new code's lines.
 
+JMeter, instead, is able to create and execute new tests thanks to a graphic editor which can be used to create very complex scenarios. In regard to the implementation of new database systems, at the moment JMeter can test only SQL databases, but a possible solution may be the development of a new plug-in. In fact JMeter is based on a plug-in architecture, which allow a good evolution of the software.
 
-
-
-			 -> framework
+In conclusion the resultant specification is: create a benchmark application which works as a benchmark, with tests that can be implemented by programming, and with pluggable databases.
 			 
 			\subsubsection{Detailed Report} 
-			-> tanti tipi di misure
+A well detailed report with a lot of interesting measures will tell you much about the databse behavior, while only one single metric will simply make your trust go away when you read it. 
+
+The first who stated this idea was the transaction processing performance council, who, in fact, adopt two different measures: the first is the throughput and the second is a price/throughput measure. This beacuse the TPC-C benchmark doen't compare directly different systems, but every vendor run it on his own, therefore without a price/performance measure, it is very hard to understand if the result depends from more expensive computers. This is not our case, but we agree that one measure doesn't exaplain the real database performance.
+
+JMeter, instead, has several listeners which are able to take different measures, and they can be composed in many ways inside a test plan. So JMeter allows the user to take exactly the measures he wants. And this is applicable also for graph listners.
+
+In this case case JMeter shows a very good solution, and this is exactly what we like: the possibility for the user to chose the measures to display as final result.
 			
 			\subsubsection{Visual Report}
+When you face complex results with a lot of numbers, a visual representation will make them clearer. Thus when using graphs also a comparison between different system will be easier, because it becomes a comparison between different colored lines. Furthermore graphs are very helpful if you want to analyze not only the final result of a test, but the whole trend.
+
+Although Poleposition makes use of graphs, these don't represent any test's trend, they simply represent the final value of the test. Nevertheless 
+
+
+
+
+
 			 -> grafici, selezionati dall'utente, trend
 			 
 			\subsubsection{Both for Relational and Object Databases}
