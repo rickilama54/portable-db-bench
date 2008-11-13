@@ -275,7 +275,7 @@ When testing both relational and object databases another problem comes out: the
 		\subsection{Easy to Use}
 This is a commonplace for every application, nobody wants something impossible to use. As for other requirements, a compromise is always needed, especially for this feature. The ease of use, in this case, means the possibility to modify several test's parameters, such as the parameters already explained in chapter \ref{test-suite}, and also to be able to bring some little variation to the workload simulated, in order to improve the test when the needs change. This ease of use, understood as a variation in parameters, should be granted without any modification in the application's lines of code, but for example in an xml file, or other configuration files, or with some input parameters.
 
-Of course this may seem similar to the flexibility requirement, that we discussed in paragraph \ref{flexibility}, but while flexibility is intended as the capability for engineers to implement completely new test scenarios, ease of use is the capability to execute the workloads implemented with few variations, such as the initial database's state, the exact operations' order, etc. This requirements is needed for all the non technical people who want to analyze the database performance.
+Of course this may seem similar to the flexibility requirement, that we discussed in paragraph \ref{flexibility}, but while flexibility is intended as the capability for engineers to implement completely new test scenarios, ease of use is the capability to execute the workloads implemented with few variations, such as the initial database's state, the exact operations' order, etc. This requirement is needed for all the non technical people who want to analyze the database performance.
 
 		\subsection{Benefits}
 Discussing about requirements, it's important to note also the benefits a benchmark should bring, the aims it is built around. Referring again to the TPC presentation at the sigmoid conference in 1997 \cite{tpc/sigmoid}, the benefits a good benchmark should bring are:
@@ -598,7 +598,7 @@ Now it is clear how the discussion done in chapter \ref{overview} is not useless
 	Visual Report & graphs with trend \\
 	\hline
 		
-	Both Relational and Object Databases & plug-in architecture \\
+	Both Relational and Object Databases & databases interface written in Java \\
 	\hline
 	
 	Ease of Use & xml both for test and report configuration\\
@@ -643,22 +643,27 @@ JMeter, instead, has several listeners which are able to take different measures
 In this case case JMeter shows a very good solution, and this is exactly what we like: the possibility for the user to chose the measures to display as final result.
 			
 			\subsubsection{Visual Report}
-When you face complex results with a lot of numbers, a visual representation will make them clearer. Thus when using graphs also a comparison between different system will be easier, because it becomes a comparison between different colored lines. Furthermore graphs are very helpful if you want to analyze not only the final result of a test, but the whole trend.
+When you face complex results with a lot of numbers, a visual representation will make them clearer. Thus when using graphs also a comparison between different systems will be easier, because it becomes a comparison between different colored lines. Furthermore graphs are very helpful if you want to analyze not only the final result of a test, but the whole trend.
 
-Although Poleposition makes use of graphs, these don't represent any test's trend, they simply represent the final value of the test. Nevertheless 
+Although Poleposition makes use of graphs, these don't represent any test's trend, they simply represent the final value of the test. Nevertheless Poleposition with its graphs allow a very easy comparison between different database systems and the graphs are very catchy.
 
+On the other hand JMeter provides very stark graphs, without any comparison between different systems. But it is possible to represent each measure on the graphs and in addition they show the performance's trend during the test's execution. Using appropriate listeners, or writing new ones, it is possible to represent almost everything.
 
-
-
-
-			 -> grafici, selezionati dall'utente, trend
+To sum up we want graphs who let us compare different database systems and draw different measures, with the capability to analyze the trend during the test's execution, but in a catchy way. Something like Poleposition graphs with in addition the trend representation. Furthermore the user should chose which graphs create, specifying the measure to drawn on the graph's axis.
 			 
 			\subsubsection{Both for Relational and Object Databases}
-			 -> driver a plugin stile poleposition
+Relational and object database system usually doesn't share the same interface. From the Java point of view, relational databases are usually accessed through JDBC, while object databases usually use native interfaces. It's not easy to make a database benchmark work with two different technologies, there is an impedance mismatch. 
+
+Poleposition is able to test both relational and object databases, but at the cost of a completely new implementation of the whole test for every database which is to be tested. JMeter instead works only with relational databases, but it provides also the possibility to test Java objects, which is very useful thinking at Java native interfaces to access the databases. Nevertheless this means that an object oriented point of view will be used for object databases and at the same time a relational point of view will be used for relational databases, therefore the final result will have less meaning. With the purpose of benchmarking and comparing it's better to use a uniform point of view.
+
+Since the benchmark application we want to develop must work with both relational and object database systems and since most of our database are object databases, we will use an object oriented point of view when benchmarking databses and therefore every database must implement a Java native interface for each test. Every database must implement a own interface, a driver, because there isn't yet any standard for object oriented querying.
 			 
 			\subsubsection{Ease of use}
-			 -> xml configurabile
-				
+Easy of use is intented as a variation in the tests'parameters, such as the initial database state and others already explained in chapeter \ref{test-suite}, allowing little variations to the workload simulated, in order to improve the test when the needs change. 
+
+This ease of use should be granted without any modification in the application's lines of code. For this purpose Poleposition uses several properties files while with JMeter the user can modify the whole test, without any programming, and therefore he can also modify every parameters in the test without touching any code's lines.
+
+Our idea consists in an xml file which contains all the tests' configuration. The xml file should be organized with a tree structure such as the JMeter's representation of the test plan. This xml must contain all these variable parameters. Furthermore we would like to configure also the final report of the benchmark, specifying which graphs draw and which measures represents for each test.
 		
 		\subsection{Functional View}
 		
