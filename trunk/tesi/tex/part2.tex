@@ -568,8 +568,9 @@ The previous chapter is dedicated to the research of a suitable benchmark applic
 
 In this chapter we describe the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently we will discuss also about the application usage, from the application's configuration to the extension and the implementation of new databases and tests.
 
-	\section{Analysis and Design}
-This section is dedicated to the analysis and design of the benchmark application developed during this thesis. We start from the analysis and therefore from the specifications' definition, which come from the requirements described in paragraph \ref{requirements}. Then the focus is moved on the design, describing and representing the application by different point of view: functional, information, concurrency and development.
+		\section{Analysis}
+	This section is dedicated to the analysis of the benchmark application developed during this thesis. We start from the specifications' definition, which come from the requirements described in paragraph \ref{requirements}. >>>>aggiungere qui<<<.
+	%Then the focus is moved on the design, describing and representing the application by different point of view: functional, information, concurrency and development.
 	
 	
 		\subsection{Requirements Specification} %Requirements Specification
@@ -665,6 +666,31 @@ This ease of use should be granted without any modification in the application's
 
 Our idea consists in an xml file which contains all the tests' configuration. The xml file should be organized with a tree structure such as the JMeter's representation of the test plan. This xml must contain all these variable parameters. Furthermore we would like to configure also the final report of the benchmark, specifying which graphs draw and which measures represents for each test.
 		
+		\subsection{Summarizing The Specifications}
+The table \ref{benchmark-specifications-table} already summarize all the specification we have discussed in the previous section. But we are great supporter for a graphics representation of the results, not only for the performances, but also for the specifications. The figure \ref{system-external-view} represents the benchmark application from an external point of view which takes into account the specifications. 
+		
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/diagramma-specifiche.png}	
+	\end{center}
+	\caption{The benchmark application from an external point of view}
+	\label{system-external-view}	
+\end{figure}
+
+The benchmark application, represented in the figure, is composed with the following parts:
+\begin{itemize}
+	\item The application's input is an XML file, the bench-properties.xml. It contains a substantial part of the tests' configuration, that is a colletion of variable parameters for each test, such as the task, the operations' order, the time, the maximum throughput, the initial database's state etc.
+	\item A gear represents the application benchmark as a black box. The figure just shows that the application works as a framework, which is 
+	\item 
+	\item 
+	\item 
+	\item 
+	\item 
+\end{itemize}
+	
+	\section{Design And Development}
+Software design is a process of problem-solving and planning for a software solution. After the purpose and specifications of software are determined, software developers will design or employ designers to develop a plan for a solution. It includes low-level component and algorithm implementation issues as well as the architectural view.
+	
 		\subsection{Functional View}
 		
 		\subsection{Information View}
@@ -672,9 +698,7 @@ Our idea consists in an xml file which contains all the tests' configuration. Th
 		\subsection{Concurrency View}
 		
 		\subsection{Development View}
-	
-	\section{Development}
-	
+		
 		maven
 		
 		svn
