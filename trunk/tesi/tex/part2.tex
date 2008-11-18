@@ -665,9 +665,13 @@ Easy of use is intented as a variation in the tests'parameters, such as the init
 This ease of use should be granted without any modification in the application's lines of code. For this purpose Poleposition uses several properties files while with JMeter the user can modify the whole test, without any programming, and therefore he can also modify every parameters in the test without touching any code's lines.
 
 Our idea consists in an xml file which contains all the tests' configuration. The xml file should be organized with a tree structure such as the JMeter's representation of the test plan. This xml must contain all these variable parameters. Furthermore we would like to configure also the final report of the benchmark, specifying which graphs draw and which measures represents for each test.
+
+			\subsubsection{Test Suite's Specification}
+More specifications come from the test suite...
 		
-		\subsection{Summarizing The Specifications}
-The table \ref{benchmark-specifications-table} already summarize all the specification we have discussed in the previous section. But we are great supporter for a graphics representation of the results, not only for the performances, but also for the specifications. The figure \ref{system-external-view} represents the benchmark application from an external point of view which takes into account the specifications. 
+		
+		\subsection{Specifications' Representation}
+The table \ref{benchmark-specifications-table} already summarizes all the specifications we have discussed in the previous section. But we are great supporter for a graphics representation of the results, not only for the performances, but also for the specifications. The figure \ref{system-external-view} represents the benchmark application from an external point of view which takes into account the specifications. 
 		
 \begin{figure}[htp!] 
 	\begin{center}
@@ -680,22 +684,38 @@ The table \ref{benchmark-specifications-table} already summarize all the specifi
 The benchmark application, represented in the figure, is composed with the following parts:
 \begin{itemize}
 	\item The application's input is an XML file, the bench-properties.xml. It contains a substantial part of the tests' configuration, that is a colletion of variable parameters for each test, such as the task, the operations' order, the time, the maximum throughput, the initial database's state etc.
-	\item A gear represents the application benchmark as a black box. The figure just shows that the application works as a framework, which is 
-	\item 
-	\item 
-	\item 
-	\item 
-	\item 
+	\item The group of databases shows how they can be plugged in the benchmark, in order to execute benchmark's tests on several and new databases.
+	\item New tests can be implemented in the benchmark application allowing the execution of specific workloads. 
+	\item The output is a PDF file cointaining all the results obtained by the performance analysis.
+	\item The results in the output file are represented mostly by graphs.
+	\item Finally a gear represents the application as a black box. The figure just shows that the application works as a framework with extensible databases and tests.
 \end{itemize}
+In other words, the benchmark application takes as input an XML file, and through pluggable databases and tests, it produces a PDF file containing all the result, represented also with graphs.
 	
 	\section{Design And Development}
 Software design is a process of problem-solving and planning for a software solution. After the purpose and specifications of software are determined, software developers will design or employ designers to develop a plan for a solution. It includes low-level component and algorithm implementation issues as well as the architectural view.
-	
+
 		\subsection{Functional View}
 		
 		\subsection{Information View}
+		eccolo!
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/uml.jpg}	
+	\end{center}
+	\caption{Information view}
+	\label{information-view}	
+\end{figure}
 		
 		\subsection{Concurrency View}
+				eccolo!
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/concorrenza.jpg}	
+	\end{center}
+	\caption{Concurrency view}
+	\label{concurrency-view}	
+\end{figure}
 		
 		\subsection{Development View}
 		
