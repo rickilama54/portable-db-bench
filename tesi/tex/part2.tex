@@ -568,15 +568,16 @@ The previous chapter is dedicated to the research of a suitable benchmark applic
 
 In this chapter we describe the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently we will discuss also about the application usage, from the application's configuration to the extension and the implementation of new databases and tests.
 
-		\section{Analysis}
-	This section is dedicated to the analysis of the benchmark application developed during this thesis. We start from the specifications' definition, which come from the requirements described in paragraph \ref{requirements}. >>>>aggiungere qui<<<.
+	\section{Analysis: Requirements Specification}	
 	%Then the focus is moved on the design, describing and representing the application by different point of view: functional, information, concurrency and development.
 	
+This section is dedicated to the analysis of the benchmark application developed during this thesis. We start from the specifications' definition, which come from the requirements described in paragraph \ref{requirements} and from the functional requirements resulting from the capability to execute the test suite described in chapter \ref{test-suite}.
 	
-		\subsection{Requirements Specification} %Requirements Specification
 In order to define the specifications from the requirements on which the benchmark application is based, it's primarly important to understand what is a specification in relation to requirements. A requirement is a singular documented need of what a particular product or service should be or do. On the other hand a specification is an explicit set of requirements, or in other words it is a well-formed requirement, a formal requirement, an implementable requirement. 
 
-Now it is clear how the discussion done in chapter \ref{overview} is not useless. Through that analysis we obtained a better understanding of the requirements, and a way to implement them. This will help us in the process of requirements specification. The table \ref{benchmark-specifications-table} summarize the specifications obtained from each requirements. 
+Now it is clear how the discussion done in chapter \ref{overview} is not useless. Through that analysis we obtained a better understanding of the requirements, and a suggestion to implement them. This will help us in the process of requirements specification. 
+
+The table \ref{benchmark-specifications-table} summarizes the specifications we are going to analyze in the following paragraphs. 
 
 \begin{table}[htp!]
 	\centering
@@ -602,7 +603,7 @@ Now it is clear how the discussion done in chapter \ref{overview} is not useless
 	Both Relational and Object Databases & databases interface written in Java \\
 	\hline
 	
-	Ease of Use & xml both for test and report configuration\\
+	Ease of Use & XML both for test and report configuration\\
 	\hline		
 	
 	\end{tabular}
@@ -610,12 +611,13 @@ Now it is clear how the discussion done in chapter \ref{overview} is not useless
 	\label{benchmark-specifications-table}
 \end{table}
 
-			\subsubsection{Portability}
+
+		\subsection{Portability}
 We already recognized the value of portability as a requirement when testing embedded databases, because it allows us also to chose the best platform for the database we are testing and to study the difference in the performance with a platform's change. From the experience gained with the benchmarks' analysis we know that both JMeter and Poleposition grant the portability we need. And this is granted thanks to the Java language. In fact they are both Java desktop application who are able to be executed on several platform because the Java Virtual Machine allows Java to run everywhere (\emph{"write once, run everywhere"}).
 
 Therefore this requirement brings to a simple specification: when you want to grant portability to an application, the Java language is a good solution. 
 		
-			\subsubsection{Understandability}
+		\subsection{Understandability}
 When a benchmark is not easily understandable, it is useless. Benchmarks are too easily tricked and cheated, and thus they are meant for different stakeholders. Looking at JMeter and Poleposition we understand how a graph can help to explain the numeric results and to compare several systems. Particularly Poleposition offers a very catchy PDF result, containing all the tests with all the results expressed both in tabular and graphic results. But in this PDF what the test does is not very clear. Then the need of clear results which explain also the test's operations. For this purpose JMeter is a bit better, because with a tree structure it shows exactly the task and all the operation involved by the test.
 
 Therefore what we need to grant this requirement is a PDF result, containing all the information about the tests: 
@@ -625,7 +627,7 @@ Therefore what we need to grant this requirement is a PDF result, containing all
 \end{itemize}
 This is the specification implicated by understandability.
 			 
-			\subsubsection{Flexibility}
+		\subsection{Flexibility}
 Benchmark always suffers the limitation introduced by the workload simulated. The performances measured by the benchmark are highly dependant on the workload, and therefore for an application, whose workload is not similar to the benchmark's one, the results are nearly useless. To overcome this limitation, flexibility is a key feature. In this contest flexibility is meant as the capability of the benchmark application to run complete new tests, and so to simulate new workloads. Furthermore it is also intended as the capability to run the benchmark against new database systems. Also this time JMeter and Poleposition show a possible solution to this problem, but they are not equals.
 
 As regards Poleposition, it works like a framework, in fact the main idea behind this application is to make a framework for databases benchmarking. Therefore Poleposition allow an easy implementation for both new tests and database systems, although it is not so easy and flexible as a framework should be, especially for new tests. In both cases the solution involves the programming of new code's lines.
@@ -634,7 +636,7 @@ JMeter, instead, is able to create and execute new tests thanks to a graphic edi
 
 In conclusion the resultant specification is: create a benchmark application which works as a benchmark, with tests that can be implemented by programming, and with pluggable databases.
 			 
-			\subsubsection{Detailed Report} 
+		\subsection{Detailed Report} 
 A well detailed report with a lot of interesting measures will tell you much about the databse behavior, while only one single metric will simply make your trust go away when you read it. 
 
 The first who stated this idea was the transaction processing performance council, who, in fact, adopt two different measures: the first is the throughput and the second is a price/throughput measure. This beacuse the TPC-C benchmark doen't compare directly different systems, but every vendor run it on his own, therefore without a price/performance measure, it is very hard to understand if the result depends from more expensive computers. This is not our case, but we agree that one measure doesn't exaplain the real database performance.
@@ -643,7 +645,7 @@ JMeter, instead, has several listeners which are able to take different measures
 
 In this case case JMeter shows a very good solution, and this is exactly what we like: the possibility for the user to chose the measures to display as final result.
 			
-			\subsubsection{Visual Report}
+		\subsection{Visual Report}
 When you face complex results with a lot of numbers, a visual representation will make them clearer. Thus when using graphs also a comparison between different systems will be easier, because it becomes a comparison between different colored lines. Furthermore graphs are very helpful if you want to analyze not only the final result of a test, but the whole trend.
 
 Although Poleposition makes use of graphs, these don't represent any test's trend, they simply represent the final value of the test. Nevertheless Poleposition with its graphs allow a very easy comparison between different database systems and the graphs are very catchy.
@@ -652,36 +654,54 @@ On the other hand JMeter provides very stark graphs, without any comparison betw
 
 To sum up we want graphs who let us compare different database systems and draw different measures, with the capability to analyze the trend during the test's execution, but in a catchy way. Something like Poleposition graphs with in addition the trend representation. Furthermore the user should chose which graphs create, specifying the measure to drawn on the graph's axis.
 			 
-			\subsubsection{Both for Relational and Object Databases}
+		\subsection{Both for Relational and Object Databases}
 Relational and object database system usually doesn't share the same interface. From the Java point of view, relational databases are usually accessed through JDBC, while object databases usually use native interfaces. It's not easy to make a database benchmark work with two different technologies, there is an impedance mismatch. 
 
 Poleposition is able to test both relational and object databases, but at the cost of a completely new implementation of the whole test for every database which is to be tested. JMeter instead works only with relational databases, but it provides also the possibility to test Java objects, which is very useful thinking at Java native interfaces to access the databases. Nevertheless this means that an object oriented point of view will be used for object databases and at the same time a relational point of view will be used for relational databases, therefore the final result will have less meaning. With the purpose of benchmarking and comparing it's better to use a uniform point of view.
 
 Since the benchmark application we want to develop must work with both relational and object database systems and since most of our database are object databases, we will use an object oriented point of view when benchmarking databses and therefore every database must implement a Java native interface for each test. Every database must implement a own interface, a driver, because there isn't yet any standard for object oriented querying.
 			 
-			\subsubsection{Ease of use}
+		\subsection{Ease of use}
 Easy of use is intented as a variation in the tests'parameters, such as the initial database state and others already explained in chapeter \ref{test-suite}, allowing little variations to the workload simulated, in order to improve the test when the needs change. 
 
 This ease of use should be granted without any modification in the application's lines of code. For this purpose Poleposition uses several properties files while with JMeter the user can modify the whole test, without any programming, and therefore he can also modify every parameters in the test without touching any code's lines.
 
 Our idea consists in an xml file which contains all the tests' configuration. The xml file should be organized with a tree structure such as the JMeter's representation of the test plan. This xml must contain all these variable parameters. Furthermore we would like to configure also the final report of the benchmark, specifying which graphs draw and which measures represents for each test.
 
-			\subsubsection{Test Suite's Specification}
-More specifications come from the test suite...
+		\subsection{Test Suite's Specification}
+More specifications come from the capability for the benchmark application to execute the test suite described in chapter \ref{test-suite}. These are functional specifications because they describe the requested application's behavior. In this particular case, therefore, they come from the test suite and we are going to analyze them. 
+
+In order to run the test suite we need the benchmark to be able to:
+\begin{itemize}
+	\item execute test concurrently and therefore allocate a thread for each task composing a test; 
+	\item run each task of the test at most for a specific amount of time, which may be different for every task;
+	\item iterate each task for a certain maximum number of iteration, different for each task;
+	\item run each task without consuming all the resources and therefore limiting the transactions per second, the throughput of the task.
+\end{itemize}
+All these informations must be taken by the benchmark application as input without any programming, and therefore they must be specified in the XML file.	
 		
 		
-		\subsection{Specifications' Representation}
-The table \ref{benchmark-specifications-table} already summarizes all the specifications we have discussed in the previous section. But we are great supporter for a graphics representation of the results, not only for the performances, but also for the specifications. The figure \ref{system-external-view} represents the benchmark application from an external point of view which takes into account the specifications. 
+		
+	
+	\section{Design And Development}
+Software design is a process of problem-solving and planning for a software solution. After the purpose and specifications of software are determined, software developers will design or employ designers to develop a plan for a solution. It includes low-level component and algorithm implementation issues as well as the architectural view.
+
+In this section we will design and develop the application using different point of view, or it's better to say we will show how the system has been realized by describing it through different point of view. Although a common temptation is to try to analyze and describe a system with a single, heavily overloaded model \emph{"it's not possible to capture the functional features and quality properties of a complex system in a single comprehensible model that is understandable by and of value to all stakeholders"} \cite{SSA}.
+
+Therefore different views will be used in the following paragraphs to describe separatly each the major aspect of the benchmark application. The views used are the functional view, the information view, the concurrency view and the development view. Collectively they describe the whole system. 
+
+		\subsection{Functional View}
+A functional view defines the system's functionalities, demostrating how the system performs the functions required. This is probably the easiest view for stakeholders to understand the system and it is the starting point for the definition of the other architectural views. The figure \ref{system-external-view} represents the benchmark application from a functional point of view which takes into account the specifications summarized in table \ref{benchmark-specifications-table}. It represents the system by an external point of view, showing functional capabilites, external interfaces, internal structure and design philosophy, such as the low coupling between the database and test implementations.
 		
 \begin{figure}[htp!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/diagramma-specifiche.png}	
 	\end{center}
-	\caption{The benchmark application from an external point of view}
+	\caption{The functional view}
 	\label{system-external-view}	
 \end{figure}
 
-The benchmark application, represented in the figure, is composed with the following parts:
+The benchmark application, represented in the figure \ref{system-external-view}, is composed with the following parts:
 \begin{itemize}
 	\item The application's input is an XML file, the bench-properties.xml. It contains a substantial part of the tests' configuration, that is a colletion of variable parameters for each test, such as the task, the operations' order, the time, the maximum throughput, the initial database's state etc.
 	\item The group of databases shows how they can be plugged in the benchmark, in order to execute benchmark's tests on several and new databases.
@@ -691,14 +711,14 @@ The benchmark application, represented in the figure, is composed with the follo
 	\item Finally a gear represents the application as a black box. The figure just shows that the application works as a framework with extensible databases and tests.
 \end{itemize}
 In other words, the benchmark application takes as input an XML file, and through pluggable databases and tests, it produces a PDF file containing all the result, represented also with graphs.
-	
-	\section{Design And Development}
-Software design is a process of problem-solving and planning for a software solution. After the purpose and specifications of software are determined, software developers will design or employ designers to develop a plan for a solution. It includes low-level component and algorithm implementation issues as well as the architectural view.
 
-		\subsection{Functional View}
-		
 		\subsection{Information View}
-		eccolo!
+
+
+
+
+
+
 \begin{figure}[htp!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/uml.jpg}	
