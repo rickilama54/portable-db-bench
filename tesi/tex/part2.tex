@@ -3,7 +3,7 @@
 \chapter{Performance Analisys Introduction} \label{analysis-introduction}
 \emph{"Every database vendor cites benchmark data that proves its database is the fastest, and each vendor chooses the benchmark test that presents its product in the most favorable light"}\cite{burleson}.
 
-In this chapter we will introduce the database performance analysis' problem, and so we will discuss about how to measure the performance, how to understand who is the fastest and how to choose the best database depending on your needs. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
+In this chapter we will introduce the database performance analysis' problem, and so we will discuss about how to measure the performance, how to understand which is the fastest and how to choose the best database depending on your needs. This preface is not specific to in-memory databases, but can be generalized for every DBMS.
 	
 	\section{Impartiality Problem}
 The most important problem related to performance analysis, and benchmarking, is the validity, understood as impartiality, of the results. It's impossible to develop a benchmark which produces the same results obtained by real applications, and it's very hard to have the results similar to real performance too. Moreover every benchmark may produce valid results only for a small set of applications, and therefore there is the need to use different benchmarks. All these difficulties were emphasized by vendors who, with benchmarks wars and benchmarketing, complained for fake results, and consequently brought to a lack of trust in benchmarks. In this section we discuss about these difficulties, starting from a benchmark's definition until an analysis of the main differences in benchmarks which produce different results.
@@ -668,7 +668,7 @@ This ease of use should be granted without any modification in the application's
 
 Our idea consists in an xml file which contains all the tests' configuration. The xml file should be organized with a tree structure such as the JMeter's representation of the test plan. This xml must contain all these variable parameters. Furthermore we would like to configure also the final report of the benchmark, specifying which graphs draw and which measures represents for each test.
 
-		\subsection{Test Suite's Specification}
+		\subsection{Test Suite's Specification} \label{test-suite-specification}
 More specifications come from the capability for the benchmark application to execute the test suite described in chapter \ref{test-suite}. These are functional specifications because they describe the requested application's behavior. In this particular case, therefore, they come from the test suite and we are going to analyze them. 
 
 In order to run the test suite we need the benchmark to be able to:
@@ -697,7 +697,7 @@ A functional view defines the system's functionalities, demostrating how the sys
 	\begin{center}
 		\includegraphics[width=13cm]{img/diagramma-specifiche.png}	
 	\end{center}
-	\caption{The functional view}
+	\caption{Functional view: the system from an external point of view}
 	\label{system-external-view}	
 \end{figure}
 
@@ -713,31 +713,62 @@ The benchmark application, represented in the figure \ref{system-external-view},
 In other words, the benchmark application takes as input an XML file, and through pluggable databases and tests, it produces a PDF file containing all the result, represented also with graphs.
 
 		\subsection{Information View}
+The information view focus on a small number of entities that your stakeholders view as significant or meaningful, primarly considering the user stakeholders, but also taking into account the concerns of other stakeholders types such as maintainers. The idea behind the model is to keep it simple. Although our application doesn't store any information, it manipulates, manages and creates information.
 
-
-
-
-
+The figure \ref{information-view} can be considered a kind of information view because it describes the entities involved by the benchmark application. Anyway this model is very useful because it provides a description of the entities, helping the comprehension of how the benchmark works. This view is not only for developers who can eventually implement new features and extend the current application, but it is dedicated to every stakeholders. In fact it explain very well how a test works and how it is composed, and this comprehension is essential for a right use of the XML file, but is is even essential for understanding the benchmark's results.
 
 \begin{figure}[htp!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/uml.jpg}	
 	\end{center}
-	\caption{Information view}
+	\caption{Information view: class diagram}
 	\label{information-view}	
 \end{figure}
-		
+
+Analyzing more in detail the figure \ref{information-view}, it is so composed:
+\begin{description}
+	\item[Test]: this is the most important entity in the benchmark application. It represent the test which can be started on a specific database. Each test has a name which is configurable by the XML and helps the readability of the output. Furthermore each test is composed by tasks and has a collection of monitors, which measure the test's performances, and reporters. 
+	\item[Task]: this is substanatially a set of operations which are executed synchronized. Each task has also a collection of monitors which measure the task's performances. As for the test, also the task got a name to help the readability of the PDF file, but, very interesting, are some special attributes which are used to define the test scenario to simulate. These attributes, setted in the XML file, are the transactions per second (tps), the time and the number of iterations. They have been already explained as specifications in paragraph \ref{test-suite-specification}.
+	\item[Operation]: this is the class to write to extend the database benchmark framework. Every operation represent one or more method invocation to the database. 
+	\item[Monitor]: this entity is dedicated to the performances' measurement. It monitors some specific measure of the test/task to which it is linked, such as the throughput or the cpu usage.
+	\item[Reporter]: this is a monitor of monitors. In fact they register and put togheter several measures of different monitors. This entity is dedicated to the production of graphs in the output file, and therefore it also has a name, helping the readability. A reporter can be declared directly in the XML file and can represent exactly what the user wants.
+	\item[Database]: this entity represents a specific database, such as Prevayler, Pico4 or HSQLDB. It is a collection of drivers.
+	\item[Driver]: this is a driver required for the execution of a specific operation, which may require also more than one driver. In other words this can be seen as the implementation of a specifica database for an operation.
+	\item[TestRunner]: this entity runs the benchmark, executing every tests on every databases. In fact it manages a collection of test and another collection of databases.
+\end{description}
+
 		\subsection{Concurrency View}
-				eccolo!
+The concurrency view describes the concurrency structure of the system, mapping functional elements to concurrency units to clearly identify the parts of the system that can execute concurrently, and shows how this is coordinated and controlled.
+
+The concurrency of our benchmark application is very simple, and it is based only on threads, but an exaplanation of it will help in the comprehension of how test works and, therefore, in the application usage, from the definition of new tests and databases to a consapevole results' analysis. 
+
 \begin{figure}[htp!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/concorrenza.jpg}	
 	\end{center}
-	\caption{Concurrency view}
+	\caption{Concurrency view: threads}
 	\label{concurrency-view}	
 \end{figure}
+
+The figure \ref{concurrency-view} shows the how the concurrency is organized, mapping the active entities, already seen in figure \ref{information-view} in the previous paragraph, in threads. The benchmark runs in only one process of the operating system, in the Java virtual machine, except the processes of the in-memory databases. All the other concurrent elements are divided into different threads:
+\begin{itemize}
+	\item The is only one test running per time, and after it starts the reporters, the monitors and the tasks it waits the end of every tasks.
+	\item Each monitor is associated with a thread so that they can measure the performance of the test and of the different task concurrently.
+	\item Each reporter runs in a own thread, and, after it is started by the test, it records the values measured by the monitors.
+	\item Each task is executed concurrently with the other tasks and so there is a dedicated thread for each task. After it starts the monitors associated, it executes in a repetitive and synchronized way all the operations which compose the task itself.	Therefore all the operations belonging to a specific task are executed in the same thread.
+\end{itemize}
 		
 		\subsection{Development View}
+		
+
+
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/development-view.jpg}	
+	\end{center}
+	\caption{Development view: package explorer}
+	\label{development-view}	
+\end{figure}
 		
 		maven
 		
@@ -746,6 +777,14 @@ In other words, the benchmark application takes as input an XML file, and throug
 		itext (per il pdf)
 		
 		jfreechart
+		
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/sequence-diagram.jpg}	
+	\end{center}
+	\caption{Sequence diagram}
+	\label{sequence-diagram}	
+\end{figure}
 		
 		pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
 		composite (per le operation), facade, proxy, monitor
