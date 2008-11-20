@@ -96,8 +96,8 @@
 			
 		\subsection{Data-Transfer Overhead}
 			Traditional DBMS adds a remarkable data transfer overhead due 
-			not only to the DB cache, but to the file system and his cache too. 
-			In contrast an IMDBs, which eliminate these steps,  have little or no data transfer. 
+			not only to the DB cache, but to the file system and its cache too. 
+			In contrast an IMDBs, which eliminate these steps, have little or no data transfer. 
 			
 			There is also no need for the application to make a copy of the data in local memory, 
 			because IMDBs give to the application a pointer to the data that reside in the database.
@@ -105,7 +105,7 @@
 			
 		\subsection{Transaction Processing}
 			In an hard-disk database the recovery process, from a disaster or a transaction abort, 
-			is based on a log file, that is update every time a transaction is executed.
+			is based on a log file, updated every time a transaction is executed.
 			To provide transactional integrity, IMDBs mantain a before image of the objects updated and in case 
 			of a transaction abort, the before image are restored in a very efficient way.
 			Therefore another complex, memory-intensive task is eliminated from the IMDB, 
@@ -210,7 +210,7 @@
 	\begin{description}
 		\item[Lightweigth] is one of the common advantages IMDBs share. This kind of databases is really simple: they 
 		don't implement any of the complex mechanism used by traditional database to speed up the disk I/O. Thus, 
-		most of the time, an in-memory database consist of a simple jar, whose size is less than 1 MB. 
+		usually, an in-memory database consist of a simple jar, whose size is less than 1 MB. 
 		\item[Robustness] is a direct consequence of the previous point: (citing Henry Ford) it is impossible to 
 		break something that doesn't exist.
 		\item[High Performance] is another common feature for every IMDB, because they all store the whole database 
