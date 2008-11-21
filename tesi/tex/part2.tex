@@ -740,7 +740,7 @@ Analyzing more in detail the figure \ref{information-view}, it is so composed:
 		\subsection{Concurrency View}
 The concurrency view describes the concurrency structure of the system, mapping functional elements to concurrency units to clearly identify the parts of the system that can execute concurrently, and shows how this is coordinated and controlled.
 
-The concurrency of our benchmark application is very simple, and it is based only on threads, but an exaplanation of it will help in the comprehension of how test works and, therefore, in the application usage, from the definition of new tests and databases to a consapevole results' analysis. 
+The concurrency of our benchmark application is very simple, and it is based only on threads, but an exaplanation of it will help in the comprehension of how tests work and, therefore from the definition of new tests and databases to a "consapevole" results' analysis. 
 
 \begin{figure}[htp!] 
 	\begin{center}
@@ -750,44 +750,67 @@ The concurrency of our benchmark application is very simple, and it is based onl
 	\label{concurrency-view}	
 \end{figure}
 
-The figure \ref{concurrency-view} shows the how the concurrency is organized, mapping the active entities, already seen in figure \ref{information-view} in the previous paragraph, in threads. The benchmark runs in only one process of the operating system, in the Java virtual machine, except the processes of the in-memory databases. All the other concurrent elements are divided into different threads:
+The figure \ref{concurrency-view} shows how the concurrency is organized, mapping the active entities, already seen in figure \ref{information-view} in the previous paragraph, to threads. The benchmark runs in only one process of the operating system, in the Java virtual machine, except the processes of the in-memory databases. All the other concurrent elements are divided into different threads:
 \begin{itemize}
 	\item The is only one test running per time, and after it starts the reporters, the monitors and the tasks it waits the end of every tasks.
 	\item Each monitor is associated with a thread so that they can measure the performance of the test and of the different task concurrently.
 	\item Each reporter runs in a own thread, and, after it is started by the test, it records the values measured by the monitors.
 	\item Each task is executed concurrently with the other tasks and so there is a dedicated thread for each task. After it starts the monitors associated, it executes in a repetitive and synchronized way all the operations which compose the task itself.	Therefore all the operations belonging to a specific task are executed in the same thread.
 \end{itemize}
-		
-		\subsection{Development View}
-		
 
+		\subsection{Development View}
+A considerable amount of planning and design of the development environment is often required to support the design and build of software for complex systems. Things to think about include code structure and dependencies, build and configuration management of deliverables, system-wide design constraints, and system-wide standards to ensure technical integrity. It is the role of the development view to address these aspects of the system development process. The concerns of the development view we will analyze are the modules organization, the codeline organization and some of the technologies used by the application. Furthermore we will also analyze an UML sequence diagram for a test's execution.
+
+			\subsubsection{Module Organization}
+
+As regards the module organization, the figure \ref{development-view}, which is simply a screenshot of the project inside the Eclipse IDE, describes the package organization. There are three main packages in which the whole application is divided:
+\begin{itemize}
+	\item The test package contains the tests with all their operations which is possible to execute and configure in the XML file.
+	\item The database package contains, for each database system, the implementations for the tests: the drivers which are required by the operations, enabling them to operate, hiding the specific database implementation. In fact, these drivers are adapters for the database systems' diversity.
+	\item The core package is the hearth of the benchmark application and contains all the framework: from the monitors to the reporters and to everything is needed to execute the tests on the databases.
+\end{itemize}
+In fact our application is built as a framework for database benchmarking, ensuring the extension with new tests and databases implementation. Therefore both tests and database have a dedicated package, in which they can be written and plugged-in without the necessity to know the whole application. Furthermore these three packages have few dependencies which in addition are managed only through indirections, such as interfaces and adapters.
 
 \begin{figure}[htp!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/development-view.jpg}	
 	\end{center}
-	\caption{Development view: package explorer}
+	\caption{Development view: Eclipse's package explorer}
 	\label{development-view}	
 \end{figure}
+
+			\subsubsection{Codeline Organization}
+
+As regards the codeline organization, the system's source code needs to be stored in a directory structure, managed via some form of configuration management system, built and tested regularly, and released as tested binaries for further testing and use. The way that all of this is achieved is normally called the codeline organization. The figure \ref{information-view} not only shows the division in package of the source code, but it shows also the whole project structure, the codeline organization. Eclipse's users probabily have already recognized Maven, a software project management tool which is integrated in Eclipse with thanks to a plug-in. Maven simplifies the build project, provides a uniform build system on different platforms and has a superior dependency management, and it is managed with the pom.xml file, where all the settings are placed, such as the dependencies. 
+
+Eclipse's users will also notice the small database symbol which means that the project is hosted on a repository. In particular the application is on a SVN repository: the exact URL for the repository, which is available for everyone in internet, is at \lstinline[commentstyle=\color{black}]!http://portable-db-bench.googlecode.com/svn/trunk/!, which is a free SVN repository offered by Google. In fact our project is open source and any contribution is welcome.
+
+			\subsubsection{Other Technologies}
+
+As already exaplained, Maven manages the depending libraries in a very simple way. The question is now which dependecies we are using. Except all the dependecies involved by the database systems, there are three major technologies used by our application: log4j, jfreechart and itext.
+
+Log4j is a very common library used by most programmers and it enables a uniform logging system for the whole application. This is low-tech method for debugging which is very useful with concurrent applications. The major advantage of log4j is the possibility to enable logginat runtime, without modifying the application binary using, moreover, different log levels.
+
+Instead, jfreechart is used to create the graphs in the resulting PDF file. It is a free 100\% Java library which allows the creation of professional quality charts. A nice feature is the support for many output types, but there is also a great variety of available charts such as bar charts and pie charts, but the chart used by the benchmark application is an \listinline!XYLineChart!: a 2D chart with x and y axis. It is suited to analyze the trend in the performance during the benchmark's execution.
+
+Another interesting technology used is itex. 
+
+
+		common processing: log4j		
+		technology:	itext (per il pdf) and 	jfreechart
 		
-		maven
-		
-		svn
-		
-		itext (per il pdf)
-		
-		jfreechart
+			\subsubsection{Test's Execution}
+eeeeeeeeeeeeeeeeeeeeeeee.
 		
 \begin{figure}[htp!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/sequence-diagram.jpg}	
 	\end{center}
-	\caption{Sequence diagram}
+	\caption{Sequence diagram for a test's execution}
 	\label{sequence-diagram}	
 \end{figure}
 		
-		pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
-		composite (per le operation), facade, proxy, monitor
+	
 	
 	\section{Application Usage}
 		\subsection{Configure the XML}
@@ -796,6 +819,10 @@ The figure \ref{concurrency-view} shows the how the concurrency is organized, ma
 			\subsubsection{Real Time Prepaid System}
 			
 		\subsection{Implementation of New Tests}%extension
+			pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
+		composite (per le operation), facade, proxy, monitor
+		
+		
 		\subsection{Implementation of New Databases}%extension
 
 
