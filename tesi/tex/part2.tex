@@ -791,16 +791,15 @@ As already exaplained, Maven manages the depending libraries in a very simple wa
 
 Log4j is a very common library used by most programmers and it enables a uniform logging system for the whole application. This is low-tech method for debugging which is very useful with concurrent applications. The major advantage of log4j is the possibility to enable logginat runtime, without modifying the application binary using, moreover, different log levels.
 
-Instead, jfreechart is used to create the graphs in the resulting PDF file. It is a free 100\% Java library which allows the creation of professional quality charts. A nice feature is the support for many output types, but there is also a great variety of available charts such as bar charts and pie charts, but the chart used by the benchmark application is an \listinline!XYLineChart!: a 2D chart with x and y axis. It is suited to analyze the trend in the performance during the benchmark's execution.
+Instead, jfreechart is used to create the graphs in the resulting PDF file. It is a free 100\% Java library which allows the creation of professional quality charts. A nice feature is the support for many output types, but there is also a great variety of available charts such as bar charts and pie charts, but the chart used by the benchmark application is an \lstinline!XYLineChart!: a 2D chart with x and y axis. It is suited to analyze the trend in the performance during the benchmark's execution.
 
-Another interesting technology used is itex. 
-
-
-		common processing: log4j		
-		technology:	itext (per il pdf) and 	jfreechart
-		
+Finally, also iText is noteworthy. It is a a free Java library that allows the creation of PDF files on the fly. It is build in the benchmark application, producing the PDF file containing all the results, generating a read-only, platform indipendent documents, containing also all the graphs/images produced by jfreechart.
+			
 			\subsubsection{Test's Execution}
-eeeeeeeeeeeeeeeeeeeeeeee.
+
+In conclusion for the development view, we illustrate the sequence diagram for a test's execution, with the purpose to increase the comprehension of the life's cycle of a test. This will simplify both the use of the XML file taken as input and the implementation of new tests and databases. 
+
+The figure \ref{sequence-diagram} is a UML sequence diagram and it shows a simplifyed test's execution, because it's not displayed the interaction with monitors and reporters. The focus is on the test, the task wich compose the test and the operations which compose the task, and their life's cycle.
 		
 \begin{figure}[htp!] 
 	\begin{center}
@@ -809,14 +808,84 @@ eeeeeeeeeeeeeeeeeeeeeeee.
 	\caption{Sequence diagram for a test's execution}
 	\label{sequence-diagram}	
 \end{figure}
-		
-	
-	
+
+The sequence diagram how a test is executed and we can divide the execution in five phase:
+\begin{enumerate}
+	\item The \lstinline!TestRunner! is the main class who execute all the tests on all the databases, but before starting a test, a preliminary operation is done: the database is setted in the test so that the \lstinline!TestRunner! executes the test on a specific database. This operation spread to all components of a test, through the tasks to the operations, so that each operation can take the suitable driver from the specific database.
+	\item In a second stage the test is started by the \lstinline!TestRunner!. Then the test sets up all its tasks and consequently all the operations. In other words this phase corresponds to an opening of the connection with the database.
+	\item Subsequently the test warms up all its tasks and operations to avoid the slow start of the real test, when all performance measures are taken.
+	\item In this stage the test starts a thread for each task, which then executes repeatedly, and concurrently with the other tasks, the operations.
+	\item In a final stage, when the stop condition is reached, each task tears down the operations, which in other terms means a close, a disconnect from the database. The driver is detached.
+\end{enumerate}
+			
 	\section{Application Usage}
+While in the first section we analyzed the specifications on which the application is built and in the second the focus moved to the design, in this section we assume the application already developed and we analyze the application usage. The main use is of course the execution of the benchmark and therefore the configuration of the XML. But recalling that the application is structured as a framework, other kinds of use consist of the implementation of new tests and of new databases.
+
 		\subsection{Configure the XML}
-			\subsubsection{Bench-properties.xml}
-			\subsubsection{Simple Test}
-			\subsubsection{Real Time Prepaid System}
+The benchmark application developed, as clearly showed in the functional view, takes in input an xml file: the bench-properties.xml. It contains the whole configuration for the benchmark's execution and it grants the ease of use so much researched. In fact it is possible to specify and change a lot of parameters such as the several stop conditions for the task, the test's composition, the reporters and more.
+
+			\subsubsection{Training XML}
+
+
+\begin{lstlisting}[language=xml,caption={Training bench-properties.xml},label={bench-properties-training}]
+<bench>
+	
+	<!-- DEFINITIONS -->
+  <definitions>
+  	<!-- initializators -->
+  	<initializator name="PersonInitializator" class="com.eris4.benchdb.test.person.initializator.PersonInitializator"/>
+  	...    	
+  	<!-- operations -->
+  	<operation name="WritePersonOperation" class="com.eris4.benchdb.test.person.operation.WritePersonOperation"/>
+  	...
+  	<!-- test monitors -->
+  	<testmonitor name="Memory" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
+  	...
+  	<!-- task monitors -->
+  	<taskmonitor name="Time" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
+  	...    	
+  </definitions>
+	
+	<!-- DATABASE LIST -->
+	<databases>
+		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
+		...
+	</databases>
+		
+	<!-- TEST LIST -->
+	<tests>
+		<test name="Test 1" >
+			<initializator name="Initializator 1" numberOfObjects="1000"/>					
+			<task name="Task 1" 
+			iterations="The total number of transaction after the task stops" 
+			time="The maximum time after the task stops" 
+			tps="The maximum transaction per second">	
+				<operation name="Operation 1" repetition="1"/>
+				<!-- More operation here -->			
+			</task>
+			<!-- More tasks here -->
+			<loggraphreporter name="Reporter 1">
+				<line x="Time" xTask="Task 1" y="AvgTransaction" yTask="Task 1" name="AVG"/>
+			</loggraphreporter>
+			<lineargraphreporter name="Reporter 2">
+				<line x="Time" y="Memory" name="Memory"/>		
+			</lineargraphreporter>
+			<!-- More reporters here -->
+		</test>
+	<!-- More tests here -->
+	</tests>
+</bench>
+\end{lstlisting}
+
+
+asdadasdasdasd
+asdaasdasdasdasd.
+
+
+
+
+
+			\subsubsection{Real Time Prepaid System XML}
 			
 		\subsection{Implementation of New Tests}%extension
 			pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
@@ -824,6 +893,7 @@ eeeeeeeeeeeeeeeeeeeeeeee.
 		
 		
 		\subsection{Implementation of New Databases}%extension
+anche qui alcuni pattern.
 
 
 \chapter{Results' Analysis}
