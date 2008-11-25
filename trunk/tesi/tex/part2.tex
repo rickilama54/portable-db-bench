@@ -957,14 +957,9 @@ After a non executable example of the XML file, we now analyze a more complex an
 </test>
 \end{lstlisting}
 
-We already explained how to build this input file in the previous paragraph, therefore here we will focus only on some particular aspects. First of all, recalling the real time prepaid system test case, it was structured in three tasks, and in fact this test is composed by three task. The balance check task and the account management task have both the same limit on the throughput, ten transactions per second: they are not the memory/cpu intensive tasks. On the other hand the service authorization and management task has a very high throughput which is two thousand transactions per second. Another thing to point out is that this test uses three initializators to fill the database with milions of objects, as was stated in the test case's definition. Of course immediately jumps to the reader's attention the great quantity of reporter used by this test: they all represents the test performance by different point of view, such as
+We already explained how to build this input file in the previous paragraph, therefore here we will focus only on some particular aspects. First of all, recalling the real time prepaid system test case, it was structured in three tasks, and in fact this test is composed by three task. The balance check task and the account management task have both the same limit on the throughput, ten transactions per second: they are not the memory/cpu intensive tasks. On the other hand the service authorization and management task has a very high throughput which is two thousand transactions per second. Another thing to point out is that this test uses three initializators to fill the database with milions of objects, as was stated in the test case's definition. Of course immediately jumps to the reader's attention the great quantity of reporters used by this test: they all represent the test's performance by different point of view, such as the point of view of the different tasks. Furthermore they also take different measures, such as the throughput or the memory usage, and produce different graphs: one graphs for each reporter.
 
-
-
-
-
-
-
+In the following chapter we will show and analyze more in detail the results produced by reporters and by the benchmark in general.
 			
 		\subsection{Implementation of New Tests}%extension
 			pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
