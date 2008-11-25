@@ -33,9 +33,9 @@
 	<databases><!-- -->
 		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
 		<database class="com.eris4.benchdb.database.prevayler.PrevaylerDatabase"/>
-		<database class="com.eris4.benchdb.database.h2.H2Database"/>
+		<database class="com.eris4.benchdb.database.h2.H2Database"/><!-- 
 		<database class="com.eris4.benchdb.database.hsqldb.HsqldbDatabase"/> 
-		<database class="com.eris4.benchdb.database.db4o.Db4oDatabase"/><!-- 
+		<database class="com.eris4.benchdb.database.db4o.Db4oDatabase"/>
 		<database class="com.eris4.benchdb.database.mysql.MySQLDatabase"/>	
 			 -->
 	</databases>
@@ -75,15 +75,15 @@
 			<initializator name="AccountInitializator" numberOfObjects="1000000"/>
 			<initializator name="MsisdnInitializator" numberOfObjects="1000000"/>
 			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
-			<task tps="10" time="120000" name="Check balance">
+			<task tps="10" time="1000" name="Check balance">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>						
 			</task>	
-			<task tps="10" time="120000" name="Account creation"> 
+			<task tps="10" time="1000" name="Account creation"> 
 				<operation name="WriteAccountOperation" repetition="1"/>
 				<operation name="WriteMsisdnOperation" repetition="2"/>				
 			</task>				
-			<task tps="2000" time="120000" name="Start call">
+			<task tps="2000" time="1000" name="Start call">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
 				<operation name="WriteSessionOperation" repetition="1"/>				
@@ -116,7 +116,7 @@
 	
 		<test name="Memory and Trend Transaction Test (fixed total number of transaction)">								
 			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
-			<task transaction="1000000" time="120000" name="Generic Writer Task">
+			<task iterations="1000000" time="1000" name="Generic Writer Task">
 				<operation name="WriteSessionOperation" repetition="1"/>
 			</task>	
 			<loggraphreporter name="Race">
@@ -132,7 +132,7 @@
 		
 		<test name="Cpu usage test (constant transaction per second)">								
 			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
-			<task tps="200" time="60000" name="Generic Writer Task">
+			<task tps="200" time="1000" name="Generic Writer Task">
 				<operation name="WriteSessionOperation" repetition="1"/>
 			</task>		
 			<lineargraphreporter name="Cpu usage">

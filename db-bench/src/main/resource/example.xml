@@ -25,13 +25,14 @@
 	<!-- TEST LIST -->
 	<tests>
 		<test name="Test 1" >
-			<initializator name="Initializator 1" numberOfObjects="1000"/>					
+			<initializator name="Initializator 1" numberOfObjects="1000"/>	
+			<!-- More initializators here -->				
 			<task name="Task 1" 
-			transaction="The total number of transaction after the task stops" 
+			iterations="The total number of transaction after the task stops" 
 			time="The maximum time after the task stops" 
 			tps="The maximum transaction per second">	
 				<operation name="Operation 1" repetition="1"/>
-				<!-- More operation here -->			
+				<!-- More operations here -->			
 			</task>
 			<!-- More tasks here -->
 			<loggraphreporter name="Reporter 1">
