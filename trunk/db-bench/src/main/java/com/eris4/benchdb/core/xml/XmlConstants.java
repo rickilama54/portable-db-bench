@@ -15,7 +15,7 @@ public class XmlConstants {
 	static final String OPERATION_NODE = "operation";
 	
 	static final String TASK_TPS_ATTRIBUTE = "tps";
-	public final static String TASK_TRANSACTION_ATTRIBUTE = "transaction";
+	public final static String TASK_TRANSACTION_ATTRIBUTE = "iterations";
 	public final static String TASK_TIME_ATTRIBUTE = "time";
 	static final String TASK_NODE = "task";	
 	
