@@ -155,7 +155,7 @@ From these features comes the name "load test case", which means the simulation 
 
 This metaphor explain exactly the need not for the fastest database, but for a database which can sustain the load of the application without any complexity during its normal functioning, such as a database snapshot freezing all writes operation, or a bug/memory leak making the database crash.
 
-		\subsection{Real Time Prepaid System}
+		\subsection{Real Time Prepaid System} \label{real-time-test-case}
 Keeping these features in mind, we want to create a load test case to analyze exactly which performance  a database system  offers for a practical use case: a real time prepaid system, such as a telephone company. Basically the test is the concurrent execution of 3 different task, each simulating complex scenarios: services authorization and management, balance checks and accounts management.
 
 We start describing the domain objects used by this test, and then we move on to the analysis of the different tasks involved.
@@ -825,7 +825,9 @@ While in the first section we analyzed the specifications on which the applicati
 The benchmark application developed, as clearly showed in the functional view, takes in input an xml file: the bench-properties.xml. It contains the whole configuration for the benchmark's execution and it grants the ease of use so much researched. In fact it is possible to specify and change a lot of parameters such as the several stop conditions for the task, the test's composition, the reporters and more.
 
 			\subsubsection{Training XML}
+To take confidence with the XML, we start analyzing a training example, which can't be executed, but exaplains what every attribute or element is used for. This training XML is showed in the listing \ref{bench-properties-training}. It is divided into three parts.
 
+The first part is full of definitions which are a mappings between a name and a class, so that we will not need to repeate all the path every time, but we can use a "key", which is a simple name. The definitions are divided into four parts: initializators, operations, test monitors and task monitors. We already know the operations and monitors, although they are classified differently for tests and tasks, but we don't know what is an initializator. It is a special class which is used to fill the database, in order to simulate scenarios where there is no empty database. For example, we can assume that our operations interact with the database writing and reading a certain object, a \lstinline!Person!. If we want to simulate a scenario where the database already contains one million of Person, we need a \lstinline!PersonInitializator!, a class which may be called by the Test before starting each task. Another clarification to mention is that if you declare a monitor as a task monitor, every task will use that kind of monitor, and on the other hand, if you declare it as a test monitor, every test will use it. Although you will probably never change the monitors' definition.
 
 \begin{lstlisting}[language=xml,caption={Training bench-properties.xml},label={bench-properties-training}]
 <bench>
@@ -855,13 +857,14 @@ The benchmark application developed, as clearly showed in the functional view, t
 	<!-- TEST LIST -->
 	<tests>
 		<test name="Test 1" >
-			<initializator name="Initializator 1" numberOfObjects="1000"/>					
+			<initializator name="Initializator 1" numberOfObjects="1000"/>
+			<!-- More initializators here -->						
 			<task name="Task 1" 
 			iterations="The total number of transaction after the task stops" 
 			time="The maximum time after the task stops" 
 			tps="The maximum transaction per second">	
 				<operation name="Operation 1" repetition="1"/>
-				<!-- More operation here -->			
+				<!-- More operations here -->			
 			</task>
 			<!-- More tasks here -->
 			<loggraphreporter name="Reporter 1">
@@ -877,15 +880,91 @@ The benchmark application developed, as clearly showed in the functional view, t
 </bench>
 \end{lstlisting}
 
+In the second part consists of a list of databases which will be tested. This is not a mapping like for the definitions, but it is simply a declaration of database, specifying the path of the class which extends the base class \lstinline!Database! of the framework.
 
-asdadasdasdasd
-asdaasdasdasdasd.
-
-
-
-
+The third part is the most important. In fact while the first and the second part are rarely modified, the third is used for the test configuration, containing all those variable parameters which often may be changed. In this part, every test element is a test which is executed on all the databases listed. Each test is composed by different elements:
+\begin{description}
+	\item[Initializator]: this element describes which initializators the test must execute to fill the database. There are two interesting attribute: the name is a pointer to one initializator defined in the first part with the same name, while the second attribute specifies the number of objects to insert in the database.
+	\item[Task]: this is a collection of operations which are executed in a serialized way, and concurrently with the other tasks. While the attribute name is used only to create more clear results, the others are the key parameters of the test: 	
+	
+	\begin{itemize}
+		\item The tps attribute is used to limit the throughput of each task. This is an optional attribute.
+		\item The iterations attribute stands for the total amount of task's execution before the task is stopped. This is optional too.
+		\item The time attribute is the maximum amount of time before the task is stopped. This is a required attribute and it is used also to avoid that a very slow database system can snooker the benchmark when only a the iteration attribute is used, therefore a sort of timeout. 
+	\end{itemize}	
+	
+	\item[Operation]: this is an operation executed by the test inside a specific task. The name attribute is a pointer to an operation previously defined in the first part of the XML. The repetition attribute tells the number of time that an operation must be repeated for every task's execution.
+	\item[Loggraphreporter]: this reporter uses a linear scale for the x axis and a logarithmic scale for the y axis.
+	\item[Lineargraphreporter]: this reporter uses a linear scale both for the x and the y axes. 
+	\item[Line]: this is used inside a reporter to specify what a reporter should draw. This element has several attributes:
+	
+	\begin{itemize}
+		\item The name of the line.
+		\item The x value to represent: this is a pointer to a monitor defined in the first part.
+		\item The xTask which is a name used as a pointer to a task's name already declared in the current test, specifying to which task's monitor the x value is referred.
+		\item The y value to represent: this is a pointer to a monitor defined in the first part.
+		\item The yTask which is a name used as a pointer to a task's name already declared in the current test, specifying to which task's monitor the y value is referred.
+	\end{itemize}
+	
+\end{description}
 
 			\subsubsection{Real Time Prepaid System XML}
+
+After a non executable example of the XML file, we now analyze a more complex and real XML file. It describes the main test case developed in our test suite which is described in paragraph \ref{real-time-test-case}. The listing \ref{real-time-prepaid-system-xml} shows only the main part of the xml file, the one containing the test's configuration, excluding the first and the second part, which are a simple list of definitions and databases. 
+
+\begin{lstlisting}[language=xml,caption={Real time prepaid system XML},label={real-time-prepaid-system-xml}]
+<test name="Telephone company use case">
+	<initializator name="AccountInitializator" numberOfObjects="1000000"/>
+	<initializator name="MsisdnInitializator" numberOfObjects="1000000"/>
+	<initializator name="SessionInitializator" numberOfObjects="1000000"/>
+	<task tps="10" time="120000" name="Balance check">
+		<operation name="ReadMsisdnOperation" repetition="1"/>
+		<operation name="ReadAccountOperation" repetition="1"/>						
+	</task>	
+	<task tps="10" time="120000" name="Account management"> 
+		<operation name="WriteAccountOperation" repetition="1"/>
+		<operation name="WriteMsisdnOperation" repetition="2"/>				
+	</task>				
+	<task tps="2000" time="120000" name="Service authorization and management">
+		<operation name="ReadMsisdnOperation" repetition="1"/>
+		<operation name="ReadAccountOperation" repetition="1"/>					
+		<operation name="WriteSessionOperation" repetition="1"/>				
+	</task>	
+	<loggraphreporter name="Balance check transactions">
+		<line x="Time" xTask="Balance check" y="Transaction" yTask="Balance check" name="Transactions"/>
+	</loggraphreporter>
+	<loggraphreporter name="Balance check AVG transactions">
+		<line x="Time" xTask="Balance check" y="AvgTransaction" yTask="Balance check" name="AVG"/>						
+	</loggraphreporter>
+	<loggraphreporter name="account management transactions">
+		<line x="Time" xTask="Account management" y="Transaction" yTask="Account management" name="Transactions"/>
+	</loggraphreporter>
+	<loggraphreporter name="account management AVG transactions">
+		<line x="Time" xTask="Account management" y="AvgTransaction" yTask="Account management" name="AVG"/>					
+	</loggraphreporter>
+	<loggraphreporter name="Service authorization and management transactions">
+		<line x="Time" xTask="Service authorization and management" y="Transaction" yTask="Service authorization and management" name="Transactions"/>				
+	</loggraphreporter>
+	<loggraphreporter name="Service authorization and management AVG transactions">
+		<line x="Time" xTask="Service authorization and management" y="AvgTransaction" yTask="Service authorization and management" name="AVG"/>
+	</loggraphreporter>
+	<lineargraphreporter name="Memory usage">
+		<line x="Time" y="Memory" name="Memory"/>		
+	</lineargraphreporter>
+	<lineargraphreporter name="Cpu usage">
+		<line x="Time" y="Cpu" name="cpu"/>
+	</lineargraphreporter>		
+</test>
+\end{lstlisting}
+
+We already explained how to build this input file in the previous paragraph, therefore here we will focus only on some particular aspects. First of all, recalling the real time prepaid system test case, it was structured in three tasks, and in fact this test is composed by three task. The balance check task and the account management task have both the same limit on the throughput, ten transactions per second: they are not the memory/cpu intensive tasks. On the other hand the service authorization and management task has a very high throughput which is two thousand transactions per second. Another thing to point out is that this test uses three initializators to fill the database with milions of objects, as was stated in the test case's definition. Of course immediately jumps to the reader's attention the great quantity of reporter used by this test: they all represents the test performance by different point of view, such as
+
+
+
+
+
+
+
 			
 		\subsection{Implementation of New Tests}%extension
 			pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
