@@ -72,48 +72,48 @@
 		
 	
 		<test name="Telephone company use case">
-			<initializator name="AccountInitializator" numberOfObjects="1000000"/>
-			<initializator name="MsisdnInitializator" numberOfObjects="1000000"/>
-			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
-			<task tps="10" time="1000" name="Check balance">
+			<initializator name="AccountInitializator" numberOfObjects="1000"/>
+			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
+			<initializator name="SessionInitializator" numberOfObjects="10000"/>
+			<task tps="10" time="1000" name="Balance check">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>						
 			</task>	
-			<task tps="10" time="1000" name="Account creation"> 
+			<task tps="10" time="1000" name="Account management"> 
 				<operation name="WriteAccountOperation" repetition="1"/>
 				<operation name="WriteMsisdnOperation" repetition="2"/>				
 			</task>				
-			<task tps="2000" time="1000" name="Start call">
+			<task tps="2000" time="1000" name="Service authorization and management">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>					
 				<operation name="WriteSessionOperation" repetition="1"/>				
 			</task>	
-			<loggraphreporter name="check balance transactions">
-				<line x="Time" xTask="Check balance" y="Transaction" yTask="Check balance" name="Transactions"/>
+			<loggraphreporter name="Balance check transactions">
+				<line x="Time" xTask="Balance check" y="Transaction" yTask="Balance check" name="Transactions"/>
 			</loggraphreporter>
-			<loggraphreporter name="check balance AVG transactions">
-				<line x="Time" xTask="Check balance" y="AvgTransaction" yTask="Check balance" name="AVG"/>						
+			<loggraphreporter name="Balance check AVG transactions">
+				<line x="Time" xTask="Balance check" y="AvgTransaction" yTask="Balance check" name="AVG"/>						
 			</loggraphreporter>
-			<loggraphreporter name="account creation transactions">
-				<line x="Time" xTask="Account creation" y="Transaction" yTask="Account creation" name="Transactions"/>
+			<loggraphreporter name="account management transactions">
+				<line x="Time" xTask="Account management" y="Transaction" yTask="Account management" name="Transactions"/>
 			</loggraphreporter>
-			<loggraphreporter name="account creation AVG transactions">
-				<line x="Time" xTask="Account creation" y="AvgTransaction" yTask="Account creation" name="AVG"/>					
+			<loggraphreporter name="account management AVG transactions">
+				<line x="Time" xTask="Account management" y="AvgTransaction" yTask="Account management" name="AVG"/>					
 			</loggraphreporter>
-			<loggraphreporter name="start call transactions">
-				<line x="Time" xTask="Start call" y="Transaction" yTask="Start call" name="Transactions"/>				
+			<loggraphreporter name="Service authorization and management transactions">
+				<line x="Time" xTask="Service authorization and management" y="Transaction" yTask="Service authorization and management" name="Transactions"/>				
 			</loggraphreporter>
-			<loggraphreporter name="start call AVG transactions">
-				<line x="Time" xTask="Start call" y="AvgTransaction" yTask="Start call" name="AVG"/>
+			<loggraphreporter name="Service authorization and management AVG transactions">
+				<line x="Time" xTask="Service authorization and management" y="AvgTransaction" yTask="Service authorization and management" name="AVG"/>
 			</loggraphreporter>
-			<lineargraphreporter name="memory usage">
+			<lineargraphreporter name="Memory usage">
 				<line x="Time" y="Memory" name="Memory"/>		
 			</lineargraphreporter>
-			<lineargraphreporter name="cpu usage">
+			<lineargraphreporter name="Cpu usage">
 				<line x="Time" y="Cpu" name="cpu"/>
 			</lineargraphreporter>		
 		</test>		
-	
+	<!--
 		<test name="Memory and Trend Transaction Test (fixed total number of transaction)">								
 			<initializator name="SessionInitializator" numberOfObjects="1000000"/>
 			<task iterations="1000000" time="1000" name="Generic Writer Task">
@@ -145,6 +145,6 @@
 				<line x="Time" xTask="Generic Writer Task" y="Transaction" yTask="Generic Writer Task" name="Transactions"/>		
 			</lineargraphreporter>	
 		</test>					
-	<!-- -->
+	 -->
 	</tests>
 </bench>
