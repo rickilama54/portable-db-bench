@@ -573,7 +573,7 @@ In this chapter we describe the new benchmark application developed for our need
 	
 This section is dedicated to the analysis of the benchmark application developed during this thesis. We start from the specifications' definition, which come from the requirements described in paragraph \ref{requirements} and from the functional requirements resulting from the capability to execute the test suite described in chapter \ref{test-suite}.
 	
-In order to define the specifications from the requirements on which the benchmark application is based, it's primarly important to understand what is a specification in relation to requirements. A requirement is a singular documented need of what a particular product or service should be or do. On the other hand a specification is an explicit set of requirements, or in other words it is a well-formed requirement, a formal requirement, an implementable requirement. 
+In order to define the specifications from the requirements on which the benchmark application is based, it's primarily important to understand what is a specification in relation to requirements. A requirement is a singular documented need of what a particular product or service should be or do. On the other hand a specification is an explicit set of requirements, or in other words it is a well-formed requirement, a formal requirement, an implementable requirement. 
 
 Now it is clear how the discussion done in chapter \ref{overview} is not useless. Through that analysis we obtained a better understanding of the requirements, and a suggestion to implement them. This will help us in the process of requirements specification. 
 
@@ -628,7 +628,7 @@ Therefore what we need to grant this requirement is a PDF result, containing all
 This is the specification implicated by understandability.
 			 
 		\subsection{Flexibility}
-Benchmark always suffers the limitation introduced by the workload simulated. The performances measured by the benchmark are highly dependant on the workload, and therefore for an application, whose workload is not similar to the benchmark's one, the results are nearly useless. To overcome this limitation, flexibility is a key feature. In this contest flexibility is meant as the capability of the benchmark application to run complete new tests, and so to simulate new workloads. Furthermore it is also intended as the capability to run the benchmark against new database systems. Also this time JMeter and Poleposition show a possible solution to this problem, but they are not equals.
+Benchmark always suffers the limitation introduced by the workload simulated. The performances measured by the benchmark are highly dependent on the workload, and therefore for an application, whose workload is not similar to the benchmark's one, the results are nearly useless. To overcome this limitation, flexibility is a key feature. In this contest flexibility is meant as the capability of the benchmark application to run complete new tests, and so to simulate new workloads. Furthermore it is also intended as the capability to run the benchmark against new database systems. Also this time JMeter and Poleposition show a possible solution to this problem, but they are not equals.
 
 As regards Poleposition, it works like a framework, in fact the main idea behind this application is to make a framework for databases benchmarking. Therefore Poleposition allow an easy implementation for both new tests and database systems, although it is not so easy and flexible as a framework should be, especially for new tests. In both cases the solution involves the programming of new code's lines.
 
@@ -637,11 +637,11 @@ JMeter, instead, is able to create and execute new tests thanks to a graphic edi
 In conclusion the resultant specification is: create a benchmark application which works as a benchmark, with tests that can be implemented by programming, and with pluggable databases.
 			 
 		\subsection{Detailed Report} 
-A well detailed report with a lot of interesting measures will tell you much about the databse behavior, while only one single metric will simply make your trust go away when you read it. 
+A well detailed report with a lot of interesting measures will tell you much about the database behavior, while only one single metric will simply make your trust go away when you read it. 
 
-The first who stated this idea was the transaction processing performance council, who, in fact, adopt two different measures: the first is the throughput and the second is a price/throughput measure. This beacuse the TPC-C benchmark doen't compare directly different systems, but every vendor run it on his own, therefore without a price/performance measure, it is very hard to understand if the result depends from more expensive computers. This is not our case, but we agree that one measure doesn't exaplain the real database performance.
+The first who stated this idea was the transaction processing performance council, who, in fact, adopt two different measures: the first is the throughput and the second is a price/throughput measure. This because the TPC-C benchmark doen't compare directly different systems, but every vendor run it on his own, therefore without a price/performance measure, it is very hard to understand if the result depends from more expensive computers. This is not our case, but we agree that one measure doesn't explain the real database performance.
 
-JMeter, instead, has several listeners which are able to take different measures, and they can be composed in many ways inside a test plan. So JMeter allows the user to take exactly the measures he wants. And this is applicable also for graph listners.
+JMeter, instead, has several listeners which are able to take different measures, and they can be composed in many ways inside a test plan. So JMeter allows the user to take exactly the measures he wants. And this is applicable also for graph listeners.
 
 In this case case JMeter shows a very good solution, and this is exactly what we like: the possibility for the user to chose the measures to display as final result.
 			
@@ -659,10 +659,10 @@ Relational and object database system usually doesn't share the same interface. 
 
 Poleposition is able to test both relational and object databases, but at the cost of a completely new implementation of the whole test for every database which is to be tested. JMeter instead works only with relational databases, but it provides also the possibility to test Java objects, which is very useful thinking at Java native interfaces to access the databases. Nevertheless this means that an object oriented point of view will be used for object databases and at the same time a relational point of view will be used for relational databases, therefore the final result will have less meaning. With the purpose of benchmarking and comparing it's better to use a uniform point of view.
 
-Since the benchmark application we want to develop must work with both relational and object database systems and since most of our database are object databases, we will use an object oriented point of view when benchmarking databses and therefore every database must implement a Java native interface for each test. Every database must implement a own interface, a driver, because there isn't yet any standard for object oriented querying.
+Since the benchmark application we want to develop must work with both relational and object database systems and since most of our database are object databases, we will use an object oriented point of view when benchmarking databases and therefore every database must implement a Java native interface for each test. Every database must implement a own interface, a driver, because there isn't yet any standard for object oriented querying.
 			 
 		\subsection{Ease of use}
-Easy of use is intented as a variation in the tests'parameters, such as the initial database state and others already explained in chapeter \ref{test-suite}, allowing little variations to the workload simulated, in order to improve the test when the needs change. 
+Easy of use is intended as a variation in the tests'parameters, such as the initial database state and others already explained in chapter \ref{test-suite}, allowing little variations to the workload simulated, in order to improve the test when the needs change. 
 
 This ease of use should be granted without any modification in the application's lines of code. For this purpose Poleposition uses several properties files while with JMeter the user can modify the whole test, without any programming, and therefore he can also modify every parameters in the test without touching any code's lines.
 
@@ -688,10 +688,10 @@ Software design is a process of problem-solving and planning for a software solu
 
 In this section we will design and develop the application using different point of view, or it's better to say we will show how the system has been realized by describing it through different point of view. Although a common temptation is to try to analyze and describe a system with a single, heavily overloaded model \emph{"it's not possible to capture the functional features and quality properties of a complex system in a single comprehensible model that is understandable by and of value to all stakeholders"} \cite{SSA}.
 
-Therefore different views will be used in the following paragraphs to describe separatly each the major aspect of the benchmark application. The views used are the functional view, the information view, the concurrency view and the development view. Collectively they describe the whole system. 
+Therefore different views will be used in the following paragraphs to describe separately each the major aspect of the benchmark application. The views used are the functional view, the information view, the concurrency view and the development view. Collectively they describe the whole system. 
 
 		\subsection{Functional View}
-A functional view defines the system's functionalities, demostrating how the system performs the functions required. This is probably the easiest view for stakeholders to understand the system and it is the starting point for the definition of the other architectural views. The figure \ref{system-external-view} represents the benchmark application from a functional point of view which takes into account the specifications summarized in table \ref{benchmark-specifications-table}. It represents the system by an external point of view, showing functional capabilites, external interfaces, internal structure and design philosophy, such as the low coupling between the database and test implementations.
+A functional view defines the system's functionalities, demonstrating how the system performs the functions required. This is probably the easiest view for stakeholders to understand the system and it is the starting point for the definition of the other architectural views. The figure \ref{system-external-view} represents the benchmark application from a functional point of view which takes into account the specifications summarized in table \ref{benchmark-specifications-table}. It represents the system by an external point of view, showing functional capabilities, external interfaces, internal structure and design philosophy, such as the low coupling between the database and test implementations.
 		
 \begin{figure}[htp!] 
 	\begin{center}
@@ -703,17 +703,17 @@ A functional view defines the system's functionalities, demostrating how the sys
 
 The benchmark application, represented in the figure \ref{system-external-view}, is composed with the following parts:
 \begin{itemize}
-	\item The application's input is an XML file, the bench-properties.xml. It contains a substantial part of the tests' configuration, that is a colletion of variable parameters for each test, such as the task, the operations' order, the time, the maximum throughput, the initial database's state etc.
+	\item The application's input is an XML file, the bench-properties.xml. It contains a substantial part of the tests' configuration, that is a collection of variable parameters for each test, such as the task, the operations' order, the time, the maximum throughput, the initial database's state etc.
 	\item The group of databases shows how they can be plugged in the benchmark, in order to execute benchmark's tests on several and new databases.
 	\item New tests can be implemented in the benchmark application allowing the execution of specific workloads. 
-	\item The output is a PDF file cointaining all the results obtained by the performance analysis.
+	\item The output is a PDF file containing all the results obtained by the performance analysis.
 	\item The results in the output file are represented mostly by graphs.
 	\item Finally a gear represents the application as a black box. The figure just shows that the application works as a framework with extensible databases and tests.
 \end{itemize}
 In other words, the benchmark application takes as input an XML file, and through pluggable databases and tests, it produces a PDF file containing all the result, represented also with graphs.
 
 		\subsection{Information View}
-The information view focus on a small number of entities that your stakeholders view as significant or meaningful, primarly considering the user stakeholders, but also taking into account the concerns of other stakeholders types such as maintainers. The idea behind the model is to keep it simple. Although our application doesn't store any information, it manipulates, manages and creates information.
+The information view focus on a small number of entities that your stakeholders view as significant or meaningful, primarily considering the user stakeholders, but also taking into account the concerns of other stakeholders types such as maintainers. The idea behind the model is to keep it simple. Although our application doesn't store any information, it manipulates, manages and creates information.
 
 The figure \ref{information-view} can be considered a kind of information view because it describes the entities involved by the benchmark application. Anyway this model is very useful because it provides a description of the entities, helping the comprehension of how the benchmark works. This view is not only for developers who can eventually implement new features and extend the current application, but it is dedicated to every stakeholders. In fact it explain very well how a test works and how it is composed, and this comprehension is essential for a right use of the XML file, but is is even essential for understanding the benchmark's results.
 
@@ -728,19 +728,19 @@ The figure \ref{information-view} can be considered a kind of information view b
 Analyzing more in detail the figure \ref{information-view}, it is so composed:
 \begin{description}
 	\item[Test]: this is the most important entity in the benchmark application. It represent the test which can be started on a specific database. Each test has a name which is configurable by the XML and helps the readability of the output. Furthermore each test is composed by tasks and has a collection of monitors, which measure the test's performances, and reporters. 
-	\item[Task]: this is substanatially a set of operations which are executed synchronized. Each task has also a collection of monitors which measure the task's performances. As for the test, also the task got a name to help the readability of the PDF file, but, very interesting, are some special attributes which are used to define the test scenario to simulate. These attributes, setted in the XML file, are the transactions per second (tps), the time and the number of iterations. They have been already explained as specifications in paragraph \ref{test-suite-specification}.
+	\item[Task]: this is substantially a set of operations which are executed synchronized. Each task has also a collection of monitors which measure the task's performances. As for the test, also the task got a name to help the readability of the PDF file, but, very interesting, are some special attributes which are used to define the test scenario to simulate. These attributes, setted in the XML file, are the transactions per second (tps), the time and the number of iterations. They have been already explained as specifications in paragraph \ref{test-suite-specification}.
 	\item[Operation]: this is the class to write to extend the database benchmark framework. Every operation represent one or more method invocation to the database. 
 	\item[Monitor]: this entity is dedicated to the performances' measurement. It monitors some specific measure of the test/task to which it is linked, such as the throughput or the cpu usage.
 	\item[Reporter]: this is a monitor of monitors. In fact they register and put togheter several measures of different monitors. This entity is dedicated to the production of graphs in the output file, and therefore it also has a name, helping the readability. A reporter can be declared directly in the XML file and can represent exactly what the user wants.
 	\item[Database]: this entity represents a specific database, such as Prevayler, Pico4 or HSQLDB. It is a collection of drivers.
-	\item[Driver]: this is a driver required for the execution of a specific operation, which may require also more than one driver. In other words this can be seen as the implementation of a specifica database for an operation.
+	\item[Driver]: this is a driver required for the execution of a specific operation, which may require also more than one driver. In other words this can be seen as the implementation of a specific database for an operation.
 	\item[TestRunner]: this entity runs the benchmark, executing every tests on every databases. In fact it manages a collection of test and another collection of databases.
 \end{description}
 
 		\subsection{Concurrency View}
 The concurrency view describes the concurrency structure of the system, mapping functional elements to concurrency units to clearly identify the parts of the system that can execute concurrently, and shows how this is coordinated and controlled.
 
-The concurrency of our benchmark application is very simple, and it is based only on threads, but an exaplanation of it will help in the comprehension of how tests work and, therefore from the definition of new tests and databases to a "consapevole" results' analysis. 
+The concurrency of our benchmark application is very simple, and it is based only on threads, but an explanation of it will help in the comprehension of how tests work and, therefore from the definition of new tests and databases to a "consapevole" results' analysis. 
 
 \begin{figure}[htp!] 
 	\begin{center}
@@ -758,7 +758,7 @@ The figure \ref{concurrency-view} shows how the concurrency is organized, mappin
 	\item Each task is executed concurrently with the other tasks and so there is a dedicated thread for each task. After it starts the monitors associated, it executes in a repetitive and synchronized way all the operations which compose the task itself.	Therefore all the operations belonging to a specific task are executed in the same thread.
 \end{itemize}
 
-		\subsection{Development View}
+		\subsection{Development View} \label{development-view-paragraph}
 A considerable amount of planning and design of the development environment is often required to support the design and build of software for complex systems. Things to think about include code structure and dependencies, build and configuration management of deliverables, system-wide design constraints, and system-wide standards to ensure technical integrity. It is the role of the development view to address these aspects of the system development process. The concerns of the development view we will analyze are the modules organization, the codeline organization and some of the technologies used by the application. Furthermore we will also analyze an UML sequence diagram for a test's execution.
 
 			\subsubsection{Module Organization}
@@ -781,25 +781,25 @@ In fact our application is built as a framework for database benchmarking, ensur
 
 			\subsubsection{Codeline Organization}
 
-As regards the codeline organization, the system's source code needs to be stored in a directory structure, managed via some form of configuration management system, built and tested regularly, and released as tested binaries for further testing and use. The way that all of this is achieved is normally called the codeline organization. The figure \ref{information-view} not only shows the division in package of the source code, but it shows also the whole project structure, the codeline organization. Eclipse's users probabily have already recognized Maven, a software project management tool which is integrated in Eclipse with thanks to a plug-in. Maven simplifies the build project, provides a uniform build system on different platforms and has a superior dependency management, and it is managed with the pom.xml file, where all the settings are placed, such as the dependencies. 
+As regards the codeline organization, the system's source code needs to be stored in a directory structure, managed via some form of configuration management system, built and tested regularly, and released as tested binaries for further testing and use. The way that all of this is achieved is normally called the codeline organization. The figure \ref{information-view} not only shows the division in package of the source code, but it shows also the whole project structure, the codeline organization. Eclipse's users probably have already recognized Maven, a software project management tool which is integrated in Eclipse with thanks to a plug-in. Maven simplifies the build project, provides a uniform build system on different platforms and has a superior dependency management, and it is managed with the pom.xml file, where all the settings are placed, such as the dependencies. 
 
 Eclipse's users will also notice the small database symbol which means that the project is hosted on a repository. In particular the application is on a SVN repository: the exact URL for the repository, which is available for everyone in internet, is at \lstinline[commentstyle=\color{black}]!http://portable-db-bench.googlecode.com/svn/trunk/!, which is a free SVN repository offered by Google. In fact our project is open source and any contribution is welcome.
 
 			\subsubsection{Other Technologies}
 
-As already exaplained, Maven manages the depending libraries in a very simple way. The question is now which dependecies we are using. Except all the dependecies involved by the database systems, there are three major technologies used by our application: log4j, jfreechart and itext.
+As already explained, Maven manages the depending libraries in a very simple way. The question is now which dependencies we are using. Except all the dependencies involved by the database systems, there are three major technologies used by our application: log4j, jfreechart and itext.
 
 Log4j is a very common library used by most programmers and it enables a uniform logging system for the whole application. This is low-tech method for debugging which is very useful with concurrent applications. The major advantage of log4j is the possibility to enable logginat runtime, without modifying the application binary using, moreover, different log levels.
 
 Instead, jfreechart is used to create the graphs in the resulting PDF file. It is a free 100\% Java library which allows the creation of professional quality charts. A nice feature is the support for many output types, but there is also a great variety of available charts such as bar charts and pie charts, but the chart used by the benchmark application is an \lstinline!XYLineChart!: a 2D chart with x and y axis. It is suited to analyze the trend in the performance during the benchmark's execution.
 
-Finally, also iText is noteworthy. It is a a free Java library that allows the creation of PDF files on the fly. It is build in the benchmark application, producing the PDF file containing all the results, generating a read-only, platform indipendent documents, containing also all the graphs/images produced by jfreechart.
+Finally, also iText is noteworthy. It is a a free Java library that allows the creation of PDF files on the fly. It is build in the benchmark application, producing the PDF file containing all the results, generating a read-only, platform independent documents, containing also all the graphs/images produced by jfreechart.
 			
 			\subsubsection{Test's Execution}
 
 In conclusion for the development view, we illustrate the sequence diagram for a test's execution, with the purpose to increase the comprehension of the life's cycle of a test. This will simplify both the use of the XML file taken as input and the implementation of new tests and databases. 
 
-The figure \ref{sequence-diagram} is a UML sequence diagram and it shows a simplifyed test's execution, because it's not displayed the interaction with monitors and reporters. The focus is on the test, the task wich compose the test and the operations which compose the task, and their life's cycle.
+The figure \ref{sequence-diagram} is a UML sequence diagram and it shows a simplified test's execution, because it's not displayed the interaction with monitors and reporters. The focus is on the test, the task wich compose the test and the operations which compose the task, and their life's cycle.
 		
 \begin{figure}[htp!] 
 	\begin{center}
@@ -821,13 +821,13 @@ The sequence diagram how a test is executed and we can divide the execution in f
 	\section{Application Usage}
 While in the first section we analyzed the specifications on which the application is built and in the second the focus moved to the design, in this section we assume the application already developed and we analyze the application usage. The main use is of course the execution of the benchmark and therefore the configuration of the XML. But recalling that the application is structured as a framework, other kinds of use consist of the implementation of new tests and of new databases.
 
-		\subsection{Configure the XML}
+		\subsection{Configure the XML} \label{xml-configuration}
 The benchmark application developed, as clearly showed in the functional view, takes in input an xml file: the bench-properties.xml. It contains the whole configuration for the benchmark's execution and it grants the ease of use so much researched. In fact it is possible to specify and change a lot of parameters such as the several stop conditions for the task, the test's composition, the reporters and more.
 
 			\subsubsection{Training XML}
-To take confidence with the XML, we start analyzing a training example, which can't be executed, but exaplains what every attribute or element is used for. This training XML is showed in the listing \ref{bench-properties-training}. It is divided into three parts.
+To take confidence with the XML, we start analyzing a training example, which can't be executed, but explains what every attribute or element is used for. This training XML is showed in the listing \ref{bench-properties-training}. It is divided into three parts.
 
-The first part is full of definitions which are a mappings between a name and a class, so that we will not need to repeate all the path every time, but we can use a "key", which is a simple name. The definitions are divided into four parts: initializators, operations, test monitors and task monitors. We already know the operations and monitors, although they are classified differently for tests and tasks, but we don't know what is an initializator. It is a special class which is used to fill the database, in order to simulate scenarios where there is no empty database. For example, we can assume that our operations interact with the database writing and reading a certain object, a \lstinline!Person!. If we want to simulate a scenario where the database already contains one million of Person, we need a \lstinline!PersonInitializator!, a class which may be called by the Test before starting each task. Another clarification to mention is that if you declare a monitor as a task monitor, every task will use that kind of monitor, and on the other hand, if you declare it as a test monitor, every test will use it. Although you will probably never change the monitors' definition.
+The first part is full of definitions which are a mappings between a name and a class, so that we will not need to repeat all the path every time, but we can use a "key", which is a simple name. The definitions are divided into four parts: initializators, operations, test monitors and task monitors. We already know the operations and monitors, although they are classified differently for tests and tasks, but we don't know what is an initializator. It is a special class which is used to fill the database, in order to simulate scenarios where there is no empty database. For example, we can assume that our operations interact with the database writing and reading a certain object, a \lstinline!Person!. If we want to simulate a scenario where the database already contains one million of Person, we need a \lstinline!PersonInitializator!, a class which may be called by the Test before starting each task. Another clarification to mention is that if you declare a monitor as a task monitor, every task will use that kind of monitor, and on the other hand, if you declare it as a test monitor, every test will use it. Although you will probably never change the monitors' definition.
 
 \begin{lstlisting}[language=xml,caption={Training bench-properties.xml},label={bench-properties-training}]
 <bench>
@@ -957,18 +957,314 @@ After a non executable example of the XML file, we now analyze a more complex an
 </test>
 \end{lstlisting}
 
-We already explained how to build this input file in the previous paragraph, therefore here we will focus only on some particular aspects. First of all, recalling the real time prepaid system test case, it was structured in three tasks, and in fact this test is composed by three task. The balance check task and the account management task have both the same limit on the throughput, ten transactions per second: they are not the memory/cpu intensive tasks. On the other hand the service authorization and management task has a very high throughput which is two thousand transactions per second. Another thing to point out is that this test uses three initializators to fill the database with milions of objects, as was stated in the test case's definition. Of course immediately jumps to the reader's attention the great quantity of reporters used by this test: they all represent the test's performance by different point of view, such as the point of view of the different tasks. Furthermore they also take different measures, such as the throughput or the memory usage, and produce different graphs: one graphs for each reporter.
+We already explained how to build this input file in the previous paragraph, therefore here we will focus only on some particular aspects. First of all, recalling the real time prepaid system test case, it was structured in three tasks, and in fact this test is composed by three task. The balance check task and the account management task have both the same limit on the throughput, ten transactions per second: they are not the memory/cpu intensive tasks. On the other hand the service authorization and management task has a very high throughput which is two thousand transactions per second. Another thing to point out is that this test uses three initializators to fill the database with millions of objects, as was stated in the test case's definition. Of course immediately jumps to the reader's attention the great quantity of reporters used by this test: they all represent the test's performance by different point of view, such as the point of view of the different tasks. Furthermore they also take different measures, such as the throughput or the memory usage, and produce different graphs: one graphs for each reporter.
 
 In the following chapter we will show and analyze more in detail the results produced by reporters and by the benchmark in general.
 			
 		\subsection{Implementation of New Tests}%extension
-			pattern utilizzati: indirection, adapter, factory method(driver del db), singleton, 
-		composite (per le operation), facade, proxy, monitor
-		
+
+As already explained, our database benchmark application is built as a framework, allowing the user to implement new tests and new databases. In this section we will analyze how to implement a new test case.
+
+All this explanation beats about a specific example, regarding an object person and the corresponding write and read operations. The listing \ref{person-interface} shows the interface of the object person, a very simple POJO with just two private fields: an id and a name. The interface is used because very often in-memory database systems use a proper implementation of the objects to be stored, and therefore the interface the interface provides a proper level of indirection, enabling the dialogue between the operations and the database drivers.
+
+\begin{lstlisting}[caption={Person interface},label={person-interface}]
+public interface Person {	
+	public long getId();	
+	public void setId(long id);	
+	public String getName();	
+	public void setName(String name);
+}
+\end{lstlisting}
+
+The listing \ref{person-implementation} is, instead, the person's implementation used by the test to instantiate new person object. This is a very simple Java bean which only implements the person's interface and nothing else, in order to keep it simple and fast.
+
+\begin{lstlisting}[caption={Person implementation},label={person-implementation}]
+public class PersonImpl implements Person {
+	private long id;
+	private String name;	
+	
+	@Override
+	public String getName() {
+		return name;
+	}	
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}	
+	@Override
+	public long getId() {
+		return id;
+	}	
+	@Override
+	public void setId(long value) {
+		this.id = value;
+	}	
+}
+\end{lstlisting}
+
+After the definition of the object/s we will use in this test case, we have to implement the operations. We will show an example for a simple read operation and another for a simple write operation. The listing \ref{read-person-operation} shows the read person operation's implementation. The class must extend the base class \lstinline!Operation! implementing the following methods: \lstinline!setDatabase!, \lstinline!setUp!, \lstinline!warmUp!, \lstinline!doOperation! and \lstinline!tearDown!. We have already explained the meaning of this methods in paragraph \ref{development-view-paragraph}. An important thing to point out is that when the \lstinline!setDatabase! method is invoked, the operation knows the database which will be used, and therefore asks to the database the specific driver it needs to work. Furthermore is very interesting also the \lstinline!doOperation! method, which is the real operation executed on the database, and which will be measured by the benchmark. There is a simple random id generator which is used to read the person from the database (it is a traditional \lstinline!getById! method). Then the \lstinline!doOperation! method also execute some integrity test, checking the result value from the database. This is one of the biggest difference with Poleposition where the benchmark doesn't communicate with the database: in Poleposition there is no parameter passing.
+
+\begin{lstlisting}[caption={Read Person operation},label={read-person-operation}]
+public class ReadPersonOperation extends Operation {
+	private PersonDriver personDriver;
+	private int numberOfObject;
+	private Random random = new Random();
+
+	@Override
+	public void setDatabase(Database database) throws NoSuitableDriverException {
+		personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
+	}
+	@Override
+	public void setUp() throws TestDriverException, OperationException {
+		personDriver.connect();
+		numberOfObject = personDriver.getNumberOfPerson();
+		if (numberOfObject == 0)
+			throw new OperationException("The number of objects initializated in the database must not be zero");
+	}
+	@Override
+	public void warmUp() throws OperationException, TestDriverException {
+		for (int i = 0; i < 10; i++) {
+			doOperation();
+		}
+	}
+	@Override
+	public void doOperation() throws OperationException, TestDriverException {
+		int randomId = random.nextInt(numberOfObject);
+		Person person = personDriver.read(randomId);
+		if (person == null) {
+			throw new OperationException("Null person in ReadPersonOperation: is the database initialized?");
+		} else if (person.getId() != randomId) {
+			throw new OperationException("Wrong id in person in ReadPersonOperation");
+		} 
+	}
+	@Override
+	public void tearDown() throws TestDriverException {
+		personDriver.close();	
+	}
+}
+\end{lstlisting}
+
+The listing \ref{write-person-operation} shows the write person operation's implementation. It is almost equal to the read person operation, the only difference is in the \lstinline!doOperation! method, which is, as already said, the heart of the operations.
+
+\begin{lstlisting}[caption={Write Person operation},label={write-person-operation}]
+public class WritePersonOperation extends Operation {
+	private StringGenerator stringGenerator = new StringGenerator();
+	private int id;
+	private PersonDriver personDriver;
+	private int numberOfObject;
+	
+	@Override
+	public void setDatabase(Database database) throws NoSuitableDriverException{
+		personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
+		id = 0;
+	}	
+	@Override
+	public void setUp() throws TestDriverException {
+		personDriver.connect();
+		numberOfObject = personDriver.getNumberOfPerson();		
+	}		
+	@Override
+	public void warmUp() throws TestDriverException {
+		for (int i = 0; i < 10; i++) {
+			doOperation();			
+		}
+	}	
+	@Override
+	public void doOperation() throws TestDriverException {	
+		Person person = newRandomPerson();
+		person.setId(id + numberOfObject);	
+		personDriver.write(person);
+		id ++;
+	}	
+	@Override
+	public void tearDown() throws TestDriverException {	
+		personDriver.close();			
+	}	
+	/*
+	 *  ###############  private methods here ############
+	 */	
+	private Person newRandomPerson() {
+		Person person = new PersonImpl();
+		initPerson(person);
+		return person;
+	}	
+	private void initPerson(Person person) {
+		person.setName(stringGenerator.getRandomString());		
+	}
+}
+\end{lstlisting}
+
+In the paragraph \ref{xml-configuration} we have introduced the database initializator, a special object which is used, before the test starts, to fill the database. The listing \ref{person-initializator} shows the database initializator for the object person. It must extends the class \lstinline!DbInitializator! and implement two methods. The \lstinline!init! method takes as input the database and the number of object to be inserted and execute this operation thanks to a special method provided by the driver, which is very fast and dedicated to the initialization of a huge number of objects. The method \lstinline!getDescription! is instead used only to produce the PDF output, so that the reader can understand how the database was initialized. 
+
+\begin{lstlisting}[caption={Person database initializator},label={person-initializator}]
+public class PersonInitializator extends DbInitializator {	
+
+	@Override
+	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
+		PersonDriver personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
+		personDriver.connect();
+		personDriver.init(numberOfObjects);
+		personDriver.close();	
+	}	
+	@Override
+	public String getDescription() {
+		return "Number of Person initialized: " + getNumberOfObjects();
+	}	
+}
+\end{lstlisting}
+
+Now that we have seen all this classes and all the methods invoked on the driver, the implementation of the driver's interface is extremely simple. In fact the listing \ref{person-database-driver} is just a collection of all the methods previously described. Then the database will need to provide a proper implementation for this driver.
+
+\begin{lstlisting}[caption={Person database driver},label={person-database-driver}]
+public interface PersonDriver {	
+	public void connect() throws TestDriverException;	
+	public void init(int numberOfObject) throws TestDriverException;
+	public int getNumberOfPerson() throws TestDriverException;	
+	public void close() throws TestDriverException;	
+	public Person read(long personId) throws TestDriverException;	
+	public void write(Person person) throws TestDriverException;
+}
+\end{lstlisting}
+
+%real time prepaid system test case?? mmm troppo lungo		
 		
 		\subsection{Implementation of New Databases}%extension
-anche qui alcuni pattern.
 
+While in the previous paragraph we explained how to implement a new test, here we will examine how to implement a new database. The example used regards, as for the test's implementation, the person object, with the read and the write operations. Essentially a database just need to provide and implement a suitable driver for each operation, such as the one reporterted in listing \ref{person-driver-implementation}, which is an implementation of the person driver already described in listing \ref{person-database-driver}. 
+
+\begin{lstlisting}[caption={HSQLDB implementation of PersonDriver, listed in \ref{person-database-driver}},label={person-driver-implementation}]
+public class PersonHsqldbDriver implements PersonDriver {	
+	private StringGenerator stringGenerator = new StringGenerator();
+	private final String WRITE_QUERY = "insert into PERSON values (?,?)";
+	private final String READ_QUERY = "select name from PERSON where id=?";
+	private final String CREATE_TABLE_QUERY = "create table PERSON (name varchar,id bigint primary key)";
+	private final String COUNT_PERSON = "select count(*) from PERSON"; 
+	private String password = "";
+	private String databaseURL = "jdbc:hsqldb:file:"+new HsqldbDatabase().getFileName()+"/database";
+	private String username = "sa";
+	private static final String driver="org.hsqldb.jdbcDriver";
+	private Connection con;
+
+	@Override
+	public void close() throws TestDriverException {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			throw new TestDriverException(e);
+		}
+	}	
+	@Override
+	public void connect() throws TestDriverException {
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(databaseURL,username,password);
+		} catch (SQLException e) {
+			throw new TestDriverException(e);
+		} catch (ClassNotFoundException e) {
+			throw new TestDriverException(e);
+		}
+	}
+	@Override
+	public int getNumberOfPerson() throws TestDriverException {
+		int result = 0;
+		try {
+			PreparedStatement st = con.prepareStatement(COUNT_PERSON);
+			ResultSet rs = st.executeQuery();			
+			if (rs.next()){
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new TestDriverException(e);
+		}
+		return result;
+	}
+	@Override
+	public void init(int numberOfObject) throws TestDriverException {
+		try {
+			PreparedStatement createStatement = con.prepareStatement(CREATE_TABLE_QUERY);
+			createStatement.executeUpdate();
+			PreparedStatement writeStatement = con.prepareStatement(WRITE_QUERY);
+			for (int i = 0; i < numberOfObject; i++) {
+				writeStatement.setString(1, stringGenerator.getRandomString());
+				writeStatement.setLong(2, i);
+				writeStatement.executeUpdate();
+			}
+			con.createStatement().execute("SHUTDOWN");//TODO da sistemare!!!!
+		} catch (SQLException e) {
+			throw new TestDriverException(e);
+		}
+	}
+	@Override
+	public Person read(long personId) throws TestDriverException {
+		Person person = null;
+		try {
+			PreparedStatement st = con.prepareStatement(READ_QUERY);
+			st.setLong(1, personId);
+			ResultSet rs = st.executeQuery();
+			person = new PersonImpl();
+			if (rs.next()){
+				person.setName(rs.getString(1));
+				person.setId(personId);
+			}
+		} catch (SQLException e) {
+			throw new TestDriverException(e);
+		}
+		return person;
+	}
+	@Override
+	public void write(Person person) throws TestDriverException {
+		try {
+			PreparedStatement st = con.prepareStatement(WRITE_QUERY);
+			st.setString(1, person.getName());
+			st.setLong(2, person.getId());
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new TestDriverException(e);
+		}
+	}
+}
+\end{lstlisting}
+
+After the implementation of the driver, we just need to add the driver in the database object, which must be written only once. The listing \ref{hsqldb-database} shows this database implementation and how we can add the new driver directly in the constructor. Note that the method \lstinline!getFileName! is used by the benchmark to get the file location used to store the database's image or to log the transactions. It's very important to know where the database will be stored in order to measure the database's file size.
+
+\begin{lstlisting}[caption={HSQLDB database},label={hsqldb-database}]
+public class HsqldbDatabase extends Database {	
+	public HsqldbDatabase(){
+		add(PersonDriver.class, PersonHsqldbDriver.class);
+	}
+	@Override
+	public void clear() {
+		DirectoryCleaner.clean(getFileName());
+	}
+	@Override
+	public String getFileName() {
+		return "db/hsqldb";
+	}
+	private String password = "";
+	private String databaseURL = "jdbc:hsqldb:file:db/hsqldb/database";
+	private String username = "sa";
+	private static final String driver="org.hsqldb.jdbcDriver";	
+	@Override
+	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException, ClassNotFoundException {
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(databaseURL,username,password);
+		con.createStatement().execute("SHUTDOWN");	
+	}
+}
+\end{lstlisting}
+
+Another necessary observation is that the driver implemented by the database will not have a unique instance, but it will be instantiated the same number of time of the operations composing the test which use it. Therefore when working with database systems which don't manage concurrent accesses, which happens more often with in-memory databases, it's important to use appropriate patterns such as factory and singleton. If you want to know more about this use, you can just look at the code provided with the benchmark application and look at the implementation of Db4o or Prevayler.
+
+%Si può pensare di aggiungere 
 
 \chapter{Results' Analysis}
 	\section{Why Pico4 is faster}
+
+\chapter{Conclusion}
+costruire a framework in the framework to implement very easily the new operations which share most of the code.
+
+stesso discorso per rendere automaticamente singleton i vari driver dei database.
+
+metodo polimorfico per facilitare ancora di più l'implementazione di nuovi test, senza dover creare una nuova implementazione apposita per ogni database.
+
+dbinitializator possono essere automatizzati o espansi
