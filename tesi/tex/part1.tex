@@ -204,8 +204,10 @@
 	and how much development is going on. Eventually we will go to the development stage and, 
 	in some case, we will also have a look "under the hood" to see how the DB works.
 	
+	Although not all in-memory database systems share the same features, in terms of advantages and disadvantages, it is possible to identify a subset of common advantages and disadvantages they all have. We will therefore enunciate these common features before starting the specific analysis for each IMDB.
+	
 	\subsection{Common Advantages}
-	Not all IMDBs have the same advantages, but generally they share some feature:
+	The common advantages in-memory database systems share are:
 	
 	\begin{description}
 		\item[Lightweigth] is one of the common advantages IMDBs share. This kind of databases is really simple: they 
@@ -218,12 +220,16 @@
 	\end{description}
 	
 	\subsection{Common Disadvantages}
-	On the other side, all IMDBs require high quantity of main memory. It is larger as the database image increases, 
-	but this doesn't mean that every IMDB uses the same RAM quantity for the same database image. 
-	
-	A common question 
+	On the other side, all IMDBs require \textbf{high quantity of main memory}. It is larger as the database image increases, 
+	but this doesn't mean that every IMDB uses the same RAM quantity for the same database image. A common question 
 	is about what may happen when the RAM is not enough. Altought this question is really interesting, generally 
 	an IMDB makes the assumption there is always enough main memory to hold the database image.
+	
+	Furthermore, since in-memory databases rely on main memory, which is a volatile memory, they may \textbf{lose all the stored data} with a power off, unless they don't use proper mechanisms to achieve durability, as already described in paragraph \ref{durability}. 
+	
+	But these mechanisms, used to add durability to an in-memory database system, make the database's \textbf{startup terribly slow}, because the database image is not stored on the hard disk, or on another persistent memory, and it needs to be reconstruct at every reboot, for example by reading the transaction log file and repeat all the operations executed before the power off.
+	
+	This issue is always mitigated by the use of database's \textbf{snapshots}, or commits, which store a fixed database image on a persistent memory, avoiding, in the case of a reboot, the reconstruction of the database image from the start of the transaction log file, and therefore saving a lot of time. Although this mechanism if properly used dramatically decreases the database startup time, it is still very \textbf{slow}, and in addition also the snapshot of the database is very slow and furthermore it slows down, if not freeze, the whole database performance during the execution of the snapshot.
 	
 	\subsection{Common references}
 	The source of informations described in the following sections comes from the web, 
