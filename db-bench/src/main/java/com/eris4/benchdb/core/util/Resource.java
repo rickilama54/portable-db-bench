@@ -5,7 +5,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.log4j.Logger;
+
 public final class Resource {
+	private Logger logger = Logger.getLogger(Resource.class);
 	
 	private static URI getURI(String file) throws URISyntaxException{
 		return Resource.class.getResource("/"+file).toURI();
