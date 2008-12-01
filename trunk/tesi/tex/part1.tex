@@ -482,27 +482,28 @@ java.io.EOFException
 			will be probably done within the 2009, because he needs it for other projects.
 			
 		\section{HSQLDB}
-HSQLDB is a relational database written in Java. It is based on Thomas Mueller's Hypersonic SQL project and therefore its name \footnote{HSQLDB stands for Hypersonic SQL DataBase.}. 
+HSQLDB is a relational database written in Java. It is based on Thomas Mueller's Hypersonic SQL discontinued project and therefore its name which stands for Hypersonic SQL DataBase. Thomas Mueller then developed a new database system which he called H2 and he closed the Hypersonic SQL project in 2001. Therefore a number of developers, who where using the closed project for their work, got togheter through the internet and formed the HSQLDB development group.
 		
 			\subsection{Advantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
+HSQLDB is an open source relational Java database and it can run on Java runtimes from version 1.1. As for most IMDBs, it is a lightweight library of about 100 kylobytes in the smaller version and 600 kylobytes in another. It has a JDBC driver and supports a large subset of SQL standards and therefore it is quiet easy switch to HSQLDB if you are using another relational DBMS through SQL.
+
+It offers both in-memory and disk based table, therefore it can act as an in-memory database system, which writes on the disk only the change to the database, or as a traditional database system, recording all the data to the hard disk. Hence HSQLDB let you choose the way you prefer to use it and switch easily between them. Obviously the first will be faster, but the second will save a huge amount of time when the database system is restarted.
+
+In addition HSQLDB can work in server and embedded mode, allowing this time too an easy switch between these two modalities. Usually the server mode is used while developing a new application, so saving the time when it is restarted, and then switch to embedded mode for deployment for better performance.
+
+HSQLDB also includes some tools such as a minimal web server, in-memory query and management tools.
 			
 			\subsection{Disadvantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
+data max 8gb
+
+only transaction isolation read uncommitted, level 0
+
+sql maybe
+
+
 			
 			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
+The first version
 			
 		\section{Db4o}
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
