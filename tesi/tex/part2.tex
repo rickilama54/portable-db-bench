@@ -1287,22 +1287,13 @@ This problem, consequently, led to the development of a proper benchmark applica
 Moreover the application offers a very interesting report. The application produces, in fact, a detailed PDF file with a lot of graphs, higly configurable by the user. These graphs allow a constant monitoring of the performance and how they vary with the passage of the time. This is a very important feature also because it shows if the test or the database are not well implemented in the case, for example, the performance are not constant during the test's execution.
 
 	\section{Future Benchmark's Development}
-The application developed during this thesis is a really powerful database benchmark tool which is based on the idea of flexibility. This is the ability to evolve very quickly.
+The application developed during this thesis is a really powerful database benchmark tool which is based on the idea of flexibility understood as the ability to evolve very quickly. In fact this application is structured as a framework, allowing an easy implementation of new tests and databases. And this is one of the future development: the extension of the benchmark with new tests and databases in order to test how the databases work with new specific application scenarios.
 
+As already explained, this benchmark application is like a framework, because it enables the extension of the benchmark with new tests and databases. But it is also possible to extend the framework itself, for example implementing a framework inside the framework and therefore facilitating the implementation of new tests. In fact most of the code needed for the implementation of quite simple, but different, test scenarios is the same. This is a clear evidence of the fact that there is the possibility to generalize, and therefore to use a further sort of framework. Moreover, this reasoning can also be applied to the implementation of new databases, because they also share a noticeable amount of code. For example most databases' driver are implemented using the pattern singleton and factory to avoid concurrent access to the driver, because the driver itself is inherently concurrent, and this falsifies the performance analysis for database systems such as HSQLDB, which doesn't support concurrent transactions. Finally also the database initializators share some lines of code, although they are very small. Therefore they can be generalized too, if not completely integrated by the framework itself. 
 
-
-
-
-
-
-nuovi test
-
-nuovi monitor,reporter, nuova composizione dell'albero nell'xml
-
-
-
-costruire a framework in the framework to implement very easily the new operations which share most of the code.
-stesso discorso per rendere automaticamente singleton i vari driver dei database.dbinitializator possono essere automatizzati o espansi
+%(Ma sono stati lasciate queste opportunità proprio per fare tipi di test particolari)
 
 metodo polimorfico per facilitare ancora di più l'implementazione di nuovi test, senza dover creare una nuova implementazione apposita per ogni database.
+
+nuovi monitor,reporter, nuova composizione dell'albero nell'xml
 
