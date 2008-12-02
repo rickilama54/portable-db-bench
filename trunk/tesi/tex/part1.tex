@@ -310,7 +310,7 @@
 			Java Object as business object that need to be persisted: \lstinline!Number!. It has one single 
 			private field, which is the value of the number itself, and the relative getter and 
 			setter methods.
-			\begin{lstlisting} 
+			\begin{lstlisting}[caption={Implementation of the object Number},label={number-object}] 
 public class Number{
   private int value;	
   public Number(){}	
@@ -483,9 +483,20 @@ java.io.EOFException
 			
 		\section{HSQLDB}
 HSQLDB is a relational database written in Java. It is based on Thomas Mueller's Hypersonic SQL discontinued project and therefore its name which stands for Hypersonic SQL DataBase. Thomas Mueller then developed a new database system which he called H2 and he closed the Hypersonic SQL project in 2001. Therefore a number of developers, who where using the closed project for their work, got togheter through the internet and formed the HSQLDB development group.
+
+Each hsql database consists of between 2 to 5 files, all named the same but with different extensions, located in the same directory. For example, the database named "test" consists of the following files:
+\begin{itemize}
+	\item test.properties contains general settings about the database;
+	\item test.script contains the definition of tables and other database objects, plus the data for non-cached tables;
+	\item test.log contains recent changes to the database;
+	\item test.data contains the data for cached tables;
+	\item test.backup is a zipped backup of the last known consistent state of the data file.
+\end{itemize}
+
+Hsql 1.8.0 is also the database engine in OpenOffice 2.0.
 		
 			\subsection{Advantages}
-HSQLDB is an open source relational Java database and it can run on Java runtimes from version 1.1. As for most IMDBs, it is a lightweight library of about 100 kylobytes in the smaller version and 600 kylobytes in another. It has a JDBC driver and supports a large subset of SQL standards and therefore it is quiet easy switch to HSQLDB if you are using another relational DBMS through SQL.
+HSQLDB is an open source relational Java database and it can run on Java runtime from version 1.1. As for most IMDBs, it is a lightweight library of about 100 kilobytes in the smaller version and 600 kilobytes in another. It has a JDBC driver and supports a large subset of SQL standards and therefore it is quiet easy switch to HSQLDB if you are using another relational DBMS through SQL.
 
 It offers both in-memory and disk based table, therefore it can act as an in-memory database system, which writes on the disk only the change to the database, or as a traditional database system, recording all the data to the hard disk. Hence HSQLDB let you choose the way you prefer to use it and switch easily between them. Obviously the first will be faster, but the second will save a huge amount of time when the database system is restarted.
 
@@ -494,94 +505,131 @@ In addition HSQLDB can work in server and embedded mode, allowing this time too 
 HSQLDB also includes some tools such as a minimal web server, in-memory query and management tools.
 			
 			\subsection{Disadvantages}
-data max 8gb
+The most important disadvantages is of course that HSQLDB supports only a low transaction isolation level when queries are made from a Java program, the level 0 which means read uncommitted transaction. Therefore the concurrence must be managed inside the Java program. For example HSQLDB can support the SERIALIZABLE isolation level if you write the database access code as public static Java methods and call them as stored procedures.
 
-only transaction isolation read uncommitted, level 0
+Another feature to take into consideration if you want to use HSQLDB is that it supports data to a maximum of 8GB, and although for common applications it is a huge value, if we want to use it in enterprise applications it is very often not enough.
 
-sql maybe
+Finally it is important to notice how HSQLDB doesn't support a strict level of durability. In fact if the database system is not shutted down nicely, ie by sending the commands \lstinline!CHECKPOINT! or \lstinline!SHUTDOWN! via JDBC connection before killing the process, then occasionally HSQLDB will lose some data changes.
 
-
-			
 			\subsection{Project Info}
-The first version
+As already explained in the introduction, HSQLDB is based on the hypersonic SQL project and started in 2001. Actually the latest version is 1.8.0.8, released at 30/08/2007. The project is currently in production/stable development status, and the development team which is composed by 34 programmers is still working. In fact we are close to the next release which will be 1.9.0, whose features are already known: an extensive range of new SQL and JDBC capabilities, increased scalability, and better query optimization have been achieved by a rewrite of several internal components and the addition of some major new ones. 
+			
+			\subsection{Usage}
+HSQLDB usage is very simple because it is almost the same of all relational database systems with JDBC drivers. Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. While for Prevayler we need a different implementation for the object Number, altougth it is very small, HSQLDB uses a JDBC driver and therefore uses SQL language, and there is no need for a different implementation. 
+
+The default HSQLDB behavior is to take data in main memory and only changes are written to the disk. In the following listing we show how to execute HSQLDB embedded, or in other word in in-process mode:
+\begin{lstlisting}
+public class Main{	
+	private static final String databaseURL="jdbc:hsqldb:file:db/test";
+  private static final String username="sa";
+  private static final String password="";
+  private static final String driver="org.hsqldb.jdbcDriver";    
+	private static final String dropTableQuery = "DROP TABLE NUMBER";
+	private static final String createTableQuery = "CREATE TABLE NUMBER (number integer)";
+	private static final String saveNumberQuery = "INSERT INTO NUMBER VALUES (?)";
+	private static final String findNamberQuery = "SELECT * FROM NUMBER WHERE NUMBER=?";
+
+	public static void main(String[] args) throws Exception {
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(databaseURL,username,password);		
+		createTable(con);
+		int numberValue = new Random().nextInt();
+		Number number = new Number();
+		number.setNumber(numberValue);
+		saveNumber(con,number);
+		Number numberRetrieved = findNumber(con,numberValue);
+		dropTable(con);		
+		if (numberRetrieved.getNumber()==number.getNumber())
+			System.out.println("The numbers have the same value");
+	}	
+	private static Number findNumber(Connection con, int numberValue) {
+		Number result = null;
+		try {
+			PreparedStatement st = con.prepareStatement(findNamberQuery);
+			st.setInt(1, numberValue);
+			ResultSet resultSet = st.executeQuery();
+			if (resultSet.next()){
+				result = new Number();
+				result.setNumber(resultSet.getInt(1));
+			}
+			System.out.println("Number found correctly");	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 	
+		return result;
+	}
+	private static void saveNumber(Connection con, Number number) {
+		try {
+			PreparedStatement st = con.prepareStatement(saveNumberQuery);
+			st.setInt(1, number.getNumber());
+			st.executeUpdate();
+			System.out.println("Number saved corerctly");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 		
+	}
+	private static void createTable(Connection con) {
+		try {
+			PreparedStatement st = con.prepareStatement(createTableQuery);
+			st.executeUpdate();
+			System.out.println("Table created correctly");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 	
+	}
+	private static void dropTable(Connection con) {
+		try {
+			PreparedStatement st = con.prepareStatement(dropTableQuery);
+			st.executeUpdate();
+			System.out.println("Table deleted correctly");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+}
+\end{lstlisting}
+The database systems is started directly by the JDBC driver at the first connection, and therefore it runs as an embedded database. This modality provides very high performance and full portability. It's important to point out that after the word "file" in the \lstinline!databaseURL!, there is the path where the files are stored on the disk, which in this case is only a relative path which tells HSQLDB to store the "test" database in the subfolder "db".
+
+It is also possible to execute HSQLDB all in main memory without writing any file to the disk. This is done just by using a different \lstinline!databaseURL!: instead of the word "file" we need to use the word "mem", and then write only the database name:
+\begin{lstlisting}
+private static final String databaseURL="jdbc:hsqldb:mem:test";
+\end{lstlisting}			
+
+		\section{Hxsql}
+Hxsql is a quite recent database system written in Java and it is built on HSQLDB, therefore it shares most of the features of HSQLDB and it is fully compatible with the open source version. Also the version numbering is based on the one used by HSQLDB. The idea behind HyperCtremeSQL consists in the capability to replace the HSQLDB jar in an existing application with no change to the Java code or SQL queries.
+
+The main differences with HSQLDB are a new indexing engine and a new persistence core. These changes provides higher performance and make Hxsql to go over some of the limitations of HSQLDB. For example Hxsql is not limited anymore to 8GB of data storage, but by default this limit is now 16GB, which can moreover be extended to 128GB. Furthermore it has also a lower footprint, which now is about 350-400KB. 
+
+Although it seems a better than HSQLDB, which is already a very good database system, its code is closed source and we can't test if the real performance are the same that we read on its home page. Anyway this is a product that need to be mentioned, especially for those who are interested in HSQLDB and in a possible upgrade.
+
+		\section{H2}
+asd 
+		
+			\subsection{Adavantages}
+asd			
+
+			\subsection{Disadavantages}
+asd			
+
+			\subsection{Project Info}
+asd
 			
 		\section{Db4o}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
+asdasd
+
 		
 			\subsection{Adavantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
+asdasd
 			
 			\subsection{Disadavantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
+asdasd
 			
 			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
+asdasd
 				
-		\section{Hxsql}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
 		
-			\subsection{Advantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			
-			\subsection{Disadvantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			
-			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
 		
-		\section{H2}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		
-			\subsection{Adavantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			
-			\subsection{Disadavantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			
-			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
 		
 		\section{Derby}
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
