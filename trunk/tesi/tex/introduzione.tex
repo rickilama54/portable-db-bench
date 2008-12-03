@@ -1,33 +1,31 @@
 \chapter{Abstract}
-Naturally this is a joke. The abstract must be written after all chapters are written.
-Here i'm going to tell you what i'm talking about. The thesis is divided into the following chapters:
-%PARTI
-\begin{enumerate}
-	\item In-Memory Database	
-		%PARAGRAFI
-		\begin{itemize}
-			\item A brief introduction		
-				%SEZIONI
-				\begin{itemize}
-					\item Definition
-					\item Usage
-				\end{itemize}
-				
-			\item IMDBs overview
-				%SEZIONI
-				\begin{itemize}
-					\item 
-					\item 
-				\end{itemize}
-				
-		\end{itemize}
-	
-	\item Database Performance Analysis
-		%PARAGRAFI
-		\begin{itemize}
-			\item 
-			\item 
-		\end{itemize}
-		
-	\item High availability with in-memory database?
-\end{enumerate}
+
+%In-memory database systems represents the latest step in the adaptation of DBMS to embedded systems.
+
+%   1.  What did you do? 
+This document introduces the reader to the argument of in-memory database systems, providing a competitive landscaper between several IMDB's vendors, and, subsequently, analyzing and comparing the performance of different systems to each other.
+
+%   2. Why did you do it? What question were you trying to answer? 
+The purpose of this document is to find the in-memory database which provides the best performance for a specific application usage: a real time prepaid system, such as a telephone company.
+
+
+%   3. How did you do it? State methods.
+This objective was achieved with the development of a proper test suite, simulating a real time prepaid system, and consequently of a portable benchmark application, which was able to execute the test suite previously defined. 
+
+%   4. What did you learn? State major results. 
+The need to create a specific test suite and the portable benchmark application comes from the fact that database's performance depends on a specific set of criteria used by the benchmark itself, and they are mainly: the test scenarios, the test implementation and the platform used to execute the benchmark.
+
+%   5. Why does it matter? Point out at least one significant implication.
+This means that there is no the best database system, but there are only good systems for particular tasks, or application usage. Therefore, whenever we need to choose a database systems for an application that need crucial performance, we always need to create a specific test scenario which simulates the real application's behavior. In fact the best benchmark for a database system can only be done by the application itself.
+
+
+-2 parti in cui è divisa la tesi
+
+-capitolo 1 introduzione
+-capitolo 2 overview
+-capitolo 3 performance analysys introduction
+-capitolo 4 test suite
+-capitolo 5 bench overview
+-capitolo 6 new bench
+-capitolo 7 result
+-capitolo 8 conclusion
