@@ -132,7 +132,7 @@ This test is really similar to the previous test. The only difference is in the 
 	\item The only operation executed by the test is a write operation: every time an object will be added to the database (same as before).
 	\item 1.000.000 of iteration is the stop condition of the test: when 1.000.000 of writes are executed (objects person inserted in the database) the test stops.
 \end{itemize}
-While in the previous test the duration was meaningless, this time, like in a race, it shows which database is the fastest (the winner of the race). Despite this, the duration is still of little use. Also for the throughput the same considerations made before are still valid.
+While in the previous test the duration was meaningless, this time, like in a race, it shows which database is the fastest (the winner of the race). Despite this, the duration is still of little use. Also for the throughput, the same considerations made before are still valid.
 
 But this new test is useful also to take other interesting measures, such as the file size, which, as explained in par. \ref{measures}, can become very huge, even more than the database image, and therefore it is a critical measure. We can evaluate how the file size increase with the number of objects (person) inserted in the database. This is because, differently to the previous one, every test's execution perform a fixed amount of iteration. 
 
@@ -563,7 +563,7 @@ The first idea was already taken into consideration during the benchmark analysi
 
 Therefore the best solution is to develop a new benchmark application. Although this decision, the analysis done is not useless, in fact we understood which features can be used from other benchmarks, and how to develop them, and what should be avoided. But this will be explored in the next chapter.
 	
-\chapter{The New Database Benchmark Application}
+\chapter{The New Database Benchmark Application} \label{benchmark-application-chapter}
 The previous chapter is dedicated to the research of a suitable benchmark application for our needs which is able to execute our test suite. The analysis didn't bring to any available benchmark neither to a benchmark easily extensible in order to implement the features we want. Therefore the conclusion was to develop a new benchmark application, starting from our requirements and treasuring the knowledge acquired during the analysis.
 
 In this chapter we describe the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently we will discuss also about the application usage, from the application's configuration to the extension and the implementation of new databases and tests.
@@ -1258,18 +1258,46 @@ Another necessary observation is that the driver implemented by the database wil
 %Si può pensare di aggiungere 
 
 \chapter{Results' Analysis}
-	-i concorrenti 
-	-i test
+
+In this chapter we will deal with some of the results obtained by the execution of the test suite, produced in chapter \ref{test-suite}, on the database benchmark application, developed and described in chapter \ref{benchmark-application-chapter}. The results will be analyzed in order to understand their true meanings, analyzing also how they vary with the change of the execution's platform, which is possible thanks to the portability of the benchmark applicaition.
+
+The results obtained come from the execution of 4 test cases on 5 different competiting database systems. The test executed are: the real time prepaid system, the race test based on transactions' number, the reace test based on the test's time, and a final test to compare the memory and CPU usage of the different systems. The competitors who take place in the benchmark are: Pico4, Prevayler, HSQLDB, H2, Db4o.
 
 	\section{Real Time Prepaid System Test}
+
+
+
+
 	
-	\section{Memory Test}
+	\section{Race Test: Timed}
+
+
+
+
 	
-	\section{CPU Test}
+	\section{Race Test: Transaction}
+
+
+
+
+	
+	\section{Memory and CPU Test}
+
+
+
+	
+	
 
 	\section{Conclusion}
 	chi vince? nessuno
+	
+	abbiamo visto differenze a seconda della piattaforma
+	
+	
+	
 	ma nei casi dati da noi il migliore è.. perchè?
+	
+	
 
 \chapter{Conclusion}
 This chapter is the conclusive chapter of the thesis and it is divided into to section. In the first section we will state again some of the major contributions brought by this thesis and how this thesis can be used by other people. In the second section we will analyze some future research and development for the benchmark application produced during this work.

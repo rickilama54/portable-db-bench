@@ -18,14 +18,22 @@ The need to create a specific test suite and the portable benchmark application 
 %   5. Why does it matter? Point out at least one significant implication.
 This means that there is no the best database system, but there are only good systems for particular tasks, or application usage. Therefore, whenever we need to choose a database systems for an application that need crucial performance, we always need to create a specific test scenario which simulates the real application's behavior. In fact the best benchmark for a database system can only be done by the application itself.
 
+\subsubsection{}
 
--2 parti in cui è divisa la tesi
+The thesis is divided into two parts: the first is composed by two chapters which introduce in-memory databses and the competitive landscape, while the second is dedicated to benchmark application developed during this work.
 
--capitolo 1 introduzione
--capitolo 2 overview
--capitolo 3 performance analysys introduction
--capitolo 4 test suite
--capitolo 5 bench overview
--capitolo 6 new bench
--capitolo 7 result
--capitolo 8 conclusion
+The first chapter gives a brief introduction to the in-memory databases, explaining what they are, their use, their strength and weakness. Particularly interesting is the comparison against traditional DBMS, which shows the key differences. 
+
+In chapter two, we will make a competitive landscape between the different IMDB's vendors. Every in-memory database will be analyzed investigating their advantages and disadvantages, the stability and reliability of the project and how much development is going on. Eventually we will also provide some example code.
+
+The chapter three is the first chapter of the second part. It therefore introduces the reader to the database performance analysis' problem, illustrating the difficulty behind the measurement and the interpretation of the performance. This in fact leads to a definition of an axiom on which is based all this work: there is not a slower or a faster database, because they are only slower or faster given a specific set of criteria in a given benchmark.
+
+The fourth chapter deals with the creation of a proper test suite, based on our needs, which will be used to develop and run the benchmark application.
+
+The fifth chapter analyzes more or less deeply different open source database benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a new benchmark application.
+
+The sixth chapter describes the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from dfferent points of view. Subsequently the discussion moves on the application usage, from the application's configuration to the extension and the implementation of new databases and tests.
+
+The seventh chapter deals with the results obtained by the execution of the test suite, produced in chapter three, on the database benchmark application described in chapter six. The results are analyzed in order to understand their true meaning.
+
+The eighth chapter, as a conclusive chapter, lists some of the most important contributions brought by this thesis and how this thesis can be used by other people. Then there is an analysis of some future researchs and developments for the benchmark application.
