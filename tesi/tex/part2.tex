@@ -112,7 +112,7 @@ The key features of these kind of test are:
 	\item Single task: to keep these test simple it's better to avoid concurrent tests, but it is still possible to implement concurrently the different operation executed on the database.%dubbio sulla concorrenza
 \end{itemize}
 	
-		\subsection{Race Test: Timed}
+		\subsection{Race Test: Timed}\label{race-test-timed}
 We already said base tests are configured inherently as a race. These tests can be used to show the maximum throughput the database can reach doing a particular operation on a specific object. Metaphorically it's like a rocket car in the desert trying to reach its speed limit. In a real application this is rarely useful, but can give us an idea of the database's limits. 
 
 In order to create a test scenario we have to define the domain object/s involved in the test, the operations on which the test loop and when the test should stop. For example:
@@ -125,7 +125,7 @@ Clearly the time is not a significant measure, every test's execution run for th
 
 This test, and its results, are not useful to understand the real performance and potentiality of the database and so they are not useful to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough for our needs.
 
-		\subsection{Race Test: Transactions}
+		\subsection{Race Test: Transactions}\label{race-test-transactions}
 This test is really similar to the previous test. The only difference is in the stop condition:
 \begin{itemize}
 	\item The object represent a person, with only two fields: an id number and a name. This is a simple flat object (same as before). 
@@ -1263,25 +1263,31 @@ In this chapter we will deal with some of the results obtained by the execution 
 
 The results obtained come from the execution of 4 test cases on 5 different competiting database systems. The test executed are: the real time prepaid system, the race test based on transactions' number, the reace test based on the test's time, and a final test to compare the memory and CPU usage of the different systems. The competitors who take place in the benchmark are: Pico4, Prevayler, HSQLDB, H2, Db4o.
 
-	\section{Real Time Prepaid System Test}
-
-
-
-
-	
 	\section{Race Test: Timed}
+This test is based on the test case described in paragraph \ref{race-test-timed}. It is a base test case and therefore it is configured as a race, where all the competiting database systems run at their maximum speed. In this particular case all the database systems execute continuosly a single write operation until a fixed amount of time is passed.
 
+-poco utile.
 
 
 
 	
-	\section{Race Test: Transaction}
+	\section{Race Test: Transactions}
+This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of writes. In fact the stop condition for this test is a fixed total amount of transactions. The only operation, which is continuosly repeated, is a simple write operation.
 
+-pure qui poco utile.
 
+	\section{Real Time Prepaid System Test}
+This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks:
+\begin{itemize}
+	\item balanche chekc task, executed 10 times per second;
+	\item accounts management task, executed 10 times per second;
+	\item services authorization and management task, executed 2000 times per second.
+\end{itemize}
 
 
 	
 	\section{Memory and CPU Test}
+This test is not described in the test suite developed in chapter \ref{test-suite}, although it is very useful to understand the database's performance. This test is a sort of load test case, where is composed only by one task, and therefore it is very simple. The peculiar feature of this test is the constant throughput, which is
 
 
 
@@ -1328,4 +1334,6 @@ One of the first ideas when developing the benchmark application was to implemen
 \end{itemize}
 However such a technology could be useful for a first and approximate analysis. Therefore this idea can still be taken into consideration for a future development.
 
-Finally this database benchmark application could be extended also with new monitors and reporters. At the moment there are only two different kind of reporter, and they both create a graph, one with a logarithmic and another with a linear scale. But it would be very useful also to have new reporters, such as, for example, a text reporter able to represent the test's results in a simple and schematic form.
+But this database benchmark application could be extended also with new monitors and reporters. At the moment there are only two different kind of reporter, and they both create a graph, one with a logarithmic and another with a linear scale. But it would be very useful also to have new reporters, such as, for example, a text reporter able to represent the test's results in a simple and schematic form. 
+
+Finally, instead of creating new reporters, it is also possible to modify the whole reporting system. It would be very useful for the benchmark application to produce only a file , a txt for example, containing all the data collected by the monitors, and then develop a proper desktop application capable to generate dinamicly new graphs, so that the user don't need to rerun the whole benchmark to create new graphs based on new needs.
