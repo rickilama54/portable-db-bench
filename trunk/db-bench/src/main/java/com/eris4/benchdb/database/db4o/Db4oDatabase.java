@@ -28,17 +28,17 @@ public class Db4oDatabase extends Database {
 
 	
 
-	@Override
+	
 	public void clear() {
 		DirectoryCleaner.clean("db/db4o");
 	}
 
-	@Override
+	
 	public String getFileName() {
 		return "db/db4o";
 	}
 
-	@Override
+	
 	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException {
 		ObjectContainerSingleton.getInstance().shutdown();
 	}

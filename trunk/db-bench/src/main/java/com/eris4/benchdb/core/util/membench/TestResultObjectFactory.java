@@ -4,7 +4,6 @@ import com.eris4.benchdb.core.TestResult;
 
 public class TestResultObjectFactory implements ObjectFactory{
 
-	@Override
 	public Object makeObject() throws InstantiationException,
 			IllegalAccessException {
 		

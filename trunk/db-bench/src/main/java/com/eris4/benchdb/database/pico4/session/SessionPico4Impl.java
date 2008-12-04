@@ -15,37 +15,37 @@ public class SessionPico4Impl implements Session, PICO4PersistentObject {
 	private int vers = 0;
 	private long startTime;
 
-	@Override
+	
 	public int getAccountId() {
 		return accountId;
 	}
 
-	@Override
+	
 	public int getSessionId() {
 		return sessionId;
 	}
 
-	@Override
+	
 	public long getStartTime() {
 		return startTime;
 	}
 
-	@Override
+	
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
 
-	@Override
+	
 	public void setSessionId(int sessionId) {
 		this.sessionId = sessionId;
 	}
 
-	@Override
+	
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
 
-	@Override
+	
 	public void reload(PICO4Serializable persistentObject) {
 		if (persistentObject instanceof SessionPico4Impl) {
 			SessionPico4Impl session = (SessionPico4Impl) persistentObject;
@@ -58,7 +58,7 @@ public class SessionPico4Impl implements Session, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void read(PICO4InputStream reader) throws IOException {
 		try {
 			vers = reader.readInt();
@@ -70,7 +70,7 @@ public class SessionPico4Impl implements Session, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void write(PICO4OutputStream writer) throws IOException {
 		vers++;
 		writer.writeInt(vers);

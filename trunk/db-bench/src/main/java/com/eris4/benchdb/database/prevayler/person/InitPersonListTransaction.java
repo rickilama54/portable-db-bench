@@ -18,7 +18,7 @@ public class InitPersonListTransaction implements Transaction {
 		this.numberOfObject = numberOfObject;
 	}
 
-	@Override
+	
 	public void executeOn(Object arg0, Date arg1) {
 		PersonList persons = (PersonList) arg0;
 		PersonUtil personUtil = PersonUtil.getInstance();

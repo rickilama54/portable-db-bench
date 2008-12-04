@@ -26,13 +26,13 @@ public class MySQLDatabase extends Database {
 //		add(PersonDriver.class, com.eris4.benchdb.database.mysql.person.PersonMySQLEmbeddedDriver.class);
 	}
 
-	@Override
+	
 	public void clear() {
 		DirectoryCleaner.clean(getFileName());
 
 	}
 
-	@Override
+	
 	public String getFileName() {		
 		return "db\\"+DATABASE_NAME;
 	}

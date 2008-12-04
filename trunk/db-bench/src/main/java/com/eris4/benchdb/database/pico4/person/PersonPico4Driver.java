@@ -12,13 +12,13 @@ public class PersonPico4Driver implements PersonDriver {
 	private PersistentMapSingleton map;
 	private PersonUtil personUtil = PersonUtil.getInstance();
 	
-	@Override
+	
 	public void connect() throws TestDriverException {
 		map = PersistentMapSingleton.getInstance(mapName);
 		map.load();
 	}
 	
-	@Override
+	
 	public void init(int numberOfObject){			
 		for (int i = 0; i < numberOfObject; i++) {
 			PersonPico4Impl person = new PersonPico4Impl();
@@ -29,12 +29,12 @@ public class PersonPico4Driver implements PersonDriver {
 		map.commit();
 	}
 	
-	@Override
+	
 	public void close() {
 		map.close();
 	}
 	
-	@Override
+	
 	public void write(Person person) {
 		PersonPico4Impl personPico4 = new PersonPico4Impl();
 		personUtil.copy(person,personPico4);
@@ -42,12 +42,12 @@ public class PersonPico4Driver implements PersonDriver {
 //		map.commit();
 	}
 	
-	@Override
+	
 	public Person read(long l) {
 		return (Person) map.get(String.valueOf(l));
 	}
 
-	@Override
+	
 	public int getNumberOfPerson() {
 		return map.size();		
 	}	

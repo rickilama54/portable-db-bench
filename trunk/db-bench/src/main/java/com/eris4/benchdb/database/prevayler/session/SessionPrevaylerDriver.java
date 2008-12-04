@@ -21,7 +21,7 @@ public class SessionPrevaylerDriver implements SessionDriver {
 	private Map<Integer,Session> sessionMap;
 	private String directory = new PrevaylerDatabase().getFileName() + DB_NAME;
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		try {
 			prevayler.close();
@@ -31,7 +31,7 @@ public class SessionPrevaylerDriver implements SessionDriver {
 
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		try {
 			prevayler = PrevaylerSingleton.createPrevayler(new ConcurrentHashMap<Integer,Session>(), directory);
@@ -41,12 +41,12 @@ public class SessionPrevaylerDriver implements SessionDriver {
 		}
 	}
 
-	@Override
+	
 	public int getNumberOfSession() throws TestDriverException {
 		return sessionMap.size();
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		try {
 			prevayler.execute(new InitSessionTransaction(numberOfObject));
@@ -56,13 +56,13 @@ public class SessionPrevaylerDriver implements SessionDriver {
 		}
 	}
 
-	@Override
+	
 	public Session read(int sessionId) throws TestDriverException {
 		sessionMap = (Map<Integer, Session>) prevayler.prevalentSystem();
 		return sessionMap.get(new Integer(sessionId));
 	}
 
-	@Override
+	
 	public void write(Session session) throws TestDriverException {
 		SessionPrevayler sessionPrevayler = new SessionPrevayler();
 		sessionPrevayler.setSessionId(session.getSessionId());

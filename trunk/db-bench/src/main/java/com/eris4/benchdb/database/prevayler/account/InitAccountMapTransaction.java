@@ -20,7 +20,7 @@ public class InitAccountMapTransaction implements Transaction {
 		this.numberOfObject = numberOfObject;
 	}
 
-	@Override
+	
 	public void executeOn(Object arg0, Date arg1) {
 		Map<Integer,Account> accountMap = (Map<Integer, Account>) arg0;
 		Random random = new Random(); 

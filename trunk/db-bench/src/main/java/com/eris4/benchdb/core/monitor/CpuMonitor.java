@@ -12,7 +12,7 @@ public class CpuMonitor extends Monitor {
 	private List<ThreadMonitor> threadMonitors = new LinkedList<ThreadMonitor>();
 	private int cpuUsage;
 
-	@Override
+	
 	public void begin() {
 		stop = false;
 		new Thread(){
@@ -37,12 +37,12 @@ public class CpuMonitor extends Monitor {
 		threadMonitors.add(new ThreadMonitor(thread));		
 	}
 
-	@Override
+	
 	public void end() {
 		stop = true;
 	}
 
-	@Override
+	
 	public String getDescription() {
 		return "Cpu usage";
 	}
@@ -55,14 +55,14 @@ public class CpuMonitor extends Monitor {
 		return result;
 	}
 
-	@Override
+	
 	public long getValue() {
 		synchronized (this) {
 			return cpuUsage;
 		}
 	}
 
-	@Override
+	
 	public void reset() {
 		threadMonitors = new LinkedList<ThreadMonitor>();
 		stop = false;

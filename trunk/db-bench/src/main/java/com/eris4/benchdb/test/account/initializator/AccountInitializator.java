@@ -12,10 +12,10 @@ public class AccountInitializator extends DbInitializator {
 	
 	private Logger logger = Logger.getLogger(DbInitializator.class);
 
-	@Override
+	
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
 		AccountDriver accountDriver = (AccountDriver) database.getSpecificDriver(AccountDriver.class);
-		logger.debug("specific driver acquired");
+		logger.debug("account specific driver acquired");
 		accountDriver.connect();
 		logger.debug("connected to the database");
 		accountDriver.init(numberOfObjects);
@@ -24,7 +24,7 @@ public class AccountInitializator extends DbInitializator {
 		logger.debug("closed the connection");
 	}
 	
-	@Override
+	
 	public String getDescription() {
 		return "Number of Account initialized: " + getNumberOfObjects();
 	}

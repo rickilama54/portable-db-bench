@@ -17,7 +17,7 @@ public class WritePersonTransaction implements Transaction {
 		this.personPrevayler = personPrevayler;
 	}
 
-	@Override
+	
 	public void executeOn(Object arg0, Date arg1) {
 		PersonList person = (PersonList) arg0;
 		person.add(personPrevayler);

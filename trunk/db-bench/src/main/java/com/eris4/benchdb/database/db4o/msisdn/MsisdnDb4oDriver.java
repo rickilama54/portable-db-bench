@@ -18,23 +18,23 @@ public class MsisdnDb4oDriver implements MsisdnDriver {
 	Random random = new Random();
 	private Logger logger = Logger.getLogger(MsisdnDb4oDriver.class);
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		logger.debug("close");
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		logger.debug("connect");
 		db = ObjectContainerSingleton.getInstance();
 	}
 
-	@Override
+	
 	public int getNumberOfMsisdn() throws TestDriverException {
 		return db.queryByExample(new MsisdnImpl()).size();
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		for (int i = 0; i < numberOfObject; i++) {
 			Msisdn msisdn = new MsisdnImpl();
@@ -45,7 +45,7 @@ public class MsisdnDb4oDriver implements MsisdnDriver {
 		db.commit();
 	}
 
-	@Override
+	
 	public Msisdn read(int msisdnId) throws TestDriverException {
 		Msisdn msisdn = new MsisdnImpl();
 		msisdn.setMsisdnId(msisdnId);
@@ -59,7 +59,7 @@ public class MsisdnDb4oDriver implements MsisdnDriver {
 		return null;
 	}
 
-	@Override
+	
 	public void write(Msisdn msisdn) throws TestDriverException {
 		db.store(msisdn);
 	}

@@ -26,17 +26,17 @@ public class Pico4Database extends Database{
 		add(SessionDriver.class, SessionPico4Driver.class);
 	}
 
-	@Override
+	
 	public String getFileName() {
 		return "db/pico4";
 	}
 
-	@Override
+	
 	public void clear() {
 		DirectoryCleaner.clean(getFileName());
 	}
 
-	@Override
+	
 	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException {}
 
 }

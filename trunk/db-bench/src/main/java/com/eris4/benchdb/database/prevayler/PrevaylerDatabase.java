@@ -26,17 +26,17 @@ public class PrevaylerDatabase extends Database {
 		add(SessionDriver.class, SessionPrevaylerDriver.class);
 	}
 
-	@Override
+	
 	public String getFileName() {
 		return "db/prevayler";
 	}
 
-	@Override
+	
 	public void clear() {
 		DirectoryCleaner.clean(getFileName());
 	}
 	
-	@Override
+	
 	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException {}
 
 }

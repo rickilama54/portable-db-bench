@@ -12,7 +12,7 @@ public class PersonInitializator extends DbInitializator {
 	
 	private Logger logger = Logger.getLogger(DbInitializator.class);
 
-	@Override
+	
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
 		PersonDriver personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
 		logger.debug("specific driver acquired");
@@ -24,7 +24,7 @@ public class PersonInitializator extends DbInitializator {
 		logger.debug("closed the connection");
 	}
 	
-	@Override
+	
 	public String getDescription() {
 		return "Number of Person initialized: " + getNumberOfObjects();
 	}

@@ -14,32 +14,32 @@ public class SessionPrevayler implements Session,Serializable {
 	private int sessionId;
 	private long startTime;
 
-	@Override
+	
 	public int getAccountId() {
 		return accountId;
 	}
 
-	@Override
+	
 	public int getSessionId() {
 		return sessionId;
 	}
 
-	@Override
+	
 	public long getStartTime() {
 		return startTime;
 	}
 
-	@Override
+	
 	public void setAccountId(int accountId) {	
 		this.accountId = accountId;
 	}
 
-	@Override
+	
 	public void setSessionId(int sessionId) {
 		this.sessionId = sessionId;
 	}
 
-	@Override
+	
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}

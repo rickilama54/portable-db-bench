@@ -26,7 +26,7 @@ public class PersonH2Driver implements PersonDriver {
 	private String driver="org.h2.Driver";
 	private Connection con;
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		try {
 //			con.createStatement().execute("SHUTDOWN");
@@ -36,7 +36,7 @@ public class PersonH2Driver implements PersonDriver {
 		}
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		try {
 			DriverManager.registerDriver(new org.h2.Driver());
@@ -46,7 +46,7 @@ public class PersonH2Driver implements PersonDriver {
 		}
 	}
 
-	@Override
+	
 	public int getNumberOfPerson() throws TestDriverException {
 		int result = 0;
 		try {
@@ -61,7 +61,7 @@ public class PersonH2Driver implements PersonDriver {
 		return result;
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		try {
 			PreparedStatement createStatement = con.prepareStatement(CREATE_TABLE_QUERY);
@@ -78,7 +78,7 @@ public class PersonH2Driver implements PersonDriver {
 		}
 	}
 
-	@Override
+	
 	public Person read(long personId) throws TestDriverException {
 		Person person = null;
 		try {
@@ -96,7 +96,7 @@ public class PersonH2Driver implements PersonDriver {
 		return person;
 	}
 
-	@Override
+	
 	public void write(Person person) throws TestDriverException {
 		try {
 			PreparedStatement st = con.prepareStatement(WRITE_QUERY);

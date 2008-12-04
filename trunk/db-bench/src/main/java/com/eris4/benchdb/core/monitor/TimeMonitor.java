@@ -6,19 +6,19 @@ public class TimeMonitor extends Monitor {
 	private long totalTime = 0;
 	private boolean stop = true;
 	
-	@Override
+	
 	public String getDescription() {
 		return "Time passed (sec)";
 	}
 	
-	@Override
+	
 	public void begin(){
 		startTime = System.currentTimeMillis();
 		totalTime = 0;
 		stop = false;
 	}
 	
-	@Override
+	
 	public void end(){
 		if (stop == false){
 			totalTime += System.currentTimeMillis() - startTime;
@@ -30,14 +30,14 @@ public class TimeMonitor extends Monitor {
 		startTime = System.currentTimeMillis();
 	}
 	
-	@Override
+	
 	public long getValue(){
 		if (stop)
 			return totalTime;
 		return (System.currentTimeMillis() - startTime) + totalTime;
 	}
 
-	@Override
+	
 	public void reset() {
 		totalTime = 0;
 	}

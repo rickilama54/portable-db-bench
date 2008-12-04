@@ -14,27 +14,27 @@ public class AccountPico4Impl implements Account, PICO4PersistentObject {
 	private double balance;
 	private int vers = 0;
 
-	@Override
+	
 	public int getAccountId() {
 		return accountId;
 	}
 
-	@Override
+	
 	public double getBalance() {
 		return balance;
 	}
 
-	@Override
+	
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
 
-	@Override
+	
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
-	@Override
+	
 	public void reload(PICO4Serializable persistentObject) {
 		if (persistentObject instanceof AccountPico4Impl) {
 			AccountPico4Impl account = (AccountPico4Impl) persistentObject;
@@ -46,7 +46,7 @@ public class AccountPico4Impl implements Account, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void read(PICO4InputStream reader) throws IOException {
 		try {
 			vers = reader.readInt();
@@ -57,7 +57,7 @@ public class AccountPico4Impl implements Account, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void write(PICO4OutputStream writer) throws IOException {
 		vers++;
 		writer.writeInt(vers);

@@ -14,12 +14,12 @@ public class TransactionMonitor extends Monitor{
 	private long savedValue;
 	
 
-	@Override
+	
 	public String getDescription() {
 		return "Transaction per second";
 	}
 	
-	@Override
+	
 	public void begin() {
 		stop = false;
 		numberOfTransaction = 0;
@@ -42,14 +42,14 @@ public class TransactionMonitor extends Monitor{
 		timeMonitor.start();
 	}
 	
-	@Override
+	
 	public void end(){
 		timeMonitor.stop();
 		savedValue = getValue();
 		stop = true;		
 	}
 
-	@Override
+	
 	public long getValue() {		
 		if(stop){
 			return savedValue;
@@ -68,12 +68,12 @@ public class TransactionMonitor extends Monitor{
 		return (numberOfTransaction * 1000) / time ;
 	}
 
-	@Override
+	
 	public void update() {
 		numberOfTransaction++;
 	}
 
-	@Override
+	
 	public void reset() {
 		savedNumberOfTransction[0] = numberOfTransaction;
 		savedValue = 0;

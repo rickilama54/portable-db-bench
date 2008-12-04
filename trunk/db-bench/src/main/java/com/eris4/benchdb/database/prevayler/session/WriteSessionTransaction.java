@@ -15,7 +15,7 @@ public class WriteSessionTransaction implements Transaction {
 		this.sessionPrevayler = sessionPrevayler;
 	}
 
-	@Override
+	
 	public void executeOn(Object arg0, Date arg1) {
 		Map<Integer,Session> sessionMap = (Map<Integer, Session>) arg0;
 		sessionMap.put(new Integer(sessionPrevayler.getSessionId()), sessionPrevayler);

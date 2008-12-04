@@ -20,23 +20,23 @@ public class PersonDb4oDriver implements PersonDriver {
 	Random random = new Random();
 	private Logger logger = Logger.getLogger(PersonDb4oDriver.class);
 	
-	@Override
+	
 	public void close() throws TestDriverException {
 		logger.debug("close");
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		logger.debug("connect");
 		db = ObjectContainerSingleton.getInstance();
 	}
 
-	@Override
+	
 	public int getNumberOfPerson() throws TestDriverException {
 		return db.queryByExample(new PersonImpl()).size();
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		StringGenerator stringGenerator = new StringGenerator();
 		for (int i = 0; i < numberOfObject; i++) {
@@ -48,7 +48,7 @@ public class PersonDb4oDriver implements PersonDriver {
 		db.commit();
 	}
 
-	@Override
+	
 	public Person read(long personId) throws TestDriverException {
 		Person person = new PersonImpl();
 		person.setId(personId);
@@ -62,7 +62,7 @@ public class PersonDb4oDriver implements PersonDriver {
 		return null;
 	}
 
-	@Override
+	
 	public void write(Person person) throws TestDriverException {
 		db.store(person);
 	}

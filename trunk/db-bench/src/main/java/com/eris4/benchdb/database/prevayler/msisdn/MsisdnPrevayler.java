@@ -13,22 +13,22 @@ public class MsisdnPrevayler implements Msisdn,Serializable {
 	private int accountId;
 	private int msisdnId;
 
-	@Override
+	
 	public int getAccountId() {
 		return accountId;
 	}
 
-	@Override
+	
 	public int getMsisdnId() {
 		return msisdnId;
 	}
 
-	@Override
+	
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
 
-	@Override
+	
 	public void setMsisdnId(int msisdnId) {
 		this.msisdnId = msisdnId;
 	}

@@ -14,27 +14,27 @@ public class MsisdnPico4Impl implements Msisdn, PICO4PersistentObject {
 	private int msisdnId;
 	private int vers = 0;
 
-	@Override
+	
 	public int getAccountId() {
 		return accountId;
 	}
 
-	@Override
+	
 	public int getMsisdnId() {
 		return msisdnId;
 	}
 
-	@Override
+	
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
 
-	@Override
+	
 	public void setMsisdnId(int msisdnId) {
 		this.msisdnId = msisdnId;
 	}
 
-	@Override
+	
 	public void reload(PICO4Serializable persistentObject) {
 		if (persistentObject instanceof MsisdnPico4Impl) {
 			MsisdnPico4Impl msisdn = (MsisdnPico4Impl) persistentObject;
@@ -46,7 +46,7 @@ public class MsisdnPico4Impl implements Msisdn, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void read(PICO4InputStream reader) throws IOException {
 		try {
 			vers = reader.readInt();
@@ -57,7 +57,7 @@ public class MsisdnPico4Impl implements Msisdn, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void write(PICO4OutputStream writer) throws IOException {
 		vers++;
 		writer.writeInt(vers);

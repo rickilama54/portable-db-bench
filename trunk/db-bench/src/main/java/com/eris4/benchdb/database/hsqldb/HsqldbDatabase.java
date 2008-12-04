@@ -28,12 +28,12 @@ public class HsqldbDatabase extends Database {
 		add(SessionDriver.class, SessionHsqldbDriver.class);
 	}
 
-	@Override
+	
 	public void clear() {
 		DirectoryCleaner.clean(getFileName());
 	}
 
-	@Override
+	
 	public String getFileName() {
 		return "db/hsqldb";
 	}
@@ -43,7 +43,7 @@ public class HsqldbDatabase extends Database {
 	private String username = "sa";
     private static final String driver="org.hsqldb.jdbcDriver";
 	
-	@Override
+	
 	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException, ClassNotFoundException {
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(databaseURL,username,password);

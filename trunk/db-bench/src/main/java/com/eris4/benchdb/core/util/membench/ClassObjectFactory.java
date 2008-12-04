@@ -10,7 +10,6 @@ public class ClassObjectFactory implements ObjectFactory{
 		this.c = c;
 	}
 
-	@Override
 	public Object makeObject() throws InstantiationException, IllegalAccessException {
 		return c.newInstance();
 	}

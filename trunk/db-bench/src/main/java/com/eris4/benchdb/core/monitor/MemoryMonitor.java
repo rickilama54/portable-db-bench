@@ -11,17 +11,17 @@ public class MemoryMonitor extends Monitor{
 	private long maxMemory;	
 	private boolean stop;
 	
-	@Override
+	
 	public String getDescription() {
 		return "Memory usage (bytes)";
 	}
 	
-	@Override
+	
 	public void warmUp() {
 		resetMemory();
 	}
 	
-	@Override
+	
 	public void begin() {
 		stop = false;		
 		maxMemory = startMemory = getUsedMemory();		
@@ -35,13 +35,13 @@ public class MemoryMonitor extends Monitor{
 		}.start();
 	}	
 
-	@Override
+	
 	public void end() {
 		stop = true;
 		monitorMemory();
 	}
 
-	@Override
+	
 	public long getValue() {
 		return maxMemory - startMemory ;
 	}
@@ -72,7 +72,7 @@ public class MemoryMonitor extends Monitor{
 		}
 	}
 
-	@Override
+	
 	public void reset() {
 		maxMemory = startMemory;
 	}

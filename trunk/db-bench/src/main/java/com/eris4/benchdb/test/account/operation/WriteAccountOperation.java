@@ -20,27 +20,27 @@ public class WriteAccountOperation extends Operation {
 	private int numberOfObject;
 	private Logger logger = Logger.getLogger(WriteAccountOperation.class);
 	
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException{
 		accountDriver = (AccountDriver) database.getSpecificDriver(AccountDriver.class);
 		id = 0;
 
 	}
 	
-	@Override
+	
 	public void setUp() throws TestDriverException {
 		accountDriver.connect();
 		numberOfObject = accountDriver.getNumberOfAccount();		
 	}
 		
-	@Override
+	
 	public void warmUp() throws TestDriverException {
 		for (int i = 0; i < 10; i++) {
 			doOperation();			
 		}
 	}
 	
-	@Override
+	
 	public void doOperation() throws TestDriverException {
 		Account account = newRandomAccount();		
 		account.setAccountId(id + numberOfObject);	
@@ -48,7 +48,7 @@ public class WriteAccountOperation extends Operation {
 		id ++;
 	}	
 
-	@Override
+	
 	public void tearDown() throws TestDriverException {	
 		accountDriver.close();			
 	}

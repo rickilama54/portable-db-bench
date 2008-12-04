@@ -18,29 +18,29 @@ public class StartupOperation extends Operation {
 	private Random random = new Random();
 	private Logger logger = Logger.getLogger(ReadPersonOperation.class);
 
-	@Override
+	
 	public void doOperation() throws OperationException, TestDriverException {
 		personDriver.connect();
 	}
 
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException {
 		personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
 	}
 
-	@Override
+	
 	public void setUp() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void tearDown() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void warmUp() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 
