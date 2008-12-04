@@ -13,23 +13,23 @@ public class AccountPico4Driver implements AccountDriver {
 	private PersistentMapSingleton map;
 	private Random random = new Random();
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		map.close();
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		map = PersistentMapSingleton.getInstance(mapName);
 		map.load();
 	}
 
-	@Override
+	
 	public int getNumberOfAccount() throws TestDriverException {
 		return map.size();
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		for (int i = 0; i < numberOfObject; i++) {
 			AccountPico4Impl account = new AccountPico4Impl();
@@ -40,12 +40,12 @@ public class AccountPico4Driver implements AccountDriver {
 		map.commit();
 	}
 
-	@Override
+	
 	public Account read(int accountId) throws TestDriverException {
 		return (Account) map.get(String.valueOf(accountId));
 	}
 
-	@Override
+	
 	public void write(Account account) throws TestDriverException {
 		AccountPico4Impl accountPico4 = new AccountPico4Impl();
 		accountPico4.setAccountId(account.getAccountId());

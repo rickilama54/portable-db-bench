@@ -19,28 +19,28 @@ public class WritePersonOperation extends Operation {
 	private int numberOfObject;
 	private Logger logger = Logger.getLogger(WritePersonOperation.class);
 	
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException{
 		personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
 		id = 0;
 
 	}
 	
-	@Override
+	
 	public void setUp() throws TestDriverException {
 		logger.trace("Connection to the driver");
 		personDriver.connect();
 		numberOfObject = personDriver.getNumberOfPerson();		
 	}
 		
-	@Override
+	
 	public void warmUp() throws TestDriverException {
 		for (int i = 0; i < 10; i++) {
 			doOperation();			
 		}
 	}
 	
-	@Override
+	
 	public void doOperation() throws TestDriverException {	
 		Person person = newRandomPerson();
 		person.setId(id + numberOfObject);	
@@ -48,7 +48,7 @@ public class WritePersonOperation extends Operation {
 		id ++;
 	}	
 
-	@Override
+	
 	public void tearDown() throws TestDriverException {	
 		logger.trace("Disconnection from the driver");
 		personDriver.close();			

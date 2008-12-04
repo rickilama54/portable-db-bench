@@ -19,12 +19,12 @@ public class ReadPersonOperation extends Operation {
 	private Random random = new Random();
 	private Logger logger = Logger.getLogger(ReadPersonOperation.class);
 
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException {
 		personDriver = (PersonDriver) database.getSpecificDriver(PersonDriver.class);
 	}
 
-	@Override
+	
 	public void setUp() throws TestDriverException, OperationException {
 		logger.trace("Connection to the driver");
 		personDriver.connect();
@@ -33,14 +33,14 @@ public class ReadPersonOperation extends Operation {
 			throw new OperationException("The number of objects initializated in the database must not be zero");
 	}
 
-	@Override
+	
 	public void warmUp() throws OperationException, TestDriverException {
 		for (int i = 0; i < 10; i++) {
 			doOperation();
 		}
 	}
 
-	@Override
+	
 	public void doOperation() throws OperationException, TestDriverException {
 		int randomId = random.nextInt(numberOfObject);
 		Person person = personDriver.read(randomId);
@@ -53,7 +53,7 @@ public class ReadPersonOperation extends Operation {
 		} 
 	}
 
-	@Override
+	
 	public void tearDown() throws TestDriverException {
 		logger.trace("Disconnection from the driver");
 		personDriver.close();	

@@ -19,23 +19,19 @@ public class AccountDb4oDriver implements AccountDriver {
 	Random random = new Random();
 	private Logger logger = Logger.getLogger(SessionDb4oDriver.class);
 
-	@Override
 	public void close() throws TestDriverException {
 		logger.debug("close");
 	}
 
-	@Override
 	public void connect() throws TestDriverException {
 		logger.debug("connect");
 		db = ObjectContainerSingleton.getInstance();
 	}
 	
-	@Override
 	public int getNumberOfAccount() throws TestDriverException {
 		return db.queryByExample(new AccountImpl()).size();		
 	}
 
-	@Override
 	public void init(int numberOfObject) throws TestDriverException {		
 		for (int i = 0; i < numberOfObject; i++) {
 			Account account = new AccountImpl();
@@ -46,7 +42,6 @@ public class AccountDb4oDriver implements AccountDriver {
 		db.commit();
 	}
 
-	@Override
 	public Account read(int accountId) throws TestDriverException {
 		Account account = new AccountImpl();
 		account.setAccountId(accountId);
@@ -60,7 +55,6 @@ public class AccountDb4oDriver implements AccountDriver {
 		return null;
 	}
 
-	@Override
 	public void write(Account account) throws TestDriverException {
 		db.store(account);
 	}

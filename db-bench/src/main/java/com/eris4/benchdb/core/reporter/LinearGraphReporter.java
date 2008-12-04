@@ -44,7 +44,7 @@ public class LinearGraphReporter extends Reporter {
 		list.add(new GraphLine(name,xAxis,yAxis));
 	}
 
-	@Override
+	
 	public void start() {	
 		for (GraphLine line : list) {
 			line.reset(getDatabase().getClass().getSimpleName());
@@ -61,7 +61,7 @@ public class LinearGraphReporter extends Reporter {
 		}.start();
 	}
 
-	@Override
+	
 	public void stop() {
 		stop = true;
 		registerCoord();
@@ -70,7 +70,7 @@ public class LinearGraphReporter extends Reporter {
 		}		
 	}
 
-	@Override
+	
 	public void report(Section section) throws DocumentException {
 		try {
 			XYSeriesCollection dataset = new XYSeriesCollection();
@@ -104,17 +104,17 @@ public class LinearGraphReporter extends Reporter {
 //		}
 	}
 
-	@Override
+	
 	public void addDescription(String description) {		
 		descriptions.add(description);
 	}
 
-	@Override
+	
 	public String getName() {
 		return name;
 	}
 
-	@Override
+	
 	public void setName(String name) {
 		this.name = name;
 	}

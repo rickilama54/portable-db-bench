@@ -13,19 +13,19 @@ public class SessionInitializator extends DbInitializator {
 	
 	private Logger logger = Logger.getLogger(DbInitializator.class);
 
-	@Override
+	
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
-		SessionDriver msisdnDriver = (SessionDriver) database.getSpecificDriver(SessionDriver.class);
-		logger.debug("specific driver acquired");
-		msisdnDriver.connect();
+		SessionDriver sessionDriver = (SessionDriver) database.getSpecificDriver(SessionDriver.class);
+		logger.debug("session specific driver acquired");
+		sessionDriver.connect();
 		logger.debug("connected to the database");
-		msisdnDriver.init(numberOfObjects);
+		sessionDriver.init(numberOfObjects);
 		logger.debug("init done of number of objects = "+numberOfObjects);
-		msisdnDriver.close();	
+		sessionDriver.close();	
 		logger.debug("closed the connection");
 	}
 	
-	@Override
+	
 	public String getDescription() {
 		return "Number of Session initialized: " + getNumberOfObjects();
 	}

@@ -56,7 +56,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 		logger.debug("killing mysql process "+pid);
 	}
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		logger.trace("close");
 		try {
@@ -68,7 +68,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 		}
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		logger.trace("connect");
 		try {
@@ -83,7 +83,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 		} 
 	}
 
-	@Override
+	
 	public int getNumberOfPerson() throws TestDriverException {
 		int result = 0;
 		try {
@@ -99,7 +99,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 		return result;
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		logger.trace("init: "+numberOfObject);
 		try {
@@ -118,7 +118,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 		}
 	}
 
-	@Override
+	
 	public Person read(long personId) throws TestDriverException {
 		Person person = null;
 		try {
@@ -136,7 +136,7 @@ public class PersonMySQLServerDriver implements PersonDriver {
 		return person;
 	}
 
-	@Override
+	
 	public void write(Person person) throws TestDriverException {
 		logger.trace("person -> name: "+person.getName()+" id: "+person.getId());
 		try {

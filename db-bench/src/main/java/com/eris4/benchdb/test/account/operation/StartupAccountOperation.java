@@ -18,31 +18,31 @@ public class StartupAccountOperation extends Operation {
 	private int id;
 	private Logger logger = Logger.getLogger(ReadAccountOperation.class);
 
-	@Override
+	
 	public void doOperation() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException {
 		accountDriver = (AccountDriver) database.getSpecificDriver(AccountDriver.class);
 		id = 0;
 	}
 
-	@Override
+	
 	public void setUp() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void tearDown() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void warmUp() throws OperationException, TestDriverException {
 		// TODO Auto-generated method stub
 

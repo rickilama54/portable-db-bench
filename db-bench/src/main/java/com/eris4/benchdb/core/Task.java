@@ -70,7 +70,6 @@ public class Task implements Runnable{
 		}
 	}	
 
-	@Override
 	public void run() {
 		logger.trace("Task started");		
 		int sleepTime = 1500/(transactionPerSecond/transactionCheckTime);	

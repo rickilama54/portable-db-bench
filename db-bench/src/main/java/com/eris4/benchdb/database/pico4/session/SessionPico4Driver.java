@@ -13,23 +13,23 @@ public class SessionPico4Driver implements SessionDriver {
 	private PersistentMapSingleton map;
 	private Random random = new Random();
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		map.close();
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		map = PersistentMapSingleton.getInstance(mapName);
 		map.load();
 	}
 
-	@Override
+	
 	public int getNumberOfSession() throws TestDriverException {
 		return map.size();
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		for (int i = 0; i < numberOfObject; i++) {
 			SessionPico4Impl session = new SessionPico4Impl();
@@ -40,12 +40,12 @@ public class SessionPico4Driver implements SessionDriver {
 		}
 	}
 
-	@Override
+	
 	public Session read(int sessionId) throws TestDriverException {
 		return (Session) map.get(String.valueOf(sessionId));
 	}
 
-	@Override
+	
 	public void write(Session session) throws TestDriverException {
 		SessionPico4Impl sessionPico4 = new SessionPico4Impl();
 		sessionPico4.setAccountId(session.getAccountId());

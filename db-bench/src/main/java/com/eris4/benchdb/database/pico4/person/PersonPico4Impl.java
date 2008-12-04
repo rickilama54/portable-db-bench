@@ -14,17 +14,17 @@ public class PersonPico4Impl implements Person, PICO4PersistentObject {
 	private int vers = 0;
 	private String name;
 
-	@Override
+	
 	public long getId() {
 		return id;
 	}
 
-	@Override
+	
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	@Override
+	
 	public void reload(PICO4Serializable persistentObject) {
 		if (persistentObject instanceof PersonPico4Impl) {
 			PersonPico4Impl person = (PersonPico4Impl) persistentObject;
@@ -36,7 +36,7 @@ public class PersonPico4Impl implements Person, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void read(PICO4InputStream reader) throws IOException {
 		try {
 			vers = reader.readInt();
@@ -47,7 +47,7 @@ public class PersonPico4Impl implements Person, PICO4PersistentObject {
 		}
 	}
 
-	@Override
+	
 	public void write(PICO4OutputStream writer) throws IOException {
 		vers++;
 		writer.writeInt(vers);
@@ -56,12 +56,12 @@ public class PersonPico4Impl implements Person, PICO4PersistentObject {
 		writer.flush();
 	}
 
-	@Override
+	
 	public String getName() {
 		return name;
 	}
 
-	@Override
+	
 	public void setName(String name) {
 		this.name = name;
 	}

@@ -26,17 +26,17 @@ public class H2Database extends Database {
 		add(SessionDriver.class, SessionH2Driver.class);
 	}
 
-	@Override
+	
 	public void clear() {
 		DirectoryCleaner.clean(getFileName());
 	}
 
-	@Override
+	
 	public String getFileName() {
 		return "db/h2";
 	}
 
-	@Override
+	
 	public void shutdown() throws TestDriverException, FileNotFoundException,SQLException, IOException, URISyntaxException {
 		//TODO		
 	}

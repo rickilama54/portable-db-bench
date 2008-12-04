@@ -13,22 +13,22 @@ public class AccountPrevayler implements Account, Serializable {
 	private int accountId;
 	private double balance;
 
-	@Override
+	
 	public int getAccountId() {
 		return accountId;
 	}
 
-	@Override
+	
 	public double getBalance() {
 		return balance;
 	}
 
-	@Override
+	
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
 
-	@Override
+	
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}

@@ -26,7 +26,7 @@ public class AccountH2Driver implements AccountDriver {
 	private Connection con;
 	private Random random = new Random();
 
-	@Override
+	
 	public void close() throws TestDriverException {
 		try {
 			con.close();
@@ -35,7 +35,7 @@ public class AccountH2Driver implements AccountDriver {
 		}
 	}
 
-	@Override
+	
 	public void connect() throws TestDriverException {
 		try {
 			Class.forName(driver);
@@ -47,7 +47,7 @@ public class AccountH2Driver implements AccountDriver {
 		}
 	}
 
-	@Override
+	
 	public int getNumberOfAccount() throws TestDriverException {
 		int result = 0;
 		try {
@@ -62,7 +62,7 @@ public class AccountH2Driver implements AccountDriver {
 		return result;
 	}
 
-	@Override
+	
 	public void init(int numberOfObject) throws TestDriverException {
 		try {
 			PreparedStatement createTableQuery = con.prepareStatement(CREATE_TABLE_QUERY);
@@ -78,7 +78,7 @@ public class AccountH2Driver implements AccountDriver {
 		}
 	}
 
-	@Override
+	
 	public Account read(int accountId) throws TestDriverException {
 		Account account = null;
 		try {
@@ -96,7 +96,7 @@ public class AccountH2Driver implements AccountDriver {
 		return account;
 	}
 
-	@Override
+	
 	public void write(Account account) throws TestDriverException {
 		try {
 			PreparedStatement st = con.prepareStatement(WRITE_QUERY);

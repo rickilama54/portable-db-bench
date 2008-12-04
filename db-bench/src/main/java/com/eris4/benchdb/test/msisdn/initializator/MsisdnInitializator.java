@@ -12,10 +12,10 @@ public class MsisdnInitializator extends DbInitializator {
 	
 	private Logger logger = Logger.getLogger(DbInitializator.class);
 
-	@Override
+	
 	public void init(Database database, int numberOfObjects) throws NoSuitableDriverException, TestDriverException {
 		MsisdnDriver msisdnDriver = (MsisdnDriver) database.getSpecificDriver(MsisdnDriver.class);
-		logger.debug("specific driver acquired");
+		logger.debug("msisdn specific driver acquired");
 		msisdnDriver.connect();
 		logger.debug("connected to the database");
 		msisdnDriver.init(numberOfObjects);
@@ -24,7 +24,7 @@ public class MsisdnInitializator extends DbInitializator {
 		logger.debug("closed the connection");
 	}
 	
-	@Override
+	
 	public String getDescription() {
 		return "Number of Msisdn initialized: " + getNumberOfObjects();
 	}

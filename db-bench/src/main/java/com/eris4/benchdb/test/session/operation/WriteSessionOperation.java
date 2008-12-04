@@ -20,27 +20,27 @@ public class WriteSessionOperation extends Operation {
 	private int numberOfObject;
 	private Logger logger = Logger.getLogger(WriteSessionOperation.class);
 	
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException{
 		sessionDriver = (SessionDriver) database.getSpecificDriver(SessionDriver.class);
 		id = 0;
 
 	}
 	
-	@Override
+	
 	public void setUp() throws TestDriverException {
 		sessionDriver.connect();
 		numberOfObject = sessionDriver.getNumberOfSession();		
 	}
 		
-	@Override
+	
 	public void warmUp() throws TestDriverException {
 		for (int i = 0; i < 10; i++) {
 			doOperation();			
 		}
 	}
 	
-	@Override
+	
 	public void doOperation() throws TestDriverException {
 		Session session = new SessionImpl();
 		session.setSessionId(id + numberOfObject);
@@ -50,7 +50,7 @@ public class WriteSessionOperation extends Operation {
 		id ++;
 	}	
 
-	@Override
+	
 	public void tearDown() throws TestDriverException {	
 		sessionDriver.close();	
 	}

@@ -15,7 +15,7 @@ public class WriteAccountTransaction implements Transaction {
 		this.accountPrevayler = accountPrevayler;
 	}
 
-	@Override
+	
 	public void executeOn(Object arg0, Date arg1) {
 		Map<Integer,Account> accountMap = (Map<Integer, Account>) arg0;
 		accountMap.put(new Integer(accountPrevayler.getAccountId()), accountPrevayler);

@@ -16,7 +16,7 @@ public class InitSessionTransaction implements Transaction {
 		this.numberOfObject = numberOfObject;
 	}
 
-	@Override
+	
 	public void executeOn(Object arg0, Date arg1) {
 		Map<Integer,Session> sessionMap = (Map<Integer,Session>) arg0;
 		Random random = new Random();

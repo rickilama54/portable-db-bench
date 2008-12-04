@@ -19,13 +19,13 @@ public class ReadAccountOperation extends Operation {
 	private int numberOfObject;
 	private Logger logger = Logger.getLogger(ReadAccountOperation.class);
 	
-	@Override
+	
 	public void setDatabase(Database database) throws NoSuitableDriverException{
 		accountDriver = (AccountDriver) database.getSpecificDriver(AccountDriver.class);
 
 	}
 	
-	@Override
+	
 	public void setUp() throws TestDriverException, OperationException {
 		accountDriver.connect();
 		numberOfObject = accountDriver.getNumberOfAccount();
@@ -33,14 +33,14 @@ public class ReadAccountOperation extends Operation {
 			throw new OperationException("The number of objects initializated in the database must not be zero");
 	}
 		
-	@Override
+	
 	public void warmUp() throws TestDriverException, OperationException {
 		for (int i = 0; i < 10; i++) {
 			doOperation();			
 		}
 	}
 	
-	@Override
+	
 	public void doOperation() throws TestDriverException, OperationException {
 		int randomId = random.nextInt(numberOfObject);
 		Account account = accountDriver.read(randomId);
@@ -50,7 +50,7 @@ public class ReadAccountOperation extends Operation {
 		}
 	}	
 
-	@Override
+	
 	public void tearDown() throws TestDriverException {	
 		accountDriver.close();			
 	}
