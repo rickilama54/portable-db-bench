@@ -19,7 +19,7 @@ public final class Resource {
 
 	public static File getNewFile(String fileName) throws URISyntaxException{
 		File file = new File(Resource.class.getResource("/").toURI());
-		return new File(file.getParent()+"/"+fileName);
+		return new File(file.getAbsolutePath()+"/"+fileName);
 	}
 	
 	public static InputStream getResourceAsStream(String filePath) throws URISyntaxException{

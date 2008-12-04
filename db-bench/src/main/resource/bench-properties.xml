@@ -20,6 +20,7 @@
     	<testmonitor name="Memory" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
     	<testmonitor name="Time" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
     	<testmonitor name="Cpu" class="com.eris4.benchdb.core.monitor.CpuMonitor"/>
+    	<testmonitor name="TotalCpu" class="com.eris4.benchdb.core.monitor.TotalCpuMonitor"/>
     	<testmonitor name="File" class="com.eris4.benchdb.core.monitor.FileMonitor"/>
     	
     	<taskmonitor name="Time" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
@@ -75,7 +76,7 @@
 			<initializator name="AccountInitializator" numberOfObjects="1000"/>
 			<initializator name="MsisdnInitializator" numberOfObjects="10000"/>
 			<initializator name="SessionInitializator" numberOfObjects="10000"/>
-			<task tps="10" time="1000" name="Balance check">
+			<task tps="10" time="4000" name="Balance check">
 				<operation name="ReadMsisdnOperation" repetition="1"/>
 				<operation name="ReadAccountOperation" repetition="1"/>						
 			</task>	
@@ -112,6 +113,9 @@
 			<lineargraphreporter name="Cpu usage">
 				<line x="Time" y="Cpu" name="cpu"/>
 			</lineargraphreporter>		
+			<lineargraphreporter name="TotalCpu usage">
+				<line x="Time" y="TotalCpu" name="cpu"/>
+			</lineargraphreporter>	
 		</test>		
 	<!--
 		<test name="Memory and Trend Transaction Test (fixed total number of transaction)">								

@@ -19,6 +19,12 @@ public class ThreadMonitor {
 		startTime = startIntervalTime = System.nanoTime();
 		startUserTime = startIntervalUserTime = threadMXBean.getThreadUserTime(id);
 	}	
+	public ThreadMonitor(long id){
+			
+		this.id = id;
+		startTime = startIntervalTime = System.nanoTime();
+		startUserTime = startIntervalUserTime = threadMXBean.getThreadUserTime(id);
+	}
 	
 	public int getAvgValue(){
 		int result = 0;
