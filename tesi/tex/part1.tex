@@ -518,7 +518,7 @@ As already explained in the introduction, HSQLDB is based on the hypersonic SQL 
 HSQLDB usage is very simple because it is almost the same of all relational database systems with JDBC drivers. Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. While for Prevayler we need a different implementation for the object Number, altougth it is very small, HSQLDB uses a JDBC driver and therefore uses SQL language, and there is no need for a different implementation. 
 
 The default HSQLDB behavior is to take data in main memory and only changes are written to the disk. In the following listing we show how to execute HSQLDB embedded, or in other word in in-process mode:
-\begin{lstlisting}
+\begin{lstlisting}[caption={HSQLDB implementation},label={hsqldb-implementation}]
 public class Main{	
 	private static final String databaseURL="jdbc:hsqldb:file:db/test";
   private static final String username="sa";
@@ -604,25 +604,75 @@ The main differences with HSQLDB are a new indexing engine and a new persistence
 Although it seems a better than HSQLDB, which is already a very good database system, its code is closed source and we can't test if the real performance are the same that we read on its home page. Anyway this is a product that need to be mentioned, especially for those who are interested in HSQLDB and in a possible upgrade.
 
 		\section{H2}
-asd 
+H2 is a relational database management system written in Java by Thomas Mueller, who is the same author of HypersonicSQL, the ancestor of HSQLDB, and also, originally, main developer of HSQLDB itself. In fact the name H2 stands for Hypersonic 2, however H2 does not share any code with HypersonicSQL or HSQLDB. 
 		
-			\subsection{Adavantages}
-asd			
+			\subsection{Advantages}
+This is an open source database written in Java, and it is built from scratch, without sharing any code with Hsql. Therefore this database system benefits from all the experience cumulated by Mueller with his previous work.
 
-			\subsection{Disadavantages}
-asd			
+H2 is able to create both in-memory tables, as well as disk-based tables. Therefore tables can be temporary or persistent on a durable device. 
 
-			\subsection{Project Info}
-asd
+As regards the administration tools, H2 includes an embedded web server and a browser based console, in order to support the portability of the database system.
+
+In addition, H2 implements a simple form of high availability: when used in client-server mode, the database engine supports hot failover (commonly known as clustering). However, the clustering mode must be re-enabled manually after a system failure.
+
+			\subsection{Disadvantages And Project Info}
+Although this database systems is reach of interesting features, it is quite recent, in fact the project started in May 2004, but it was first published in December 2005. In fact the latest stable release is the 1.0.79, while there is also a beta release, whose version number is 1.1.104. 
+
+Another disadvantage is that there is only one developer: Thomas Mueller. Moreover H2 is only a Mueller's hobby, therefore the project still don't has a good support. 
+
+			\subsection{Usage}
+H2 is able to run both in embedded mode and in server mode, allowing, in this second modality, the clustering of more servers, and therefore the high availability. We will show both of this modality in the following example. Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved.
+
+				\subsubsection{Embedded Mode}
+The implementation for H2 to run in embedded mode is almost equal to the implementation of HSQLDB, showed in the listing \ref{hsqldb-implementation}. It's not by chance that the author of H2 was also main developed at HSQLDB project. There are only two differences: the database URL and, obviously, the JDBC driver used to connect to the database. The following example shows these two differences:
+\begin{lstlisting}
+public class Main{
+	
+    private static final String databaseURL="jdbc:h2:file:db/test";
+    private static final String username="sa";
+    private static final String password="";
+    private static final String driver="org.h2.Driver";
+
+    ...
+}
+\end{lstlisting}
+								
+				\subsubsection{Clustering / High Availability Mode}
+
+H2 supports a simple clustering / high availability mechanism. The architecture of a clustering mode is composed by two database servers, which run on two different computers, and on both computers there is a copy of the same database. If both servers run, each database operation is executed on both computers. If one server fails (power, hardware or network failure), the other server can still continue to work. From this point, the operations will be executed only by one server until the other server is restored. Clustering can only be used in server mode (the embedded mode does not support clustering). It is possible to restore the cluster without stopping the server, however it is critical that no other application is changing the data in the first database while the second database is restored, so restoring the cluster is currently only a manual process.
+
+In this example the two databases reside on the same computer, but we will use them as they were on two different machines, and therefore with remote access (we will not use localhost as an address to connect to the database). The following steps describe how to make it runs in clustering mode:
+\begin{enumerate}
+	\item We need to create 2 different directories, server1 and server2, that will store our databases.
+	\item To start the first server we need to use the following command: 
+\begin{lstlisting}[commentstyle=\color{black}]
+java -cp h2.jar org.h2.tools.Server -tcp -tcpAllowOthers -tcpPort 9101 -baseDir server1
+\end{lstlisting}
+The option "-cp" specifies the classpath to h2.jar, if it's not in the CLASSPATH, and the option -baseDir specifies the path to the directory where your server will store the database.
+	\item Subsequently we need to start the second server with the following command:
+\begin{lstlisting}[commentstyle=\color{black}]
+java -cp h2.jar org.h2.tools.Server -tcp -tcpAllowOthers -tcpPort 9102 -baseDir server2
+\end{lstlisting}
+	\item After the two server are running, we need to use the "CreateCluster" tool to initialize the cluster. This will automatically create a new, empty database if it does not exist. The command is the following: 	
+\begin{lstlisting}[commentstyle=\color{black}]
+java -cp h2.jar org.h2.tools.CreateCluster -urlSource jdbc:h2:tcp://192.168.150.151:9101/test -urlTarget jdbc:h2:tcp://192.168.150.151:9102/test -user sa -serverlist 192.168.150.151:9101,192.168.150.151:9102
+\end{lstlisting}
+	\item It is now possible to connect to the databases using the following JDBC URL: 
+\begin{lstlisting}[commentstyle=\color{black}]
+jdbc:h2:tcp://192.168.150.151:9101,192.168.150.151:9102/test
+\end{lstlisting}
+\end{enumerate}
+
+This clustering mode can now be tested simply by using the example code of the embedded modality and only changing the database URL. Now H2 is providing high availability and you can also stop one server (by killing the process), without noticing any issue, because the other server is still running, and therefore the database is still accessible. Although this works, when a server crash, to restore the cluster, you first need to delete the database that failed, then restart the server that was stopped, and re-run the CreateCluster tool. 
 			
 		\section{Db4o}
 asdasd
 
 		
-			\subsection{Adavantages}
+			\subsection{Advantages}
 asdasd
 			
-			\subsection{Disadavantages}
+			\subsection{Disdavantages}
 asdasd
 			
 			\subsection{Project Info}
@@ -632,56 +682,30 @@ asdasd
 		
 		
 		\section{Derby}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
+		asdasd
+
 		
-			\subsection{Adavantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
+			\subsection{Advantages}
+asdasd
 			
-			\subsection{Disadavantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
+			\subsection{Disdavantages}
+asdasd
 			
 			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
+asdasd
 		
 		\section{SQLite}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
+		asdasd
+
 		
-			\subsection{Adavantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
+			\subsection{Advantages}
+asdasd
 			
-			\subsection{Disadavantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
+			\subsection{Disdavantages}
+asdasd
 			
 			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
+asdasd
 		
 		\section{Firebird}
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
