@@ -1270,6 +1270,7 @@ This test is based on the test case described in paragraph \ref{race-test-timed}
 
 
 
+
 	
 	\section{Race Test: Transactions}
 This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of writes. In fact the stop condition for this test is a fixed total amount of transactions. The only operation, which is continuosly repeated, is a simple write operation.
@@ -1284,10 +1285,17 @@ This test represents the execution of the test case described in paragraph \ref{
 	\item services authorization and management task, executed 2000 times per second.
 \end{itemize}
 
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result1.jpg}	
+	\end{center}
+	\caption{Instant throughput of the account management task}
+	\label{result1}	
+\end{figure}
 
 	
 	\section{Memory and CPU Test}
-This test is not described in the test suite developed in chapter \ref{test-suite}, although it is very useful to understand the database's performance. This test is a sort of load test case, where is composed only by one task, and therefore it is very simple. The peculiar feature of this test is the constant throughput, which is
+This test is not described in the test suite developed in chapter \ref{test-suite}, although it is very useful to understand the database's performance. This test is a sort of load test case, where is composed only by one task, and therefore it is very simple. The peculiar feature of this test is the constant throughput, in other terms, a constant amount of transaction per second. This value was chosen quite low, so that each database systems can sustain the specifyied load. This feature, therefore, allows an easy and clear comparison between the results of the databases for different reporters, such as the memory usage, the file size and the CPU usage.
 
 
 
@@ -1295,11 +1303,12 @@ This test is not described in the test suite developed in chapter \ref{test-suit
 	
 
 	\section{Conclusion}
+
+
+	
 	chi vince? nessuno
 	
-	abbiamo visto differenze a seconda della piattaforma
-	
-	
+	abbiamo visto differenze a seconda della piattaforma	
 	
 	ma nei casi dati da noi il migliore è.. perchè?
 	
