@@ -3,21 +3,21 @@
 %In-memory database systems represents the latest step in the adaptation of DBMS to embedded systems.
 
 %   1.  What did you do? 
-This document introduces the reader to the argument of in-memory database systems, providing a competitive landscaper between several IMDB's vendors, and, subsequently, analyzing and comparing the performance of different systems to each other. 
+This thesis introduces the reader to the argument of in-memory database systems, providing a competitive landscaper between several IMDB's vendors, and, subsequently, analyzing and comparing the performance of different systems to each other. 
 %   2. Why did you do it? What question were you trying to answer? 
-The purpose of this document is to find the in-memory database which provides the best performance for a specific application usage: a real time prepaid system, such as a telephone company.
+The purpose of this thesis is to find the in-memory database which provides the best performance for a specific application usage: a real time prepaid system, such as a real time authorization, rating and billing system for a telco company.
 
 
 %   3. How did you do it? State methods.
-This objective was achieved with the development of a proper test suite, simulating a real time prepaid system, and consequently of a portable benchmark application, which was able to execute the test suite previously defined. 
+This objective was achieved with the development of a proper test suite, simulating a real time prepaid system, and consequently of a portable benchmark application, which was able to execute the test suite defined. 
 %   4. What did you learn? State major results. 
 The need to create a specific test suite and the portable benchmark application comes from the fact that database's performance depends on a specific set of criteria used by the benchmark itself, and they are mainly: the test scenarios, the test implementation and the platform used to execute the benchmark.
 %   5. Why does it matter? Point out at least one significant implication.
-This means that there is no the best database system, but there are only good systems for particular tasks, or application usage. Therefore, whenever we need to choose a database systems for an application that need crucial performance, we always need to create a specific test scenario which simulates the real application's behavior. In fact the best benchmark for a database system can only be done by the application itself.
+This means that there is not a better database systems, but there are only databases that are more suitable for a particular task or application usage. Of course this is a general statement and actually we will find out that in some cases certain database systems might be "overall" better than other, but as a rule of thumb we have always to keep in mind that the best way to choose our database system, for applications that require cutting edges performances, is to create a specific test scenario which simulates the real life application's behavior.
 
 \subsubsection{}
 
-The thesis is divided into two parts: the first is composed by two chapters which introduce in-memory databases and the competitive landscape, while the second is dedicated to benchmark application developed during this work.
+The thesis is divided into two parts: the first is made of two chapters which introduce in-memory databases and the competitive landscape, while the second is dedicated to the benchmark application developed during this work.
 
 The first chapter gives a brief introduction to the in-memory databases, explaining what they are, their use, their strength and weakness. Particularly interesting is the comparison against traditional DBMS, which shows the key differences. 
 
@@ -25,12 +25,12 @@ In chapter two, we will make a competitive landscape between the different IMDB'
 
 The chapter three is the first chapter of the second part. It therefore introduces the reader to the database performance analysis' problem, illustrating the difficulty behind the measurement and the interpretation of the performance. This in fact leads to a definition of an axiom on which is based all this work: there is not a slower or a faster database, because they are only slower or faster given a specific set of criteria in a given benchmark.
 
-The fourth chapter deals with the creation of a proper test suite, based on our needs, which will be used to develop and run the benchmark application.
+The fourth chapter deals with the creation of a proper test suite, based on our needs, and therefore the creation of a test scenario based on a real time prepaid system. This test suite will be used as a test scenario for the benchmark application.
 
-The fifth chapter analyzes more or less deeply different open source database benchmarks trying to find a benchmark for our needs, or, in the case it's not suitable, to take some idea for a future development of a new benchmark application.
+The fifth chapter analyzes more or less deeply different open source database benchmarks trying to find a benchmark for our needs, or, where none are suitable, to take some idea for the development of a new benchmark application.
 
-The sixth chapter describes the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently the discussion moves on the application usage, from the application's configuration to the extension and the implementation of new databases and tests.
+The sixth chapter describes the new benchmark application developed for our needs, starting form the specification defined from the requirements and then describing the application from different points of view. Subsequently the discussion moves on the application usage, starting from the application's configuration and ending with the extension and implementation of new database adapters and test scenarios.
 
-The seventh chapter deals with the results obtained by the execution of the test suite, produced in chapter three, on the database benchmark application described in chapter six. The results are analyzed in order to understand their true meaning.
+Chapter seven deals with the results gathered from the execution of the test suite (as described in chapter three) using our database benchmark application. The results are analyzed to clarify their meaning and to come up with a report on all the in-memory database analyzed in this work. We will see which one of them is better suitable for a real time prepaid system.
 
-The eighth chapter, as a conclusive chapter, lists some of the most important contributions brought by this thesis and how this thesis can be used by other people. Then there is an analysis of some future researches and developments for the benchmark application.
+The final chapter lists some of the most important contributions brought by this thesis work and how it can be used as a starting point for future researches and developments on the benchmark application.
