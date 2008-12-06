@@ -1266,11 +1266,31 @@ The results obtained come from the execution of 4 test cases on 5 different comp
 	\section{Race Test: Timed}
 This test is based on the test case described in paragraph \ref{race-test-timed}. It is a base test case and therefore it is configured as a race, where all the competiting database systems run at their maximum speed. In this particular case all the database systems execute continuosly a single write operation until a fixed amount of time is passed.
 
--poco utile.
+This test, and its results, are not useful to understand the real performance and potentiality of the database and so they are not useful to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough for our needs.
 
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result2.jpg}	
+	\end{center}
+	\caption{Result of the race: total number of transactions executed}
+	\label{result2}	
+\end{figure}
 
+The figure \ref{result2} shows on the y axis the total number of transactions executed by database sytems, and therefore the total number of writes, because one transaction in this test corresponds to a write. On the x axis there is the time, and we can notice how the test, as described in paragraph \ref{race-test-timed}, lasts for 60 seconds. It's important to point out how the y axis use a logarithmic scale. Note also that the database was initialized with 1 million of object before the test was started.
 
+This graph shows, therefore, the result of the race, and we can see how the fastest database system, in this case, is Pico4, except for the first 30 seconds where HSQLDB was a bit faster. Anyway also this second system is very fast. In 60 seconds Pico4 executed more than 5 millions of writes, whith a throughput of about 900 writes per second, while HSQLDB executed "just" 4 millions of writes. On the other hand Prevayler is extremely slow, compared to the others database systems: it exsecuted only 5 thousands of writes, which means a throughput of less than 100 writes per second. So there is a difference about 3 order of magnitude between Prevayler and Pico4. Another interesting observation for this graph is that Db4o has a strange behavior at the start of the test, but then it becomes very fast. This anomaly is put in evidence by the use of this graphs. This is probably caused by a bad implementation of the database driver, or something else, but it clearly tells us that in this case the comparison between the several database systems with Db4o is not appropriate. This strange behavior is exalthed by the use of graphs, which therefore are extremely powerful for a better understanding of the test' result. An average value would, instead, have hidden this peculiarity.
 
+\begin{figure}[htp!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result3.jpg}	
+	\end{center}
+	\caption{Memory usage per write}
+	\label{result3}	
+\end{figure}
+
+The figure \ref{result3} is a graphical representation of the main memory used during the test execution. Note that on the x axis there is the total number of transactions, and not the time. This is because the memory usage doesn't depend on the time, but it depends mainly, in this case, on the number of objects inserted in the database, and therefore in main memory, because we are using in-memory database systems. 
+
+all 100\% di utilizzo vediamo il grafico...
 	
 	\section{Race Test: Transactions}
 This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of writes. In fact the stop condition for this test is a fixed total amount of transactions. The only operation, which is continuosly repeated, is a simple write operation.
