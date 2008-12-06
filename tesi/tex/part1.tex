@@ -666,20 +666,101 @@ jdbc:h2:tcp://192.168.150.151:9101,192.168.150.151:9102/test
 This clustering mode can now be tested simply by using the example code of the embedded modality and only changing the database URL. Now H2 is providing high availability and you can also stop one server (by killing the process), without noticing any issue, because the other server is still running, and therefore the database is still accessible. Although this works, when a server crash, to restore the cluster, you first need to delete the database that failed, then restart the server that was stopped, and re-run the CreateCluster tool. 
 			
 		\section{Db4o}
-asdasd
+Db4o, database for objects, is an high-performance, embeddedable open source object database for Java and .NET developers. It is developed, commercially licensed and supported by db4objects, Inc., which is a privately-held company based in San Mateo, California. The company was incorporated in 2004 under CEO Christof Wittig, with the financial backing of top-tier Silicon Valley investors including Mark Leslie, founding CEO of Veritas, Vinod Khosla, founding CEO of SUN Microsystems, and Jerry Fiddler, founding CEO of Wind River.
+
+ 
 
 		
 			\subsection{Advantages}
-asdasd
-			
-			\subsection{Disdavantages}
-asdasd
+Db4o is an open source database system with a small footprint and it is much more faster than traditional relational database management systems. Object persistence is easy with db4o, it can be done with only 1 line of code. 
+
+It can run both in embedded and server mode and it can store the data on the disk or keep them all in main memory only. And since Db4o supports both Java and .Net, it is possible to access the same database from these 2 different platforms. 
+
+In addition db4o supports automatic object schema evolution for the basic class model changes (field name deletion/addition). More complex class model modifications, like field name change, field type change, hierarchy move are not automated out-of-the box, but can be automated by writing a utility update program.
+
+Rather than using string-based APIs, such as SQL, native queries allow developers to simply use the programming language itself (e.g., Java, C\#, or VB.NET) to access the database and thus avoid a constant, productivity-reducing context switch between programming language and data access API.
+		
+			\subsection{Disadvantages}
+Db4o can run both as in-memory database system or as a disk based database, but it doesn't have an in-memory mode with some form of durability (e.g. with a transaction log file). Moreover the in-memory mode is not so much more performant than the disk based mode. 
+
+For some native queries db4o will have to instantiate some of the persistent objects to run the native query code, thus slowing down the database's performance. 
+
+There's not much "out-of-the-box-support" for clustering several db4o-databases at the moment. There's a simple query-a-cluster-implementation in com.db4o.cluster which could guide you only as a starting point.
 			
 			\subsection{Project Info}
-asdasd
+This project started in 2000 and it is continuously updated: there is also a continuous build available for download every day. The latest version is the 7.6 and the number of developers working at this project are about 20.
+
+According to db4o community website the amount of registered members has grown to over 45000 providing various sources of documentation: tutorial, reference documentation, API documentation, online paircasts and blogs.
+
+			\subsection{Usage}
+
+
+Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. In the following code we can see how it is easy to use Db4o:
+
+\begin{lstlisting}
+public class Main {
+
+	private static final String databaseFileName = "test";
+
+	public static void main(String[] args) throws Exception {
+		ObjectContainer db = createEmptyDB();
+		fillDB(db);
+		simpleQuery(db);
+		nativeQuery(db);
+		db.close();
+	}
+
+	private static void nativeQuery(ObjectContainer db) {
+//		List<Number> numberList = db.query(new NumberPredicate());
+		List<Number> numberList = db.query(new Predicate<Number>() {
+			public boolean match(Number candidate) {
+				return candidate.getNumber() > 2;
+			}
+		});
+		for (Number number : numberList)
+			System.out.println(number.getNumber());
+	}
+
+	private static void simpleQuery(ObjectContainer db) {
+		ObjectSet<Number> numbers = db.queryByExample(new Number(2));
+		while (numbers.hasNext())
+			System.out.println(numbers.next().getNumber());
+	}
+
+	private static void fillDB(ObjectContainer db) {
+		db.store(new Number(1));
+		db.store(new Number(2));
+		db.store(new Number(2));
+		db.store(new Number(3));
+		db.store(new Number(4));
+	}
+
+	private static ObjectContainer createEmptyDB() {
+		new File(databaseFileName).delete();
+		ObjectContainer db = Db4o.openFile(databaseFileName);
+		return db;
+	}
+
+}
+
+\end{lstlisting}
+			
+Note that the Number class here does not require any interface implementations, annotations or attributes added. It can be just any application class including third-party classes contained in referenced libraries. All field objects (including collections) are saved automatically. This feature speed up the whole process of developing an application, because the persistence layer become very easy both to write and change.
+
+The example previously showed described how to run Db4o in a disk based mode, but if we want to execute it all in main memory, we need to change just few lines of code during the creation of the database, as reported in the following code:
+
+\begin{lstlisting}
+Configuration configuration = Db4o.newConfiguration();
+MemoryIoAdapter memoryIoAdapter = new MemoryIoAdapter();
+configuration.io(memoryIoAdapter);
+ObjectContainer db = Db4o.openFile(configuration,databaseFileName);
+\end{lstlisting}
 				
+Note that Db4o by default has not high performance in read operations. If you want to speed them up you can use an index, like a relational database system. The following code shows how it is possible to create an index based on the field called "number":
 		
-		
+\begin{lstlisting}
+configuration.objectClass(Number.class).objectField("number").indexed(true);
+\end{lstlisting}		
 		
 		\section{Derby}
 		asdasd
@@ -688,7 +769,7 @@ asdasd
 			\subsection{Advantages}
 asdasd
 			
-			\subsection{Disdavantages}
+			\subsection{Disadvantages}
 asdasd
 			
 			\subsection{Project Info}
@@ -701,69 +782,48 @@ asdasd
 			\subsection{Advantages}
 asdasd
 			
-			\subsection{Disdavantages}
+			\subsection{Disadvantages}
 asdasd
 			
 			\subsection{Project Info}
 asdasd
 		
 		\section{Firebird}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
+		asdasd
+
 		
-			\subsection{Adavantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
+			\subsection{Advantages}
+asdasd
 			
-			\subsection{Disadavantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
+			\subsection{Disadvantages}
+asdasd
 			
 			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
+asdasd
 				
 		\section{MySql}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
+		asdasd
+
 		
-			\subsection{Adavantages}
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
-			advantages advantages advantages advantages advantages 
+			\subsection{Advantages}
+asdasd
 			
-			\subsection{Disadavantages}
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
-			disadvantages disadvantages disadvantages disadvantages 
+			\subsection{Disadvantages}
+asdasd
 			
 			\subsection{Project Info}
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info 
-			info info info info info info info info info info info info
+asdasd
 		
 		\section{ExtremeDB}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
+	    * Closed source
+    * ACID-compliant
+    * Designed for embedded systems and applications with real-time performance requirements
+    * eXtremeDB provides a code footprint as small as 50K
+    * eXtremeDB offers a SQL API, called eXtremeSQL
+    * eXtremeDB High Availability Edition is designed to ensure that changes to a master database and identical standby databases succeed or fail together, and enables deployment of multiple fully synchronized eXtremeDB-HA databases
+    * Cross-platform
+    * Typical eXtremeDB users are software developers creating applications in the C and C++ languages
+    * The latest release is 3.0 and date to 03/04/2006 
 		
 		\section{Polyhedra}
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
@@ -808,12 +868,6 @@ asdasd
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
 		
 		\section{QuiLogic}
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
-		
-		\section{Pico4}
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
 		intorDB intorDB intorDB intorDB intorDB intorDB intorDB 
