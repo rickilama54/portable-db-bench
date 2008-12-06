@@ -763,32 +763,35 @@ configuration.objectClass(Number.class).objectField("number").indexed(true);
 \end{lstlisting}		
 		
 		\section{Derby}
-    * Apache Derby is a Java relational database management system that can be embedded in Java programs and used for online transaction processing
-    * Derby was previously distributed as IBM Cloudscape and Sun Java DB
-    * Derby offers the following technologies:
-          o Derby embedded database engine: a full functioned relational embedded database engine
-          o Derby network server increases the reach of the Derby database engine by providing traditional client server functionality
-          o Database Utilities:
-                + ij: a tool that allows SQL scripts to be executed against any JDBC database
-                + dblook: schema extraction tool for a Derby database
-                + sysinfo: utility to display version numbers and class path 
-
-		
+Apache Derby is a Java relational database management system that can be embedded in Java programs and used for online transaction processing. 
+	
 			\subsection{Advantages}
-    * Open source
-    * Apache project
-    * Java database
-    * It has a 2 MB disk-space footprint
-    * Full support to transactions 
+Apache Derby is an open source project and it is currently distribuited as Sun Java DB. It has a 2MB disk space footprint and it can be easily embedded in Java programs. The embedded database engine is a full functioning relational database engine and therefore allow a full support to transactions.
+
+In addition Derby can run as a server database system. A network server increases the reach of the Derby database engine by providing traditional client server functionality.
+
+Derby offers the following administration utilities:
+\begin{itemize}
+	\item ij: a tool that allows SQL scripts to be executed against any JDBC database;
+	\item dblook: schema extraction tool for a Derby database;
+	\item sysinfo: utility to display version numbers and class path.
+\end{itemize}
+
 			
 			\subsection{Disadvantages}
-Derby can't be run as a totally in-memory database 
+Derby can't be run as a totally in-memory database, or in other words, it can't run only in main memory. Therefore if you don't have any durability need, you can't benefit of the higher performance granted by the execution of a database only in main memory.
 			
 			\subsection{Project Info}
-asdasd
+This project was previously distributed as IBM Cloudscape until IBM open sourced it as Derby, with the hope to accelerate development of Java-based applications and drive more innovation around Linux and Java. At the moment Apache Derby is distributed by Sun as Java DB. 
+
+Derby project started in 2005, but its progenitor was first released in 1997. The latest version is the 10.4.1.3 released at 24/04/2008. The development team is composed by 32 developers, standing at the information on ohloh.net.
 
 			\subsection{Usage}
-			Using Derby as an embedded db is really simple. You need only to set the appropriate database url and the driver, without specifing any username and password. The example is the same used for HSQL and H2, and it involves create/drop table and insert/retrieve Number: 
+
+
+Using Derby as an embedded db is really simple. You need only to set the appropriate database URL and the driver, without specifing any username and password. 
+
+Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. Moreover the code for this example is the same used for HSQLDB and H2, and it is showed in the listing \ref{hsqldb-implementation}, involving creates/drops table and inserts/retrieves. In the following lines of code we will just show the differences between the implementation of HSQLDB and Derby:
 \begin{lstlisting}
 public class Main{
 	
