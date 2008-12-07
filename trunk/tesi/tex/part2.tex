@@ -1272,7 +1272,7 @@ This test, and its results, are not useful to understand the real performance an
 
 The figure \ref{result2} shows on the y axis the total number of transactions executed by database sytems, and therefore the total number of writes, because one transaction in this test corresponds to a write. On the x axis there is the time, and we can notice how the test, as described in paragraph \ref{race-test-timed}, lasts for 60 seconds. It's important to point out how the y axis use a logarithmic scale. Note also that the database was initialized with 1 million of object before the test was started.
 
-\begin{figure}[!ht] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result2.jpg}	
 	\end{center}
@@ -1287,7 +1287,7 @@ This graph shows, therefore, the result of the race, and we can see how the fast
 
 The figure \ref{result3} is a graphical representation of the main memory used during the test execution. Note that on the x axis there is the total number of transactions, and not the time, in fact not all the lines represented get to the right side of the graph. This has been done because the memory usage doesn't depend on the time, but it depends mainly, in this case, on the number of objects inserted in the database, and therefore in main memory, because we are using in-memory database systems. Another important thing to point out is that this graph represents the memory usage when all the systems are at their 100\% usage, because they all execute only writes consecutively without any limitations on the throughput.
 
-\begin{figure}[!ht] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result3.jpg}	
 	\end{center}
@@ -1302,10 +1302,8 @@ Analyzing this graph we can see how apparently there are only 4 database systems
 This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of operations. In fact the stop condition for this test is a fixed total amount of transactions, unless they exceed a certain time out and they are stopped also if they are not finished yet. The only operation, which is continuosly repeated, is a simple write operation, but then we executed this test a second time with a read operation instead a write. Therefore we will see the results of the two executions. In both executions the database was initialized with 1 million of objects.
 
 		\subsection{Total Number Of Transactions}
-
-The figure \ref{result4} represents the result of the first execution, where the only operation executed was a write operation. The graph is the same of the figure \ref{result2}, but this time the database systems stop when they reach the amount of 1 million of transactions executed. This graph shows clearly that Pico4 and HSQLDB are the fastest for this kind of object and operation, and they do it in about 20 seconds. On the other hand Prevayler, also after 500 seconds isn't able to execute 1 million of writes, then it is stopped because it reached the time out. 
 		
-\begin{figure}[!ht] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result4.jpg}	
 	\end{center}
@@ -1313,9 +1311,9 @@ The figure \ref{result4} represents the result of the first execution, where the
 	\label{result4}	
 \end{figure}
 
-The figure \ref{result5} represents instead the result of the second execution, where the only operation executed is a read operation. Surprisingly Prevayler is now the fastest with a throughput of about 1 million of reads per second. Soon after there is Pico4 which shows performance almost equal to Prevayler's performance. Then HSQLDB which is still very fast with a throughput of about 100 thousands of reads per second. Finally there is H2 and Db4o which really similar performance and still a reasonable throughput, which is something more than 7 thousands of reads per second. 
+The figure \ref{result4} represents the result of the first execution, where the only operation executed was a write operation. The graph is the same of the figure \ref{result2}, but this time the database systems stop when they reach the amount of 1 million of transactions executed. This graph shows clearly that Pico4 and HSQLDB are the fastest for this kind of object and operation, and they do it in about 20 seconds. On the other hand Prevayler, also after 500 seconds isn't able to execute 1 million of writes, then it is stopped because it reached the time out. 		
 
-\begin{figure}[!ht] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result5.jpg}	
 	\end{center}
@@ -1323,18 +1321,24 @@ The figure \ref{result5} represents instead the result of the second execution, 
 	\label{result5}	
 \end{figure}
 
+The figure \ref{result5} represents instead the result of the second execution, where the only operation executed is a read operation. Surprisingly Prevayler is now the fastest with a throughput of about 1 million of reads per second. Soon after there is Pico4 which shows performance almost equal to Prevayler's performance. Then HSQLDB which is still very fast with a throughput of about 100 thousands of reads per second. Finally there is H2 and Db4o which really similar performance and still a reasonable throughput, which is something more than 7 thousands of reads per second. 
+
+
 We can conclude that Prevayler is the fastest system when you need to execute read only operation, but it is dramatically slow for write operations, especially if you database is huge. Instead Pico4 and HSQLDB performed very good, if not the best, in both cases.
 
 		\subsection{Memory Usage}
-\begin{figure}[!ht] 
+
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result6.jpg}	
 	\end{center}
 	\caption{Execution 1: memory usage for write operations}
 	\label{result6}	
 \end{figure}		
+
+The graph in the figure \ref{result6} represents the memory usage of the first execution of the test, where the only operation executed is a write. The result in fact is the same of the one represented in figure \ref{result3}, except that almost all the lines get to the right side of the graph. But now we can see the performance, in terms of memory used, of Prevayler, which can be placed between H2's and Db4o's performance.
 		
-\begin{figure}[!ht] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result7.jpg}	
 	\end{center}
@@ -1342,16 +1346,20 @@ We can conclude that Prevayler is the fastest system when you need to execute re
 	\label{result7}	
 \end{figure}
 
+The figure \ref{result7} represents instead the memory used during the second execution of the test, where there are only read operations. As we could expect Pico4, HSQLDB and Prevayler don't use any memory, in fact the data is already all in main memory, and there is no need to allocate new memory: there are no writes. Peculiarly H2, but also Db4o, increment the memory used linearly with the increment of the read operations executed. This is a very strange behavior that is put in evidence by this graph. 
+
 		\subsection{File Size}
-\begin{figure}[!ht] 
+	
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result8.jpg}	
 	\end{center}
 	\caption{Execution 1: file size for write operations}
 	\label{result8}	
 \end{figure}		
+
 		
-\begin{figure}[!ht] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result9.jpg}	
 	\end{center}
