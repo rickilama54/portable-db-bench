@@ -1259,7 +1259,7 @@ Another necessary observation is that the driver implemented by the database wil
 
 \chapter{Results' Analysis}
 
-In this chapter we will deal with some of the results obtained by the execution of the test suite, produced in chapter \ref{test-suite}, on the database benchmark application, developed and described in chapter \ref{benchmark-application-chapter}. The results will be analyzed in order to understand their true meanings, analyzing also how they vary with the change of the execution's platform, which is possible thanks to the portability of the benchmark applicaition.
+In this chapter we will deal with some of the results obtained by the execution of the test suite, produced in chapter \ref{test-suite}, on the database benchmark application, developed and described in chapter \ref{benchmark-application-chapter}. The benchmark is executed on a Sun Solaris machine, with 65GB of main memory and 32 processors, with a single 10000 rpm hard disk.
 
 The results obtained come from the execution of 4 test cases on 5 different competiting database systems. The test executed are: the real time prepaid system, the race test based on transactions' number, the reace test based on the test's time, and a final test to compare the memory and CPU usage of the different systems. The competitors who take place in the benchmark are: Pico4, Prevayler, HSQLDB, H2, Db4o.
 
@@ -1380,7 +1380,7 @@ This test represents the execution of the test case described in paragraph \ref{
 	\item services authorization and management task, executed 2000 times per second.
 \end{itemize}
 
-Now, let's start to analyze some results for this test case. The figure \ref{result1} shows the throughput of the account management task, which we imposed to be 10 transactions per second. In fact we can see how all the databases oscillate around 10. But an important observation we can make on this graphs, a part that all database can sustain this load, is that Db4o doens't work smoothly
+		\subsection{Throughput}
 
 \begin{figure}[ht!] 
 	\begin{center}
@@ -1388,6 +1388,46 @@ Now, let's start to analyze some results for this test case. The figure \ref{res
 	\end{center}
 	\caption{Throughput of the account management task}
 	\label{result1}	
+\end{figure}
+
+Now, let's start to analyze some results for this test case. The figure \ref{result1} shows the throughput of the account management task, which we imposed to be 10 transactions per second. In fact we can see how all the databases oscillate around 10. But an important observation we can make on this graphs, a part that all database can sustain this load, is that Db4o doens't work smoothly
+
+\begin{figure}[ht!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result10.jpg}	
+	\end{center}
+	\caption{Throughput of the service authorization and management task}
+	\label{result10}	
+\end{figure}
+
+		\subsection{Memory Usage}
+
+\begin{figure}[ht!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result11.jpg}	
+	\end{center}
+	\caption{Memory usage}
+	\label{result11}	
+\end{figure}
+
+		\subsection{CPU usage}
+
+\begin{figure}[ht!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result12.jpg}	
+	\end{center}
+	\caption{CPU usage}
+	\label{result12}	
+\end{figure}
+
+		\subsection{File Size}
+
+\begin{figure}[ht!] 
+	\begin{center}
+		\includegraphics[width=13cm]{img/result13.jpg}	
+	\end{center}
+	\caption{File size}
+	\label{result13}	
 \end{figure}
 
 	
