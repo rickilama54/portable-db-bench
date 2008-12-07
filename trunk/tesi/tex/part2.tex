@@ -1261,16 +1261,16 @@ Another necessary observation is that the driver implemented by the database wil
 
 In this chapter we will deal with some of the results obtained by the execution of the test suite, produced in chapter \ref{test-suite}, on the database benchmark application, developed and described in chapter \ref{benchmark-application-chapter}. The benchmark is executed on a Sun Solaris machine, with 65GB of main memory and 32 processors, with a single 10000 rpm hard disk.
 
-The results obtained come from the execution of 4 test cases on 5 different competiting database systems. The test executed are: the real time prepaid system, the race test based on transactions' number, the reace test based on the test's time, and a final test to compare the memory and CPU usage of the different systems. The competitors who take place in the benchmark are: Pico4, Prevayler, HSQLDB, H2, Db4o.
+The results obtained come from the execution of 3 test cases on 5 different competiting database systems. The test executed are: the real time prepaid system, the race test based on transactions' number and the reace test based on the test's time. The competitors who take place in the benchmark are: Pico4, Prevayler, HSQLDB, H2, Db4o.
 
 	\section{Race Test: Timed}
-This test is based on the test case described in paragraph \ref{race-test-timed}. It is a base test case and therefore it is configured as a race, where all the competiting database systems run at their maximum speed. In this particular case all the database systems execute continuosly a single write operation until a fixed amount of time is passed.
+This test is based on the test case described in paragraph \ref{race-test-timed}. It is a base test case and therefore it is configured as a race, where all the competiting database systems run at their maximum speed. In this particular case all the database systems execute continuously a single write operation until a fixed amount of time is passed.
 
 This test, and its results, are not useful to understand the real performance and potentiality of the database and so they are not useful to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough for our needs.
 
 		\subsection{Total Number Of Transactions}
 
-The figure \ref{result2} shows on the y axis the total number of transactions executed by database sytems, and therefore the total number of writes, because one transaction in this test corresponds to a write. On the x axis there is the time, and we can notice how the test, as described in paragraph \ref{race-test-timed}, lasts for 60 seconds. It's important to point out how the y axis use a logarithmic scale. Note also that the database was initialized with 1 million of object before the test was started.
+The figure \ref{result2} shows on the y axis the total number of transactions executed by database systems, and therefore the total number of writes, because one transaction in this test corresponds to a write. On the x axis there is the time, and we can notice how the test, as described in paragraph \ref{race-test-timed}, lasts for 60 seconds. It's important to point out how the y axis use a logarithmic scale. Note also that the database was initialized with 1 million of object before the test was started.
 
 \begin{figure}[ht!] 
 	\begin{center}
@@ -1280,7 +1280,7 @@ The figure \ref{result2} shows on the y axis the total number of transactions ex
 	\label{result2}	
 \end{figure}
 
-This graph shows, therefore, the result of the race, and we can see how the fastest database system, in this case, is Pico4, except for the first 30 seconds where HSQLDB was a bit faster. Anyway also this second system is very fast. In 60 seconds Pico4 executed more than 5 millions of writes, whith a throughput of about 900 writes per second, while HSQLDB executed "just" 4 millions of writes. On the other hand Prevayler is extremely slow, compared to the others database systems: it exsecuted only 5 thousands of writes, which means a throughput of less than 100 writes per second. So there is a difference about 3 order of magnitude between Prevayler and Pico4. Another interesting observation for this graph is that Db4o has a strange behavior at the start of the test, but then it becomes very fast. This anomaly is put in evidence by the use of this graphs. This is probably caused by a bad implementation of the database driver, or something else, but it clearly tells us that in this case the comparison between the several database systems with Db4o is not appropriate. This strange behavior is exalthed by the use of graphs, which therefore are extremely powerful for a better understanding of the test' result. An average value would, instead, have hidden this peculiarity.
+This graph shows, therefore, the result of the race, and we can see how the fastest database system, in this case, is Pico4, except for the first 30 seconds where HSQLDB was a bit faster. Anyway also this second system is very fast. In 60 seconds Pico4 executed more than 5 millions of writes, with a throughput of about 900 writes per second, while HSQLDB executed "just" 4 millions of writes. On the other hand Prevayler is extremely slow, compared to the others database systems: it executed only 5 thousands of writes, which means a throughput of less than 100 writes per second. So there is a difference about 3 order of magnitude between Prevayler and Pico4. Another interesting observation for this graph is that Db4o has a strange behavior at the start of the test, but then it becomes very fast. This anomaly is put in evidence by the use of this graphs. This is probably caused by a bad implementation of the database driver, or something else, but it clearly tells us that in this case the comparison between the several database systems with Db4o is not appropriate. This strange behavior is exalted by the use of graphs, which therefore are extremely powerful for a better understanding of the test' result. An average value would, instead, have hidden this peculiarity.
 
 
 			\subsection{Memory Usage}
@@ -1299,7 +1299,7 @@ Analyzing this graph we can see how apparently there are only 4 database systems
 
 		
 	\section{Race Test: Transactions}
-This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of operations. In fact the stop condition for this test is a fixed total amount of transactions, unless they exceed a certain time out and they are stopped also if they are not finished yet. The only operation, which is continuosly repeated, is a simple write operation, but then we executed this test a second time with a read operation instead a write. Therefore we will see the results of the two executions. In both executions the database was initialized with 1 million of objects.
+This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of operations. In fact the stop condition for this test is a fixed total amount of transactions, unless they exceed a certain time out and they are stopped also if they are not finished yet. The only operation, which is continuously repeated, is a simple write operation, but then we executed this test a second time with a read operation instead a write. Therefore we will see the results of the two executions. In both executions the database was initialized with 1 million of objects.
 
 		\subsection{Total Number Of Transactions}
 		
@@ -1373,7 +1373,7 @@ The figure \ref{result9} represents the file size during the second execution of
 In addition from the last 2 graphs we can see how much memory is used to store a fixed amount of objects. In fact the initial value of the file size is due to the database which is already initialized with 1 million of object. Therefore we can see that Pico4 and Prevayler use less than 50MB to store 1 million of object, while H2 use about 190MB, which is a big difference. If you consider to use such a system on an enterprise application you need to take into consideration the huge amount of bytes used on the hard disk to operate.
 
 	\section{Real Time Prepaid System Test}
-This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks: balanche chekc task, executed 10 times per second; accounts management task, executed 10 times per second; services authorization and management task, executed 2000 times per second. The database during this test was initialized with 12 millions of objects: 4 millions of accounts, 4 millions of sessions and 8 millions of MSISDN. Now, let's start to analyze some results for this test case. 
+This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks: balance check task, executed 10 times per second; accounts management task, executed 10 times per second; services authorization and management task, executed 2000 times per second. The database during this test was initialized with 12 millions of objects: 4 millions of accounts, 4 millions of sessions and 8 millions of MSISDN. Now, let's start to analyze some results for this test case. 
 
 		\subsection{Throughput}
 
@@ -1407,7 +1407,7 @@ Instead, the figure \ref{result10} shows the throughput of the service authoriza
 	\label{result11}	
 \end{figure}
 
-The figure \ref{result11} shows the memory usage during the execution of this load test. It's interesting to note how HSQLDB, although during the transaction test showed in figure \ref{result6} was using less memory than the other sytems, now comes soon after Db4o. This means that is not possible to study database behavior only with simple tests such as the trasanction race test. In this graph Pico4 is still the best database in term of memory used. In fact note that Prevayler can't be compared to the other database systems, because it wasn't able to provide the desired throughput showed in figure \ref{result10}.
+The figure \ref{result11} shows the memory usage during the execution of this load test. It's interesting to note how HSQLDB, although during the transaction test showed in figure \ref{result6} was using less memory than the other systems, now comes soon after Db4o. This means that is not possible to study database behavior only with simple tests such as the trasanction race test. In this graph Pico4 is still the best database in term of memory used. In fact note that Prevayler can't be compared to the other database systems, because it wasn't able to provide the desired throughput showed in figure \ref{result10}.
 
 		\subsection{CPU usage}
 
@@ -1439,28 +1439,26 @@ This graph put in evidence also the file size used to initialize the database wi
 %This test is not described in the test suite developed in chapter \ref{test-suite}, although it is very useful to understand and to compare the database's performance. This test is a sort of load test case, where is composed only by one task, and therefore it is very simple. The peculiar feature of this test is the constant throughput, in other terms, a constant amount of transactions per second. This value was chosen quite low, so that each database systems can sustain the specifyied load. This feature, therefore, allows an easy and clear comparison between the results of the databases for different reporters, such as the memory usage, the file size and the CPU usage.
 
 
-	\section{Conclusion}
+	\section{In Summary}
+
+The analysis of all these results put in evidence the efficacy of the graphs used, which are produced directly by the benchmark application. They highlight the trend of the performance during the tests' execution. Any oscillation in the performances becomes evident and easy to read and understand. Of course such a behavior would be hidden by simple average values. In addition these graphs are also useful to understand some miss in the tests' implementation.
+
+Before summarizing the results gathered, it's important to point out that these test should also be executed more than just once, as we did, because there are too many transient factors which may produce wrong results. Moreover there is an infinity of possible tuning for the platform software and hardware used for the benchmark. For example we used the following option when executing the "java" command:
+\begin{lstlisting}
+-Xms50G -Xmn512M -Xmx50G -d64 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=60 -XX:ParallelGCThreads=32 -XX:SurvivorRatio=8 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=31 -Xloggc:javagc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:-TraceClassUnloading -XX:+ExplicitGCInvokesConcurrent -XX:PermSize=512m -XX:MaxPermSize=512m -Xdebug -Xrunjdwp:transport=dt_socket,address=1044,server=y,suspend=n
+\end{lstlisting}
+In this particular case, this means that we assigned 50GB of main memory to the Java process, that the garbage collector use was the concurrent mark sweep (CMS), that the permanent size was 512MB, and so on.
+
+Coming to a conclusion, Prevayler surprised us for its performance in read operations, but on the other hand it has a dramatically slow throughput for write operations, which was less than 100 writes per second. But it's really important to note that these performances depend also on the platform used. For example, the same execution, on a laptop with an intel core 2 duo T7500, 3GB of RAM and a 4200rpm hard disk, produced a throughput of about 1 thousand of writes per second. Anyway, Prevayler is not what a real time prepaid system needs, unless there is no durability requirements. Probably these Prevayler's performances are due to a strict synchronization with the hard disk.
 
 
+Then also Db4o and H2 are not suited for a real time prepaid system. Although they showed better performance than Prevayler, they are average performance, especially comparing them to Pico4 and HSQLDB. Moreover both H2 and Db4o showed a great use of shared resources such as the CPU, the RAM usage and the space on the hard disk. Particularly in regards of this last feature, H2 showed a huge use of the file on the hard disk, with a behavior that is more typical of traditional database management systems.
 
-	db4o e h2 sebbene molti buoni e interessanti, sembrano relazionali dal tipo di prestazioni
-	
-	prevayler molto lento nelle scritture perchè totalmente sincrono. rende meglio sul mio portatile!
+Instead HSQLDB and Pico4 showed very good performances: their throughput was always very high both in reads and writes, and also the use of shared resources was really limited. But between these two database systems, Pico4 is the leading database: it has a better throughput in read operations and also slightly better in write operations; the CPU usage is very low; and also the file size and the memory used are lower than HSQLDB. Therefore, even if HSQLDB is a great database in this scenario, Pico4 is of course the most suited.
 
-	la potenza dei grafici: analizzare i trend
-	
-	rieseguire più volte i test per controllare se c'è uniformità
-	
-	in ogni test db4o inizia sempre piano
-	
-	abbiamo visto differenze a seconda della piattaforma		
-	abbiamo anche provato diversi settaggi della jvm
-	
-	chi vince? nessuno
-		
-	ma nei casi dati da noi il migliore è pico4.. perchè?
-	anche hsqldb è una spada
-	
+This is because Pico4 was developed exactly for this kind of application scenario, while HSQLDB and the other systems, are more for general purpose use. In addition Pico4 doesn't support any transaction isolation level, but it was not required by this test case. Therefore this benefits the performances of Pico4. 
+
+In conclusion, Pico4 is certainly the best database system for a real time prepaid system application, because it was developed for this kind of application. This means that, when you need high performance, the development of an ad-hoc solution is always the best solution. Of course this is not always possible, and often we don't need the best performance for a specific scenario, but just very good performance, therefore there are a lot of possible "cheaper" solution already available on the market.
 	
 
 \chapter{Conclusion}
