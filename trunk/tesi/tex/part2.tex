@@ -1358,6 +1358,7 @@ The figure \ref{result7} represents instead the memory used during the second ex
 	\label{result8}	
 \end{figure}		
 
+The figure \ref{result8} represents the file size during the first execution of the test, therefore with all write operations. All the databases show a natural increment of the file size. Pico4 and Prevayler use a smaller file size than the other systems, and also the increment, which is linear to the number of writes executed, is less than the others. H2 instead shows a really strange behavior, with a file size which increments and decrease too. A behavior which is typical of relational databases.
 		
 \begin{figure}[ht!] 
 	\begin{center}
@@ -1367,8 +1368,9 @@ The figure \ref{result7} represents instead the memory used during the second ex
 	\label{result9}	
 \end{figure}
 
+The figure \ref{result9} represents the file size during the second execution of the test, where all all the operations executed are read operation. As we could expect none of the databases increments the files size. This is of course a normal behavior. 
 
-
+In addition from the last 2 graphs we can see how much memory is used to store a fixed amount of objects. In fact the initial value of the file size is due to the database which is already initialized with 1 million of object. Therefore we can see that Pico4 and Prevayler use less than 50MB to store 1 million of object, while H2 use about 190MB, which is a big difference. If you consider to use such a system on an enterprise application you need to take into consideration the huge amount of bytes used on the hard disk to operate.
 
 	\section{Real Time Prepaid System Test}
 This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks:
