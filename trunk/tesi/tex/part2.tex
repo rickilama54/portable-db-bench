@@ -1373,12 +1373,7 @@ The figure \ref{result9} represents the file size during the second execution of
 In addition from the last 2 graphs we can see how much memory is used to store a fixed amount of objects. In fact the initial value of the file size is due to the database which is already initialized with 1 million of object. Therefore we can see that Pico4 and Prevayler use less than 50MB to store 1 million of object, while H2 use about 190MB, which is a big difference. If you consider to use such a system on an enterprise application you need to take into consideration the huge amount of bytes used on the hard disk to operate.
 
 	\section{Real Time Prepaid System Test}
-This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks:
-\begin{itemize}
-	\item balanche chekc task, executed 10 times per second;
-	\item accounts management task, executed 10 times per second;
-	\item services authorization and management task, executed 2000 times per second.
-\end{itemize}
+This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks: balanche chekc task, executed 10 times per second; accounts management task, executed 10 times per second; services authorization and management task, executed 2000 times per second. The database during this test was initialized with 12 millions of objects: 4 millions of accounts, 4 millions of sessions and 8 millions of MSISDN. Now, let's start to analyze some results for this test case. 
 
 		\subsection{Throughput}
 
@@ -1390,7 +1385,7 @@ This test represents the execution of the test case described in paragraph \ref{
 	\label{result1}	
 \end{figure}
 
-Now, let's start to analyze some results for this test case. The figure \ref{result1} shows the throughput of the account management task, which we imposed to be 10 transactions per second. In fact we can see how all the databases oscillate around 10. But an important observation we can make on this graphs, a part that all database can sustain this load, is that Db4o doens't work smoothly
+The figure \ref{result1} shows the throughput of the account management task, which we imposed to 10 transactions per second. In fact we can see how all the databases oscillate around 10. But an important observation for this graphs is that Db4o has very strange oscillation, and the throughput is not constant, also if the average value is about 10. This fact is very well highlighted by the use of graphs.
 
 \begin{figure}[ht!] 
 	\begin{center}
@@ -1399,6 +1394,8 @@ Now, let's start to analyze some results for this test case. The figure \ref{res
 	\caption{Throughput of the service authorization and management task}
 	\label{result10}	
 \end{figure}
+
+Instead, the figure \ref{result10} shows the throughput of the service authorization and management task, which we imposed to 2 thousands of executions per second. This is the most important task in term of performance, in fact this is the usual bottle neck for this application usage. From this graph we can notice how Prevayler is again the worst database system, and this fact confirms the previous tests. In addition also Db4o is slightly under the desired throughput. Another interesting observation is that HSQLDB approximately every 30 seconds has a break, which, although it is very short, can be an important feature for real time systems, such the one we are simulating with this test.
 
 		\subsection{Memory Usage}
 
@@ -1410,6 +1407,8 @@ Now, let's start to analyze some results for this test case. The figure \ref{res
 	\label{result11}	
 \end{figure}
 
+The figure \ref{result11} shows the memory usage during the execution of this load test. It's interesting to note how HSQLDB, although during the transaction test showed in figure \ref{result6} was using less memory than the other sytems, now comes soon after Db4o. This means that is not possible to study database behavior only with simple tests such as the trasanction race test. In this graph Pico4 is still the best database in term of memory used. In fact note that Prevayler can't be compared to the other database systems, because it wasn't able to provide the desired throughput showed in figure \ref{result10}.
+
 		\subsection{CPU usage}
 
 \begin{figure}[ht!] 
@@ -1419,6 +1418,8 @@ Now, let's start to analyze some results for this test case. The figure \ref{res
 	\caption{CPU usage}
 	\label{result12}	
 \end{figure}
+
+The figure \ref{result12} represents the CPU usage of the competiting systems during the test execution. Take in mind that also this time Prevayler can't be compared to the others because it wasn't able to provide the desired throughput for the service authorization and management task. We can see how Pico4 practically doesn't use the CPU, while HSQLDB use a very limited amount of CPU. Instead Db4o and H2 use about 40\% of CPU, which means about half CPU of a systemcomposed by 32 CPU. In fact, as always, the database bottle neck is the hard disk, and it is not the CPU.
 
 		\subsection{File Size}
 
@@ -1430,6 +1431,9 @@ Now, let's start to analyze some results for this test case. The figure \ref{res
 	\label{result13}	
 \end{figure}
 
+Finally the figure \ref{result13} shows the file size during the execution of this test. As we can see for all the database systems, the file size's increments are minimally perceptible. This means that this application scenario, although composed by different write operations, doesn't require a huge disk space. But this test lasts only 120 seconds. It would be really interesting to monitor the file size during a test whose duration is longer, for example some hours. 
+
+This graph put in evidence also the file size used to initialize the database with 12 millions of objects. Both Db4o and HSQLDB use about 800MB of the disk space, while Pico4 uses less than 500MB and Prevayler less than 400MB. But Prevayler, as already said, wasn't able to provide the desired throughput. On the other hand there is H2, which uses more than 3GB of the disk space to initialize 12 millions of objects. 
 	
 	\section{Memory and CPU Test}
 This test is not described in the test suite developed in chapter \ref{test-suite}, although it is very useful to understand the database's performance. This test is a sort of load test case, where is composed only by one task, and therefore it is very simple. The peculiar feature of this test is the constant throughput, in other terms, a constant amount of transaction per second. This value was chosen quite low, so that each database systems can sustain the specifyied load. This feature, therefore, allows an easy and clear comparison between the results of the databases for different reporters, such as the memory usage, the file size and the CPU usage.
