@@ -1268,7 +1268,7 @@ This test is based on the test case described in paragraph \ref{race-test-timed}
 
 This test, and its results, are not useful to understand the real performance and potentiality of the database and so they are not useful to choose the database for our needs, but it can be used in an early stage to reduce the databases' set which will be analyzed extensively with further tests. In other words we can throw away every databases whose maximum throughput is not enough for our needs.
 
-\begin{figure}[htp!] 
+\begin{figure}[!ht] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result2.jpg}	
 	\end{center}
@@ -1280,7 +1280,7 @@ The figure \ref{result2} shows on the y axis the total number of transactions ex
 
 This graph shows, therefore, the result of the race, and we can see how the fastest database system, in this case, is Pico4, except for the first 30 seconds where HSQLDB was a bit faster. Anyway also this second system is very fast. In 60 seconds Pico4 executed more than 5 millions of writes, whith a throughput of about 900 writes per second, while HSQLDB executed "just" 4 millions of writes. On the other hand Prevayler is extremely slow, compared to the others database systems: it exsecuted only 5 thousands of writes, which means a throughput of less than 100 writes per second. So there is a difference about 3 order of magnitude between Prevayler and Pico4. Another interesting observation for this graph is that Db4o has a strange behavior at the start of the test, but then it becomes very fast. This anomaly is put in evidence by the use of this graphs. This is probably caused by a bad implementation of the database driver, or something else, but it clearly tells us that in this case the comparison between the several database systems with Db4o is not appropriate. This strange behavior is exalthed by the use of graphs, which therefore are extremely powerful for a better understanding of the test' result. An average value would, instead, have hidden this peculiarity.
 
-\begin{figure}[htp!] 
+\begin{figure}[!ht] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result3.jpg}	
 	\end{center}
@@ -1288,14 +1288,24 @@ This graph shows, therefore, the result of the race, and we can see how the fast
 	\label{result3}	
 \end{figure}
 
-The figure \ref{result3} is a graphical representation of the main memory used during the test execution. Note that on the x axis there is the total number of transactions, and not the time. This is because the memory usage doesn't depend on the time, but it depends mainly, in this case, on the number of objects inserted in the database, and therefore in main memory, because we are using in-memory database systems. 
+The figure \ref{result3} is a graphical representation of the main memory used during the test execution. Note that on the x axis there is the total number of transactions, and not the time, in fact not all the lines represented get to the right side of the graph. This has been done because the memory usage doesn't depend on the time, but it depends mainly, in this case, on the number of objects inserted in the database, and therefore in main memory, because we are using in-memory database systems. Another important thing to point out is that this graph represents the memory usage when all the systems are at their 100\% usage, because they all execute only writes consecutively without any limitations on the throughput.
 
-all 100\% di utilizzo vediamo il grafico...
-	
+Analyzing this graph we can see how apparently there are only 4 database systems. This is because Prevayler executes so few transactions that it is hard to represent it on the graph. Then we can see how both Pico4 and HSQLDB use less memory than H2 and Db4o, and this is much more surprising considering that they are also the fastest systems. So we can conclude that their speed doesn't come from a huge memory usage. In addition Pico4 shows a bit strange behavior because, differently from the others, it sometime increments the memory used in blocks, but there too many possible reason for this behavior, such as particular JVM behavior. It would be useful to rerun this test to analyze if this behavior is still present.
+
+		
 	\section{Race Test: Transactions}
 This test is based on the test case described in paragraph \ref{race-test-transactions}. This is a base test case too, like the timed race test described in the previous chapter. In this case all the competiting database systems must execute a fixed amount of writes. In fact the stop condition for this test is a fixed total amount of transactions. The only operation, which is continuosly repeated, is a simple write operation.
 
--pure qui poco utile.
+While in the previous test the duration was meaningless, this time, like in a
+race, it shows which database is the fastest (the winner of the race). Despite
+this, the duration is still of little use. Also for the throughput, the same
+considerations made before are still valid.
+But this new test is useful also to take other interesting measures, such
+as the file size, which, as explained in par. 3.2, can become very huge, even
+more than the database image, and therefore it is a critical measure. We
+can evaluate how the file size increase with the number of objects (person)
+inserted in the database. This is because, differently to the previous one,
+every test's execution perform a fixed amount of iteration.
 
 	\section{Real Time Prepaid System Test}
 This test represents the execution of the test case described in paragraph \ref{real-time-test-case} during the development of the test suite. This is the main test case produced in the test suite and the purpose of this thesis, which was to find the best in-memory database, in terms of performance, for a real time prepaid system, such as a telephone company. This is a load test case, and therefore it is not configured as a race. As already explained, it is composed by three tasks:
@@ -1307,7 +1317,7 @@ This test represents the execution of the test case described in paragraph \ref{
 
 Now, let's start to analyze some results for this test case. The figure \ref{result1} shows the throughput of the account management task, which we imposed to be 10 transactions per second. In fact we can see how all the databases oscillate around 10. But an important observation we can make on this graphs, a part that all database can sustain this load, is that Db4o doens't work smoothly
 
-\begin{figure}[htp!] 
+\begin{figure}[ht!] 
 	\begin{center}
 		\includegraphics[width=13cm]{img/result1.jpg}	
 	\end{center}
@@ -1326,7 +1336,11 @@ This test is not described in the test suite developed in chapter \ref{test-suit
 
 	\section{Conclusion}
 
-
+	la potenza dei grafici: analizzare i trend
+	
+	rieseguire più volte i test per controllare se c'è uniformità
+	
+	
 	
 	chi vince? nessuno
 	
