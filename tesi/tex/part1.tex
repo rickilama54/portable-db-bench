@@ -901,25 +901,48 @@ EXtremeDB-64 increases maximum database size by adding support for 64-bit micro-
 %    * The maximum size of the database is about 2GB 
     		
 		\section{Pico4v2}
-Last but not least, Pico4v2, which is a proprietary database system developed by ERIS4 for real time applications, such as a real time prepaid system, like a telco company. 
-		
-
+Last but not least, Pico4v2, which is a proprietary database system developed by ERIS4 for real time applications, such as a real time prepaid system, like a telco company. It is currently used by ERIS4 with good effect for a rating engine, WARP4, which provides very high throughput.		
 		
 		\subsection{Advantages}
-		
+Pico4v2 is a 100\% Java technology, and therefore enable a full portability for the application in which it is integrated. Pico4v2 has an amazing small footprint, with about 24KB of disk space used. It provide very high performance both in read and write operations: on a desktop computer it can executemore than 1 million of reads per second and about 100 thousands writes per second.
+
+It can run all in main memory without any durability, as a pure in-memory database system, or it can provide durability through the transaction logging mechanisms.
 		
 		
 		\subsection{Disadvantages}
-		
-		
-		
-		\subsection{Project Info}
-		
+Pico4v2 doesn't support any transaction isolation level. Every transaction must be directly managed by the application which is using Pico4v2.
+
+In addition you domain objects need to be modified to be stored by Pico4v2, in order to implement a certain interface. But with future developments this feature will be directly integrated by the database system so that there will not be anymore the need to implement this specific interface.
 		
 		
 		\subsection{Usage}
+Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. The following code is an example of Pico4v2 usage:
+\begin{lstlisting}
+public class Test {
 		
-		
+	public static void main(String[] args) {
+		//connect
+		PersistentMap map;
+		map = new PersistentMap("NumberMap");
+		//load the already existent map in memory
+		map.load();
+		//write new numbers
+		for (int i = 0; i < 10; i++) {
+			Number number = new Number(i);
+			map.put(String.valueOf(number.getValue()),number);
+		}
+		//create a snapshot of the database
+		map.commit();		
+		//read numbers
+		for (int i = 0; i < 10; i++) {
+			map.get(String.valueOf(i));
+		}		
+		//close the database
+		map.close();
+	}
+\end{lstlisting}
+
+
 		
 				
 %		\section{Conclusion}
