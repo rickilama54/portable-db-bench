@@ -834,35 +834,21 @@ For software applications that require high availability, eXtremeDB High Availab
 
 EXtremeDB-64 increases maximum database size by adding support for 64-bit micro-processors and operating systems, and therefore it increases the amount of memory a system can address from approximately 3GB to more than one terabyte. This database systems is also highly portable, in fact there are many platforms supported by McObject, such as linux and real time linux distribution, sun solaris, RTX real time extension for windows, and many others.	
 		
-%		\section{Polyhedra}
-%    * Closed source
-%    * Polyhedra is a family of relational database management systems
-%    * The original version of Polyhedra was an in-memory database management system which could be used in high availability configurations
-%    * in 2006 Polyhedra FlashLite was introduced to allow databases to be stored in Flash memory
-%    * All versions are fully client-server to ensure the data is protected form misbehaving application software, and use the same SQL, JDBC interfaces
-%    * Cross-platform
-%    * Available in C/C++ and Java
-%    * its fault-tolerance model is based on the hot-standby approach (to minimise hardware costs) rather than clustering (which is better for load-sharing)
-%    * The first release is in 1993
-%    * The last release is 7.1 in 28/09/2007 
-%    		
-%		\section{TimesTen}
-%    * TimesTen provides a family of real-time infrastructure software products designed for low latency, high-volume data, event and transaction management
-%    * TimesTen's core DataServer product uses in-memory database technology to speed access to data
-%    * Offers a Cache product that interoperates with an Oracle database backend
-%    * Supports jdbc interface
-%    * The project started in 1996
-%    * Acquired by Oracle in 2005 
-%    
-%    		
-%		\section{Csql}
-% Supports only a limited set of features
-% Csql should offer Atomicity, Consinstency and Isolation, but no Durability
-% Supports jdbc interface
-% It should support SQL DML statements which contains only single table
-% It is used mostly as a cache for a disk-based database
-% Last update date at 02/06/2008  
-%		
+		\section{Polyhedra}
+Polyhedra is a family of relational database management systems offered by ENEA AB, a Swedish company. The original version of Polyhedra (now referred to as Polyhedra IMDB) was an in-memory database management system which could be used in high availability configurations; in 2006 Polyhedra FlashLite was introduced to allow databases to be stored in flash memory. All versions are fully client-server to ensure the data is protected form misbehaving application software, and use the same SQL, ODBC and JDBC interfaces. 
+
+Polyhedra IMDB achieves data persistence through the use of snapshots and journal logging; Polyhedra FlashLite uses shadow paging, with 2 levels of recursion. In addition, Polyhedra IMDB can be used in hot-standby configurations for improved availability. The transactional model used by all Polyhedra products ensures atomicity, consistency and isolation (as defined by the ACID properties); durability is enforced in Polyhedra FlashLite, while in Polyhedra IMDB clients can choose the durability model when they issue their transactions.
+
+Polyhedra is a cross-platform system, and it runs on Linux, Windows and Solaris in 32 bit mode. But if the operating system is a 64 bit software, Polyhedra offers also a 64 bit version which gives greater memory addressability and thus greater capacity. 
+
+The first version of Polyhedra was released in 1993, although the project started in 1991. Actually the latest version is Polyhedra 8.0, released in the 2008, which now supports hot standby configurations.
+    		
+		\section{TimesTen}
+
+TimesTen is a database product from Oracle Corporation. It provides a family of real-time infrastructure software products designed for low latency, high-volume data, event and transaction management. Unlike conventional infrastructure software, TimesTen’s products are optimized for embedded deployment and used mainly in the telecom and financial markets. They are also being used more broadly for mid-tier data management, for example in e-commerce applications and service-oriented architecture (SOA) infrastructures, because of their performance, low maintenance, flexibility, and reliability.
+
+TimesTen also offers a cache product that interoperates with an Oracle database backend, using one of several protocols, to cache frequently used data in TimesTen. SQL predicates can be used to specify what data is cached, or data can be loaded into the cache on demand (and later automatically aged out). Data can be changed in the cache, with writes being propagated synchronously or asynchronously back to Oracle. In fact TimesTen project started in 1996, but in 2005 it was acquired by Oracle.
+    
 %		\section{SolidDB}
 %    * It started in 1992
 %    * It is a relational dbms offered by Solid, an IBM Company
