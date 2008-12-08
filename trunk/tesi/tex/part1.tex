@@ -848,25 +848,37 @@ The first version of Polyhedra was released in 1993, although the project starte
 TimesTen is a database product from Oracle Corporation. It provides a family of real-time infrastructure software products designed for low latency, high-volume data, event and transaction management. Unlike conventional infrastructure software, TimesTen’s products are optimized for embedded deployment and used mainly in the telecom and financial markets. They are also being used more broadly for mid-tier data management, for example in e-commerce applications and service-oriented architecture (SOA) infrastructures, because of their performance, low maintenance, flexibility, and reliability.
 
 TimesTen also offers a cache product that interoperates with an Oracle database backend, using one of several protocols, to cache frequently used data in TimesTen. SQL predicates can be used to specify what data is cached, or data can be loaded into the cache on demand (and later automatically aged out). Data can be changed in the cache, with writes being propagated synchronously or asynchronously back to Oracle. In fact TimesTen project started in 1996, but in 2005 it was acquired by Oracle.
+
+    		
+		\section{CSQL}
+		
+CSQL is an open source main memory high-performance relational database management system. It is designed to provide high performance on simple SQL queries and DML statements which involves only one table. It supports only limited features which are used by most of the real time applications which includes INSERT, UPDATE, DELETE on single table and SELECT with local predicates on single table. It provides multiple interfaces such as JDBC, ODBC and other SQL APIs. 
+
+CSQL offers atomicity, consinstency and isolation, but not durability. In fact this is mostly used a cache for existing disk based commercial database.
+		
     
-%		\section{SolidDB}
-%    * It started in 1992
-%    * It is a relational dbms offered by Solid, an IBM Company
-%    * Includes both in-memory and on-disk engines
-%    * Can be configured using a hot-standby architecture to achieve six 9's data availability (99.9999\%) with no single point of failure
-%    * Two-node architecture can also be used for load-balancing
-%    * SolidDB 6 has shown linear scalability from 2 to 16 cores
-%    * Allows full ACID transactions  
-%		
-%		\section{MonetDB}
-%    * Open spource
-%    * Designed to provide high performance on complex queries against large databases
-%    * Focus its query optimization effort on exploiting CPU caches
-%    * Uses a sql and a jdbc interface
-%    * The development of MonetDb? started in 1979
-%    * And became a open source project in 2003
-%    * The last release is 4.16 and date at 26/02/2007 
-%    		
+		\section{SolidDB}
+SolidDB is a relational database management system offered by Solid, an IBM Company. SolidDB includes an in-memory database as well as a traditional database, which both employ the same SQL interface, and a high availability option using a hot-standby architecture to achieve six 9's data availability (99.9999\%) with no single point of failure.
+
+Solid also offers solidDB for MySQL, a version of MySQL that includes a solidDB storage engine. SolidDB for MySQL is open source software available under the GNU General Public License, allowing full ACID transactions.
+
+Solid was a privately held company originally founded in Helsinki, Finland in 1992. Then it was acquired by IBM in late 2007.
+		
+		\section{MonetDB}
+
+
+
+
+
+
+    * Open spource
+    * Designed to provide high performance on complex queries against large databases
+    * Focus its query optimization effort on exploiting CPU caches
+    * Uses a sql and a jdbc interface
+    * The development of MonetDb? started in 1979
+    * And became a open source project in 2003
+    * The last release is 4.16 and date at 26/02/2007 
+    		
 %		\section{RDM Embedded}
 %    * Supports both disk based and in-memory tables
 %    * Fully ACID transaction compliant
