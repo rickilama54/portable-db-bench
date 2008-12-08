@@ -802,44 +802,30 @@ public class Main{
 }
 \end{lstlisting}
 		
-		\section{SQLite}
-		asdasd
-
-		
-			\subsection{Advantages}
-asdasd
-			
-			\subsection{Disadvantages}
-asdasd
-			
-			\subsection{Project Info}
-asdasd
-		
-		\section{Firebird}
-		asdasd
-
-		
-			\subsection{Advantages}
-asdasd
-			
-			\subsection{Disadvantages}
-asdasd
-			
-			\subsection{Project Info}
-asdasd
-				
-		\section{MySql}
-		asdasd
-
-		
-			\subsection{Advantages}
-asdasd
-			
-			\subsection{Disadvantages}
-asdasd
-			
-			\subsection{Project Info}
-asdasd
+%		\section{SQLite}
+%		asdasd		
+%			\subsection{Advantages}
+%asdasd			
+%			\subsection{Disadvantages}
+%asdasd			
+%			\subsection{Project Info}
+%asdasd		
+%		\section{Firebird}
+%		asdasd		
+%			\subsection{Advantages}
+%asdasd			
+%			\subsection{Disadvantages}
+%asdasd			
+%			\subsection{Project Info}
+%asdasd				
+%		\section{MySql}
+%		asdasd		
+%			\subsection{Advantages}
+%asdasd			
+%			\subsection{Disadvantages}
+%asdasd			
+%			\subsection{Project Info}
+%asdasd
 		
 		\section{ExtremeDB}
 EXtremeDB is an ACID-compliant embedded database management system (DBMS) designed for embedded systems and applications with real-time performance requirements. It is a proprietary software of McObject company and therefore it is not open source. As most IMDBs, also eXtremeDB has a small footprint of about 50K. In addition it provides both native API for C/C++ language, and SQL API, called eXtremeSQL which implements much of the ANSI SQL-89 specification.
@@ -848,74 +834,74 @@ For software applications that require high availability, eXtremeDB High Availab
 
 EXtremeDB-64 increases maximum database size by adding support for 64-bit micro-processors and operating systems, and therefore it increases the amount of memory a system can address from approximately 3GB to more than one terabyte. This database systems is also highly portable, in fact there are many platforms supported by McObject, such as linux and real time linux distribution, sun solaris, RTX real time extension for windows, and many others.	
 		
-		\section{Polyhedra}
-    * Closed source
-    * Polyhedra is a family of relational database management systems
-    * The original version of Polyhedra was an in-memory database management system which could be used in high availability configurations
-    * in 2006 Polyhedra FlashLite was introduced to allow databases to be stored in Flash memory
-    * All versions are fully client-server to ensure the data is protected form misbehaving application software, and use the same SQL, JDBC interfaces
-    * Cross-platform
-    * Available in C/C++ and Java
-    * its fault-tolerance model is based on the hot-standby approach (to minimise hardware costs) rather than clustering (which is better for load-sharing)
-    * The first release is in 1993
-    * The last release is 7.1 in 28/09/2007 
-    		
-		\section{TimesTen}
-    * TimesTen provides a family of real-time infrastructure software products designed for low latency, high-volume data, event and transaction management
-    * TimesTen's core DataServer product uses in-memory database technology to speed access to data
-    * Offers a Cache product that interoperates with an Oracle database backend
-    * Supports jdbc interface
-    * The project started in 1996
-    * Acquired by Oracle in 2005 
-    
-    		
-		\section{Csql}
- Supports only a limited set of features
- Csql should offer Atomicity, Consinstency and Isolation, but no Durability
- Supports jdbc interface
- It should support SQL DML statements which contains only single table
- It is used mostly as a cache for a disk-based database
- Last update date at 02/06/2008  
-		
-		\section{SolidDB}
-    * It started in 1992
-    * It is a relational dbms offered by Solid, an IBM Company
-    * Includes both in-memory and on-disk engines
-    * Can be configured using a hot-standby architecture to achieve six 9's data availability (99.9999\%) with no single point of failure
-    * Two-node architecture can also be used for load-balancing
-    * SolidDB 6 has shown linear scalability from 2 to 16 cores
-    * Allows full ACID transactions  
-		
-		\section{MonetDB}
-    * Open spource
-    * Designed to provide high performance on complex queries against large databases
-    * Focus its query optimization effort on exploiting CPU caches
-    * Uses a sql and a jdbc interface
-    * The development of MonetDb? started in 1979
-    * And became a open source project in 2003
-    * The last release is 4.16 and date at 26/02/2007 
-    		
-		\section{RDM Embedded}
-    * Supports both disk based and in-memory tables
-    * Fully ACID transaction compliant
-    * RDM Embedded’s legacy has 20+ years of history
-    * The Java API is based on Java Native Interface technology
-    * RDM Embedded has implemented a SQL API set to support applications that manage the database through SQL commands
-    * RDM Embedded Mirroring System assists developers in creating Fault Tolerant applications; however the design does not attempt to make fault tolerance an engine featur
-    * With RDM Embedded advanced replication engine, application databases can be replicated for fault tolerance and high availability 		
-		\section{FastDB}
-    * Open source
-    * It is a object-relational main memory embedded database system
-    * It is written in C++
-    * It is possible to use a Java Native Interface to access to the database
-    * There is only 1 developer
-    * The project started in 2007 		
-		\section{QuiLogic}
-    * Available for many platform, including .NET, but not for Java
-    * The maximum size of the database is about 2GB 
+%		\section{Polyhedra}
+%    * Closed source
+%    * Polyhedra is a family of relational database management systems
+%    * The original version of Polyhedra was an in-memory database management system which could be used in high availability configurations
+%    * in 2006 Polyhedra FlashLite was introduced to allow databases to be stored in Flash memory
+%    * All versions are fully client-server to ensure the data is protected form misbehaving application software, and use the same SQL, JDBC interfaces
+%    * Cross-platform
+%    * Available in C/C++ and Java
+%    * its fault-tolerance model is based on the hot-standby approach (to minimise hardware costs) rather than clustering (which is better for load-sharing)
+%    * The first release is in 1993
+%    * The last release is 7.1 in 28/09/2007 
+%    		
+%		\section{TimesTen}
+%    * TimesTen provides a family of real-time infrastructure software products designed for low latency, high-volume data, event and transaction management
+%    * TimesTen's core DataServer product uses in-memory database technology to speed access to data
+%    * Offers a Cache product that interoperates with an Oracle database backend
+%    * Supports jdbc interface
+%    * The project started in 1996
+%    * Acquired by Oracle in 2005 
+%    
+%    		
+%		\section{Csql}
+% Supports only a limited set of features
+% Csql should offer Atomicity, Consinstency and Isolation, but no Durability
+% Supports jdbc interface
+% It should support SQL DML statements which contains only single table
+% It is used mostly as a cache for a disk-based database
+% Last update date at 02/06/2008  
+%		
+%		\section{SolidDB}
+%    * It started in 1992
+%    * It is a relational dbms offered by Solid, an IBM Company
+%    * Includes both in-memory and on-disk engines
+%    * Can be configured using a hot-standby architecture to achieve six 9's data availability (99.9999\%) with no single point of failure
+%    * Two-node architecture can also be used for load-balancing
+%    * SolidDB 6 has shown linear scalability from 2 to 16 cores
+%    * Allows full ACID transactions  
+%		
+%		\section{MonetDB}
+%    * Open spource
+%    * Designed to provide high performance on complex queries against large databases
+%    * Focus its query optimization effort on exploiting CPU caches
+%    * Uses a sql and a jdbc interface
+%    * The development of MonetDb? started in 1979
+%    * And became a open source project in 2003
+%    * The last release is 4.16 and date at 26/02/2007 
+%    		
+%		\section{RDM Embedded}
+%    * Supports both disk based and in-memory tables
+%    * Fully ACID transaction compliant
+%    * RDM Embedded’s legacy has 20+ years of history
+%    * The Java API is based on Java Native Interface technology
+%    * RDM Embedded has implemented a SQL API set to support applications that manage the database through SQL commands
+%    * RDM Embedded Mirroring System assists developers in creating Fault Tolerant applications; however the design does not attempt to make fault tolerance an engine featur
+%    * With RDM Embedded advanced replication engine, application databases can be replicated for fault tolerance and high availability 		
+%		\section{FastDB}
+%    * Open source
+%    * It is a object-relational main memory embedded database system
+%    * It is written in C++
+%    * It is possible to use a Java Native Interface to access to the database
+%    * There is only 1 developer
+%    * The project started in 2007 		
+%		\section{QuiLogic}
+%    * Available for many platform, including .NET, but not for Java
+%    * The maximum size of the database is about 2GB 
     		
 		\section{Pico4v2}
-		
+Last but not least, Pico4v2, which is a proprietary database system developed by ERIS4 for real time applications, such as a real time prepaid system, like a telco company. 
 		
 
 		
@@ -936,5 +922,5 @@ EXtremeDB-64 increases maximum database size by adding support for 64-bit micro-
 		
 		
 				
-		\section{Conclusion}
-		Tabular result here!
+%		\section{Conclusion}
+%		Tabular result here!
