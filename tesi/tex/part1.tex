@@ -51,8 +51,8 @@
 			be rebuilt\cite{Fowler}.
 			\item real time applications with durability needs which capture, analyze and respond
 			intelligently to important events, requiring high performance in terms of throughput and mainly 
-			latency (traditional DBMS can be clustered to increase the througput, but with no great 
-			benefits in terms of latency). Infact almost all IMDBs can 
+			latency (traditional DBMS can be clustered to increase the throughput, but with no great 
+			benefits in terms of latency). In fact almost all IMDBs can 
 			be persistent on disk while still keeping higher performance compared to 
 			traditional DBMSs.
 			\item in-memory databases are also very useful for developers of traditional database 
@@ -106,7 +106,7 @@
 		\subsection{Transaction Processing}
 			In an hard-disk database the recovery process, from a disaster or a transaction abort, 
 			is based on a log file, updated every time a transaction is executed.
-			To provide transactional integrity, IMDBs mantain a before image of the objects updated and in case 
+			To provide transactional integrity, IMDBs maintain a before image of the objects updated and in case 
 			of a transaction abort, the before image are restored in a very efficient way.
 			Therefore another complex, memory-intensive task is eliminated from the IMDB, 
 			unless the need to add durability to the system, because there is no reason 
@@ -210,7 +210,7 @@
 	The common advantages in-memory database systems share are:
 	
 	\begin{description}
-		\item[Lightweigth] is one of the common advantages IMDBs share. This kind of databases is really simple: they 
+		\item[Lightweight] is one of the common advantages IMDBs share. This kind of databases is really simple: they 
 		don't implement any of the complex mechanism used by traditional database to speed up the disk I/O. Thus, 
 		usually, an in-memory database consist of a simple jar, whose size is less than 1 MB. 
 		\item[Robustness] is a direct consequence of the previous point: (citing Henry Ford) it is impossible to 
@@ -239,6 +239,52 @@
 	
 	Another source is, naturally, the IMDBs' official web site. Although this is a huge source, it 
 	cannont be considered impartial. Therefore the following analysis may not be consistent with facts. 
+	
+	\section{PICO4}
+PICO4 is a proprietary database system developed by ERIS4 for real time applications, such as real time prepaid systems or real time promotion engines. It is currently used by ERIS4 with excellent results for a rating engine and promotion engine, WARP4, which provides very high throughput and low latency \cite{eris4}.		
+		
+		\subsection{Advantages}
+PICO4 is a 100\% Java technology, and therefore enables a full portability for the application in which it is integrated. PICO4 has an amazing small footprint, with about 24KB of disk space used. It provides very high performance both in read and write operations: on a desktop computer it can execute more than 1 million of reads per second and about 100 thousands writes per second.
+
+It can run all in main memory without any durability, as a pure in-memory database system, or it can provide durability through the transaction logging mechanisms.
+		
+		
+		\subsection{Disadvantages}
+PICO4 doesn't support any transaction isolation level. Every transaction must be directly managed by the application which is using PICO4.
+
+In order to store your domain objects in PICO4, you need to implement a given interface. In future versions this constrain will be removed by having the Database System directly taking care of it.
+
+		\subsection{Usage}
+In this usage example we will use the object Number, as an object to be stored and retrieved. It is a simple Plain Old Java Object with only one private field: an integer value which is the number itself. Then there are the proper getter and setter methods. The following code is an example of PICO4 usage:
+
+
+\begin{lstlisting}
+public class Test {
+		
+	public static void main(String[] args) {
+		//connect
+		PersistentMap map;
+		map = new PersistentMap("NumberMap");
+		//load the already existent map in memory
+		map.load();
+		//write new numbers
+		for (int i = 0; i < 10; i++) {
+			Number number = new Number(i);
+			map.put(String.valueOf(number.getValue()),number);
+		}
+		//create a snapshot of the database
+		map.commit();		
+		//read numbers
+		for (int i = 0; i < 10; i++) {
+			map.get(String.valueOf(i));
+		}		
+		//close the database
+		map.close();
+	}
+\end{lstlisting}
+
+
+		
 		
 		\section{Prevayler}		
 		Prevayler is an object persistence library for Java, written in Java. 
@@ -278,7 +324,7 @@
 			and server replication, enabling query load-balancing and 
 			system fault-tolerance \cite{Prevayler}. This last feature is really promising, 
 			because in-memory databases suffer the start up 
-			process, allowing it to be used in an enterprise application. Althought this feature is not ready yet: 
+			process, allowing it to be used in an enterprise application. Although this feature is not ready yet: 
 			see paragraph \ref{server-replication} for further details at page \pageref{server-replication}.
     			
 			\subsection{Disadvantages}
@@ -589,7 +635,7 @@ public class Main{
 	
 }
 \end{lstlisting}
-The database systems is started directly by the JDBC driver at the first connection, and therefore it runs as an embedded database. This modality provides very high performance and full portability. It's important to point out that after the word "file" in the \lstinline!databaseURL!, there is the path where the files are stored on the disk, which in this case is only a relative path which tells HSQLDB to store the "test" database in the subfolder "db".
+The database systems is started directly by the JDBC driver at the first connection, and therefore it runs as an embedded database. This modality provides very high performance and full portability. It's important to point out that after the word "file" in the \lstinline!databaseURL!, there is the path where the files are stored on the disk, which in this case is only a relative path which tells HSQLDB to store the "test" database in the sub folder "db".
 
 It is also possible to execute HSQLDB all in main memory without writing any file to the disk. This is done just by using a different \lstinline!databaseURL!: instead of the word "file" we need to use the word "mem", and then write only the database name:
 \begin{lstlisting}
@@ -613,7 +659,7 @@ H2 is able to create both in-memory tables, as well as disk-based tables. Theref
 
 As regards the administration tools, H2 includes an embedded web server and a browser based console, in order to support the portability of the database system.
 
-In addition, H2 implements a simple form of high availability: when used in client-server mode, the database engine supports hot failover (commonly known as clustering). However, the clustering mode must be re-enabled manually after a system failure.
+In addition, H2 implements a simple form of high availability: when used in client-server mode, the database engine supports hot fail over (commonly known as clustering). However, the clustering mode must be re-enabled manually after a system failure.
 
 			\subsection{Disadvantages And Project Info}
 Although this database systems is reach of interesting features, it is quite recent, in fact the project started in May 2004, but it was first published in December 2005. In fact the latest stable release is the 1.0.79, while there is also a beta release, whose version number is 1.1.104. 
@@ -766,7 +812,7 @@ configuration.objectClass(Number.class).objectField("number").indexed(true);
 Apache Derby is a Java relational database management system that can be embedded in Java programs and used for online transaction processing. 
 	
 			\subsection{Advantages}
-Apache Derby is an open source project and it is currently distribuited as Sun Java DB. It has a 2MB disk space footprint and it can be easily embedded in Java programs. The embedded database engine is a full functioning relational database engine and therefore allow a full support to transactions.
+Apache Derby is an open source project and it is currently distributed as Sun Java DB. It has a 2MB disk space footprint and it can be easily embedded in Java programs. The embedded database engine is a full functioning relational database engine and therefore allow a full support to transactions.
 
 In addition Derby can run as a server database system. A network server increases the reach of the Derby database engine by providing traditional client server functionality.
 
@@ -789,7 +835,7 @@ Derby project started in 2005, but its progenitor was first released in 1997. Th
 			\subsection{Usage}
 
 
-Using Derby as an embedded db is really simple. You need only to set the appropriate database URL and the driver, without specifing any username and password. 
+Using Derby as an embedded db is really simple. You need only to set the appropriate database URL and the driver, without specifying any username and password. 
 
 Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. Moreover the code for this example is the same used for HSQLDB and H2, and it is showed in the listing \ref{hsqldb-implementation}, involving creates/drops table and inserts/retrieves. In the following lines of code we will just show the differences between the implementation of HSQLDB and Derby:
 \begin{lstlisting}
@@ -801,15 +847,59 @@ public class Main{
   
 }
 \end{lstlisting}
-		
-%		\section{SQLite}
-%		asdasd		
-%			\subsection{Advantages}
-%asdasd			
-%			\subsection{Disadvantages}
-%asdasd			
-%			\subsection{Project Info}
-%asdasd		
+
+
+
+		\section{SQLite}
+
+SQLite is a in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine, contained in a relatively small C programming library. It is a complete SQL database with multiple tables, indices, triggers, and views, and it is contained in a single disk file.
+
+
+			\subsection{Advantages}
+
+The code for SQLite is in the public domain	and thus it is free for any purpose, commercial or private. When optimized for size, the whole SQLite library with everything enabled is less than 225KB. SQLite can also be made to run in minimal stack space (16KB) and very little heap (100KB), making SQLite a popular database engine choice on memory constrained gadgets such as cellphones, PDAs, and MP3 players.
+
+SQLite has a reputation for being very reliable. Nearly three-fourths of the source code is devoted purely to testing and verification. An automated test suite runs hundreds of thousands of tests involving millions of individual SQL statements and achieves over 99\% statement coverage. SQLite responds gracefully to memory allocation failures and disk I/O errors. 
+
+Transactions are ACID even if interrupted by system crashes or power failures. Also this feature is automatically verified by the tests.
+
+SQLite can address Supports terabyte-sized databases and gigabyte-sized strings and blobs. The old policy was that if it would fit in memory and you could count it with a 32-bit or 64-bit integer, then it should work. Unfortunately, the no-limits policy has been shown to create problems. For this reason, newer versions of SQLite have well-defined limits and those limits are tested as part of the test suite. 
+
+The database file format is cross-platform - you can freely copy a database between 32-bit and 64-bit systems or between big-endian and little-endian architectures. These features make SQLite a popular choice as an Application File Format. Think of SQLite not as a replacement for Oracle but as a replacement for fopen().    
+    	
+			\subsection{Disadvantages}
+
+SQLite is "typeless". This means that you can store any kind of data you want in any column of any table, regardless of the declared datatype of that column, because everything is a string. But they claim this to be a feature and not a bug, because they say that a database is suppose to store and retrieve data and it should not matter to the database what format that data is in.
+
+SQLite does not use foreign keys, however it's possible to use triggers which can substitute them. But there is also no full support for alter table, triggers and for the join commands, only left outer join is allowed. In addition SQLite doesn't have a server mode.    
+    		
+			\subsection{Project Info}
+
+The project started in 2000 and there is still a great development. In fact there are 24 developers. The current version is 3.5.9 while last update is at 12/05/2008. 
+
+
+			\subsection{Usage}
+
+SQLite is written in C, so you have to find a JDBC adapter/wrapper. In this example we use a pure java library provided by Zentus. 
+
+The code for this example is the same used for HSQLDB, and it is showed in the listing \ref{hsqldb-implementation}, involving creates/drops table and inserts/retrieves. The only difference consists in the database URL and in the driver, as the following code shows: 
+	
+\begin{lstlisting}
+
+public class Main{
+	
+	private static final String databaseURL="jdbc:sqlite:test";
+  private static final String driver="org.sqlite.JDBC";
+  
+  ...
+
+}
+\end{lstlisting}
+
+Another change that we have to do is the close of the statement, otherwise the database will remain locked.
+
+If you want, instead, to use the native library, after setting the classpath for the jar library, you have to use a platform and operating system specific binary too. You can get also this driver from Zentus. For example if you are on Windows you just need to put the .dll in the directory where you run the java program. Despite the greater complexity of using a native library, it should be faster than the pure java one. Anyway the code does not change at all. 
+
 %		\section{Firebird}
 %		asdasd		
 %			\subsection{Advantages}
@@ -832,7 +922,7 @@ EXtremeDB is an ACID-compliant embedded database management system (DBMS) design
 
 For software applications that require high availability, eXtremeDB High Availability Edition is designed to ensure that changes to a master database and identical standby databases succeed or fail together, and enables deployment of multiple fully synchronized eXtremeDB-HA databases within the same hardware device or across multiple, widely distributed systems. A predictable response time is created via the HA protocol's “time cognizance” – if a master or replica database fails to respond within a pre-set limit, it is automatically decommissioned and replaced in its role by a responding eXtremeDB-HA database instance.
 
-EXtremeDB-64 increases maximum database size by adding support for 64-bit micro-processors and operating systems, and therefore it increases the amount of memory a system can address from approximately 3GB to more than one terabyte. This database systems is also highly portable, in fact there are many platforms supported by McObject, such as linux and real time linux distribution, sun solaris, RTX real time extension for windows, and many others.	
+EXtremeDB-64 increases maximum database size by adding support for 64-bit micro-processors and operating systems, and therefore it increases the amount of memory a system can address from approximately 3GB to more than one terabyte. This database systems is also highly portable, in fact there are many platforms supported by McObject, such as Linux and real time Linux distribution, sun solaris, RTX real time extension for windows, and many others.	
 		
 		\section{Polyhedra}
 Polyhedra is a family of relational database management systems offered by ENEA AB, a Swedish company. The original version of Polyhedra (now referred to as Polyhedra IMDB) was an in-memory database management system which could be used in high availability configurations; in 2006 Polyhedra FlashLite was introduced to allow databases to be stored in flash memory. All versions are fully client-server to ensure the data is protected form misbehaving application software, and use the same SQL, ODBC and JDBC interfaces. 
@@ -854,7 +944,7 @@ TimesTen also offers a cache product that interoperates with an Oracle database 
 		
 CSQL is an open source main memory high-performance relational database management system. It is designed to provide high performance on simple SQL queries and DML statements which involves only one table. It supports only limited features which are used by most of the real time applications which includes INSERT, UPDATE, DELETE on single table and SELECT with local predicates on single table. It provides multiple interfaces such as JDBC, ODBC and other SQL APIs. 
 
-CSQL offers atomicity, consinstency and isolation, but not durability. In fact this is mostly used a cache for existing disk based commercial database.
+CSQL offers atomicity, consistency and isolation, but not durability. In fact this is mostly used a cache for existing disk based commercial database.
 		
     
 		\section{SolidDB}
@@ -890,49 +980,6 @@ The development of MonetDB started in 1979 and became a open source project in 2
 %    * Available for many platform, including .NET, but not for Java
 %    * The maximum size of the database is about 2GB 
     		
-		\section{Pico4v2}
-Last but not least, Pico4v2, which is a proprietary database system developed by ERIS4 for real time applications, such as a real time prepaid system, like a telco company. It is currently used by ERIS4 with good effect for a rating engine, WARP4, which provides very high throughput.		
-		
-		\subsection{Advantages}
-Pico4v2 is a 100\% Java technology, and therefore enable a full portability for the application in which it is integrated. Pico4v2 has an amazing small footprint, with about 24KB of disk space used. It provide very high performance both in read and write operations: on a desktop computer it can executemore than 1 million of reads per second and about 100 thousands writes per second.
-
-It can run all in main memory without any durability, as a pure in-memory database system, or it can provide durability through the transaction logging mechanisms.
-		
-		
-		\subsection{Disadvantages}
-Pico4v2 doesn't support any transaction isolation level. Every transaction must be directly managed by the application which is using Pico4v2.
-
-In addition you domain objects need to be modified to be stored by Pico4v2, in order to implement a certain interface. But with future developments this feature will be directly integrated by the database system so that there will not be anymore the need to implement this specific interface.
-		
-		
-		\subsection{Usage}
-Also in this example, as for Prevayler, we will use the Number object, showed in the listing \ref{number-object}, as an object to be stored and retrieved. The following code is an example of Pico4v2 usage:
-\begin{lstlisting}
-public class Test {
-		
-	public static void main(String[] args) {
-		//connect
-		PersistentMap map;
-		map = new PersistentMap("NumberMap");
-		//load the already existent map in memory
-		map.load();
-		//write new numbers
-		for (int i = 0; i < 10; i++) {
-			Number number = new Number(i);
-			map.put(String.valueOf(number.getValue()),number);
-		}
-		//create a snapshot of the database
-		map.commit();		
-		//read numbers
-		for (int i = 0; i < 10; i++) {
-			map.get(String.valueOf(i));
-		}		
-		//close the database
-		map.close();
-	}
-\end{lstlisting}
-
-
 		
 				
 %		\section{Conclusion}
