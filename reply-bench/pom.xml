@@ -17,11 +17,6 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>eris4</groupId>
-      <artifactId>pico4</artifactId>
-      <version>1.0</version>
     </dependency>    
     <dependency>
       <groupId>prevayler</groupId>
@@ -49,11 +44,6 @@
       <version>1.2.12</version>
     </dependency>
     <dependency>
-      <groupId>eris4</groupId>
-      <artifactId>mysql-je</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.6</version>
@@ -69,24 +59,9 @@
       <version>1.6.1</version>
     </dependency>
     <dependency>
-      <groupId>eris4</groupId>
-      <artifactId>mysql-connector-mxj</artifactId>
-      <version>5.0.9</version>
-    </dependency>
-    <dependency>
-      <groupId>eris4</groupId>
-      <artifactId>mysql-connector-mxj-db</artifactId>
-      <version>5.0.9</version>
-    </dependency>
-    <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <version>1.8.0.7</version>
-    </dependency>
-    <dependency>
-      <groupId>eris4</groupId>
-      <artifactId>db4o</artifactId>
-      <version>7.2.39.10644</version>
     </dependency>
   </dependencies>
 </project>
