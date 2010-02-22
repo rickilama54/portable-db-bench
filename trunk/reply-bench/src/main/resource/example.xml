@@ -1,0 +1,48 @@
+<bench>
+	
+	<!-- DEFINITIONS -->
+    <definitions>
+    	<!-- initializators -->
+    	<initializator name="PersonInitializator" class="com.eris4.benchdb.test.person.initializator.PersonInitializator"/>
+    	...    	
+    	<!-- operations -->
+    	<operation name="WritePersonOperation" class="com.eris4.benchdb.test.person.operation.WritePersonOperation"/>
+    	...
+    	<!-- test monitors -->
+    	<testmonitor name="Memory" class="com.eris4.benchdb.core.monitor.MemoryMonitor"/>
+    	...
+    	<!-- task monitors -->
+    	<taskmonitor name="Time" class="com.eris4.benchdb.core.monitor.TimeMonitor"/>
+    	...    	
+    </definitions>
+	
+	<!-- DATABASE LIST -->
+	<databases>
+		<database class="com.eris4.benchdb.database.pico4.Pico4Database"/>
+		...
+	</databases>
+		
+	<!-- TEST LIST -->
+	<tests>
+		<test name="Test 1" >
+			<initializator name="Initializator 1" numberOfObjects="1000"/>	
+			<!-- More initializators here -->				
+			<task name="Task 1" 
+			iterations="The total number of transaction after the task stops" 
+			time="The maximum time after the task stops" 
+			tps="The maximum transaction per second">	
+				<operation name="Operation 1" repetition="1"/>
+				<!-- More operations here -->			
+			</task>
+			<!-- More tasks here -->
+			<loggraphreporter name="Reporter 1">
+				<line x="Time" xTask="Task 1" y="AvgTransaction" yTask="Task 1" name="AVG"/>
+			</loggraphreporter>
+			<lineargraphreporter name="Reporter 2">
+				<line x="Time" y="Memory" name="Memory"/>		
+			</lineargraphreporter>
+			<!-- More reporters here -->
+		</test>
+	<!-- More tests here -->
+	</tests>
+</bench>
